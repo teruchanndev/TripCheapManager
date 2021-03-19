@@ -1,0 +1,6 @@
+.container-ticket{
+    display: flex;
+}
+.item{
+    flex: 50%;
+}
