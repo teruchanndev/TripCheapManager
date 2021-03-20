@@ -18,6 +18,8 @@ import { HeaderComponent } from "./header/header.component";
 import { PostListComponent } from "./posts/post-list/post-list.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
+import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
+import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { CreateTicketComponent } from './functions/create-ticket/create-ticket.c
     PostCreateComponent,
     HeaderComponent,
     PostListComponent,
-    CreateTicketComponent
+    CreateTicketComponent,
+    TicketCreateComponent,
+    TicketListComponent
   ],
   imports: [
     BrowserModule,

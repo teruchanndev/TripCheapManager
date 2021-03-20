@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { Subscription } from 'rxjs';
 
 import { Post } from "../post.model";
@@ -15,6 +15,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   isLoading = false;
   private postsSub: Subscription;
 
+  @Output() postId = new EventEmitter<string>();
+
   constructor(public postsService: PostsService) {}
 
   ngOnInit() {
@@ -29,6 +31,11 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   onDelete(postId: string) {
     this.postsService.deletePost(postId);
+  }
+
+  onEdit(postId: string) {
+    // this.postsService.deletePost(postId);
+    this.postId.emit(postId);
   }
 
   ngOnDestroy() {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Post } from 'src/app/posts/post.model';
 
 @Component({
   selector: 'app-create-ticket',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateTicketComponent implements OnInit {
 
+  postId: string;
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  bindList (post: Post) {
+    console.log(post);
+  }
+
+  getId(postId: string) {
+    console.log(postId);
+    this.postId = postId;
+  }
 }
