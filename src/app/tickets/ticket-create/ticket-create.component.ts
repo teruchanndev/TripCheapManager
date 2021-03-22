@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, NgForm, Validators} from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Ticket } from '../ticket.model';
+import { TicketsService } from '../tickets.service';
 
 interface Category {
   name: string;
@@ -12,12 +15,6 @@ interface Category {
   styleUrls: ['./ticket-create.component.css']
 })
 export class TicketCreateComponent implements OnInit {
-  price = 100000;
-  percent = 0;
-  price_reduce = 0;
-  selectItem = '';
-  valueItem: Array<string>;
-  // itemSelectControl = new FormControl('', Validators.required);
 
   categories: Category[] = [
     {
@@ -52,20 +49,58 @@ export class TicketCreateComponent implements OnInit {
     }
   ];
 
+  price = 0;
+  percent = 0;
+  price_reduce = 0;
+  selectItem = '';
+  valueItemSelect = '';
+  valueItem: Array<string>;
+
+  ticket: Ticket;
+
+  statusSelect: string;
+  status: string[] = ['Public', 'Un public'];
+  
+
+
+
   test() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
-  changeSelectCategory() {
-    if (  this.selectItem === '' ) {
+
+  changeSelectCategory(value) {
+    if ( value === '' ) {
       this.valueItem = [];
     } else {
-      this.valueItem = this.categories.find(item => item.name === this.selectItem).categoryItem;
+      this.valueItem = this.categories
+                .find(item => item.name === value).categoryItem;
     }
   }
 
-  constructor() { }
+  constructor(
+    public ticketsService: TicketsService,
+    public route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+  }
+
+  onSaveTicket(form: NgForm) {
+    if(form.invalid){ return; }
+    else {
+      const ticket = this.ticketsService.addTicket(
+        form.value.title,
+        form.value.content,
+        this.statusSelect,
+        form.value.price,
+        this.price_reduce,
+        form.value.percent,
+        this.selectItem,
+        this.valueItemSelect,
+        form.value.city);
+      console.log(ticket);
+    }
+    form.reset();
   }
 
 
