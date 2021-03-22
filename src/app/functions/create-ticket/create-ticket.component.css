@@ -1,6 +1,11 @@
 .container-ticket{
     display: flex;
 }
-.item{
-    flex: 50%;
+.item1{
+  flex: 40%;
+  width: 30%;
+  padding-right: 2rem;
+}
+.item2{
+  flex: 60%;
 }

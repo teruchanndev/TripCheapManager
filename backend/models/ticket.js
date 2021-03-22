@@ -6,7 +6,10 @@ const ticketSchema = mongoose.Schema({
   status: { type: String, required: true },
   price: { type: Number, required: true },
   percent: { type: Number },
-  category: { type: String }
+  category: { type: String },
+  categoryService: { type: String },
+  price_reduce: { type: Number },
+  city: { type: String },
 });
 
 module.exports = mongoose.model('Ticket', ticketSchema);

@@ -11,7 +11,10 @@ router.post("", (req, res, next) => {
     status: req.body.status,
     price: req.body.price,
     percent: req.body.percent,
-    category: req.body.category
+    category: req.body.category,
+    categoryService: req.body.categoryService,
+    price_reduce: req.body.price_reduce,
+    city: req.body.city
 
   });
   ticket.save().then(createTicket => {
@@ -30,7 +33,10 @@ router.put("/:id", (req, res, next) => {
     status: req.body.status,
     price: req.body.price,
     percent: req.body.percent,
-    category: req.body.category
+    category: req.body.category,
+    categoryService: req.body.categoryService,
+    price_reduce: req.body.price_reduce,
+    city: req.body.city
   });
   Ticket.updateOne({ _id: req.params.id }, ticket).then(result => {
     res.status(200).json({ message: "Update successful!" });

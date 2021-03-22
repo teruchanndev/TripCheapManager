@@ -1,0 +1,27 @@
+.form_add_title {
+  width: 100%;
+}
+
+.form_field {
+  width: 100%;
+}
+
+.item-margin{
+  margin: 0 10px;
+}
+.price{
+  display: flex;
+  padding-top: 2rem;
+}
+.priceItem1{
+  width: 30%;
+  padding-right: 1rem;
+}
+.priceItem2{
+  width: 20%;
+  padding-right: 3rem;
+}
+.priceItem3{
+  width: 30%;
+}
+

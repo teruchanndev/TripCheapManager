@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
-import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-import { Post } from "./post.model";
+import { Post } from './post.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
@@ -73,7 +73,7 @@ export class PostsService {
 
   deletePost(postId: string) {
     this.http
-      .delete("http://localhost:3000/api/posts/" + postId)
+      .delete('http://localhost:3000/api/posts/' + postId)
       .subscribe(() => {
         const updatedPosts = this.posts.filter(post => post.id !== postId);
         this.posts = updatedPosts;

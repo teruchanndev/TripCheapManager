@@ -1,4 +1,4 @@
-export interface Post {
+export interface Ticket {
   id: string;
   title: string;
   content: string;
@@ -6,4 +6,7 @@ export interface Post {
   price: number;
   percent: number;
   category: string;
+  categoryService: string;
+  price_reduce: number;
+  city: string;
 }

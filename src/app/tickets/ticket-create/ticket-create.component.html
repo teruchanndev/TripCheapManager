@@ -1,1 +1,82 @@
-<p>ticket-create works!</p>
+<mat-card>
+  <h4>Thêm Vé Mới</h4>
+  <form class="form_add_title">
+    <mat-form-field class="form_field">
+      <mat-label>Tên vé</mat-label>
+      <input
+        matInput
+        type="text"
+        name="title"
+        required
+        minlength="3"
+        placeholder="Tên vé">
+      <!-- <mat-error *ngIf="title.invalid">Please enter a ticket title.</mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field class="form_field">
+      <mat-label>Mô tả</mat-label>
+      <textarea
+        matInput
+        type="text"
+        name="content"
+        required
+        placeholder="Mô tả vé">
+      </textarea>
+      <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
+    </mat-form-field>
+
+    <section class="section-check-stt" style="padding-top: 1rem ;">
+      <label style="font-size: 12px; color: gray;">Trạng thái</label>
+      <mat-radio-group>
+        <mat-radio-button class="item-margin" value="Public" name="check-public">Public</mat-radio-button>
+        <mat-radio-button class="item-margin" value="Unpublic" name="check-public">Unpublic</mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <div class="price">
+      <mat-form-field class="priceItem1">
+        <mat-label>Giá gốc</mat-label>
+        <input matInput type="number" name="price" [(ngModel)]="price" >
+      </mat-form-field>
+
+      <mat-form-field class="priceItem2">
+        <mat-label>Giảm </mat-label>
+        <input matInput type="number" name="percent" [(ngModel)]="percent" (change)="test()">
+        <mat-label> % </mat-label>
+      </mat-form-field>
+
+      <mat-form-field class="priceItem3">
+        <mat-label>Giá sau giảm </mat-label>
+        <input matInput type="number" name="price_reduce" value="{{price_reduce}}">
+        <mat-label>% </mat-label>
+      </mat-form-field>
+    </div>
+
+
+
+    <div style="display: flex;">
+      <mat-form-field style="flex: 50%;">
+        <mat-label>Thể loại</mat-label>
+        <mat-select [(ngModel)]="selectItem" required (ngModelChange)="changeSelectCategory()">
+          <mat-option *ngFor="let categoty of categories" [value]="categoty.name">
+            {{categoty.name}}
+          </mat-option>
+        </mat-select>
+        <!-- <mat-error *ngIf="itemSelectControl.hasError('required')">Please choose an category</mat-error> -->
+      </mat-form-field>
+
+      <mat-form-field style="padding-left: 2rem; flex: 50%;">
+        <mat-label>Dịch vụ</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let item of valueItem"  [value] = "item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <button mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">THÊM</button>
+
+  </form>
+</mat-card>

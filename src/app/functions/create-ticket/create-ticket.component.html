@@ -1,8 +1,10 @@
 <div class="container-ticket">
-    <div class="item">
-        <app-post-create (newPost)="bindList($event)" [postId]="postId"></app-post-create>
+    <div class="item1">
+      <app-ticket-create></app-ticket-create>
+        <!-- <app-post-create (newPost)="bindList($event)" [postId]="postId"></app-post-create> -->
     </div>
-    <div class="item">
-        <app-post-list (postId)="getId($event)"></app-post-list>
+    <div class="item2">
+       <app-ticket-list></app-ticket-list>
+        <!-- <app-post-list (postId)="getId($event)"></app-post-list> -->
     </div>
 </div>
