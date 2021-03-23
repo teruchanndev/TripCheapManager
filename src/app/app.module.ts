@@ -16,6 +16,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatListModule} from '@angular/material/list';
 
 import {
   MatInputModule,
@@ -33,6 +34,7 @@ import { CreateTicketComponent } from './functions/create-ticket/create-ticket.c
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
+import { CategoryComponent } from './categories/category/category.component';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component
     CreateTicketComponent,
     TicketCreateComponent,
     TicketListComponent,
-    TicketEditComponent
+    TicketEditComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatListModule
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

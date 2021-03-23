@@ -1,0 +1,10 @@
+<div *ngFor="let item of categories">
+    <mat-card style="padding-top: 2rem;">
+        <mat-card-header style="font-weight: bold;">{{item.name}}</mat-card-header>
+        <mat-selection-list #categories [multiple]="false">
+            <mat-list-option *ngFor="let icategory of item.categoryItem" [value]="icategory">
+              {{icategory}}
+            </mat-list-option>
+          </mat-selection-list>
+    </mat-card>
+</div>
