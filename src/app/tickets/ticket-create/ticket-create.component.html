@@ -10,8 +10,7 @@
         ngModel
         required
         minlength="3"
-        placeholder="Tên vé"
-        >
+        placeholder="Tên vé">
       <!-- <mat-error *ngIf="title.invalid">Please enter a ticket title.</mat-error> -->
     </mat-form-field>
 
@@ -22,8 +21,7 @@
         name="content"
         ngModel
         required
-        placeholder="Mô tả vé"
-        #content="ngModel">
+        placeholder="Mô tả vé">
       </textarea>
       <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
     </mat-form-field>
@@ -35,8 +33,7 @@
         name="city"
         ngModel
         required
-        placeholder="Thành phố"
-        #content="ngModel">
+        placeholder="Thành phố">
       <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
     </mat-form-field>
 
@@ -47,48 +44,37 @@
         <mat-radio-button class="item-margin" value="unpublic" name="status">Un public</mat-radio-button>
       </mat-radio-group> -->
 
-      <label style="font-size: 12px; color: gray; padding-right: 1rem;">Trạng thái</label>
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-        [(ngModel)] = "statusSelect">
-        <mat-radio-button class="example-radio-button" *ngFor="let stt of status" [value]="stt">
-          {{stt}}
-        </mat-radio-button>
-      </mat-radio-group>
-      <div>Your favorite season is: {{statusSelect}}</div>
-    </section>
-   
+      <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>
 
+    </section>
 
     <div class="price">
       <mat-form-field class="priceItem1">
         <mat-label>Giá gốc</mat-label>
-        <input 
-          matInput 
-          type="number" 
-          name="price" 
-          [(ngModel)] = 'price'
-        >
+        <input
+          matInput
+          type="number"
+          name="price"
+          [(ngModel)] = 'price'>
       </mat-form-field>
 
       <mat-form-field class="priceItem2">
         <mat-label>Giảm </mat-label>
-        <input 
-          matInput 
-          type="number" 
-          name="percent" 
+        <input
+          matInput
+          type="number"
+          name="percent"
           [(ngModel)]="percent"
-          (change)="test()"
+          (change)="calPrice_reduce()"
         >
         <mat-label> % </mat-label>
       </mat-form-field>
 
       <mat-form-field class="priceItem3">
         <mat-label>Giá sau giảm </mat-label>
-        <input 
-          matInput type="number" 
-          name="price_reduce" 
+        <input
+          matInput type="number"
+          name="price_reduce"
           value="{{price_reduce}}"
           ngModel
         >
@@ -96,18 +82,16 @@
       </mat-form-field>
     </div>
 
-
-
     <div style="display: flex;">
       <mat-form-field style="flex: 50%;">
         <mat-label>Thể loại</mat-label>
-        <mat-select 
+        <mat-select
           [(value)] = 'selectItem'
-          required 
+          required
           (selectionChange)="changeSelectCategory($event.value)">
-          <mat-option 
-            *ngFor="let category of categories" 
-            [value]="category.name" 
+          <mat-option
+            *ngFor="let category of categories"
+            [value]="category.name"
             name = "category">
             {{category.name}}
           </mat-option>
@@ -117,10 +101,10 @@
 
       <mat-form-field style="padding-left: 2rem; flex: 50%;">
         <mat-label>Dịch vụ</mat-label>
-        <mat-select 
+        <mat-select
           [(value)] = 'valueItemSelect'>
-          <mat-option 
-            *ngFor="let item of valueItem" 
+          <mat-option
+            *ngFor="let item of valueItem"
             [value] = "item"
             name = "categoryService">
             {{item}}
@@ -128,7 +112,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
 
     <button mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">THÊM</button>
 

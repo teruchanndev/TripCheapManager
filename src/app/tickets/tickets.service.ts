@@ -51,7 +51,7 @@ export class TicketsService {
         _id: string;
         title: string;
         content: string;
-        status: string;
+        status: boolean;
         price: number;
         price_reduce: number;
         percent: number;
@@ -66,7 +66,7 @@ export class TicketsService {
   addTicket(
     title: string,
     content: string,
-    status: string,
+    status: boolean,
     price: number,
     price_reduce: number,
     percent: number,
@@ -100,7 +100,7 @@ export class TicketsService {
 
   updateTickets(id: string, title: string,
     content: string,
-    status: string,
+    status: boolean,
     price: number,
     price_reduce: number,
     percent: number,

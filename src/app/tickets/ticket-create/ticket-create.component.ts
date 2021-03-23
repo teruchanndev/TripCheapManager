@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, NgForm, Validators} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
@@ -58,13 +58,10 @@ export class TicketCreateComponent implements OnInit {
 
   ticket: Ticket;
 
-  statusSelect: string;
-  status: string[] = ['Public', 'Un public'];
-  
+  isChecked = true;
 
 
-
-  test() {
+  calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
 
@@ -86,12 +83,11 @@ export class TicketCreateComponent implements OnInit {
   }
 
   onSaveTicket(form: NgForm) {
-    if(form.invalid){ return; }
-    else {
+    if (form.invalid) { return; } else {
       const ticket = this.ticketsService.addTicket(
         form.value.title,
         form.value.content,
-        this.statusSelect,
+        this.isChecked,
         form.value.price,
         this.price_reduce,
         form.value.percent,

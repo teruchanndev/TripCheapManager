@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import {
   MatInputModule,
@@ -62,7 +63,8 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
     MatSelectModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSlideToggleModule
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

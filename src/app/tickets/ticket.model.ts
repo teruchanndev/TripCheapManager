@@ -2,7 +2,7 @@ export interface Ticket {
   id: string;
   title: string;
   content: string;
-  status: string;
+  status: boolean;
   price: number;
   percent: number;
   category: string;

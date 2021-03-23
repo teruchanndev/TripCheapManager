@@ -3,7 +3,7 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
 </mat-form-field>
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource] = "dataSource" matSort>
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
@@ -23,6 +23,16 @@
     <ng-container matColumnDef="price_reduce">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá vé </th>
       <td mat-cell *matCellDef="let element"> {{element.price_reduce}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sửa </th>
+      <td mat-cell *matCellDef="let element"> <button mat-stroked-button color="primary">Sửa</button> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Xóa </th>
+      <td mat-cell *matCellDef="let element"> <button mat-stroked-button color="warn">Xóa</button> </td>
     </ng-container>
 
 
