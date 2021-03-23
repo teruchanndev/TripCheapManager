@@ -1,0 +1,120 @@
+<mat-card>
+    <h4>Thêm Vé Mới</h4>
+    <form class="form_add_title" (ngSubmit) = 'onUpdateTicket(ticketForm)' #ticketForm='ngForm'>
+      <mat-form-field class="form_field">
+        <mat-label>Tên vé</mat-label>
+        <input
+          matInput
+          type="text"
+          name="title"
+          [ngModel]='ticket?.title'
+          required
+          minlength="3"
+          placeholder="Tên vé">
+        <!-- <mat-error *ngIf="title.invalid">Please enter a ticket title.</mat-error> -->
+      </mat-form-field>
+
+      <mat-form-field class="form_field">
+        <textarea
+          matInput
+          type="text"
+          name="content"
+          [ngModel]='ticket?.content'
+          required
+          placeholder="Mô tả vé">
+        </textarea>
+        <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
+      </mat-form-field>
+  
+      <mat-form-field class="form_field">
+        <input
+          matInput
+          type="text"
+          name="city"
+          [ngModel]='ticket?.city'
+          required
+          placeholder="Thành phố">
+        <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
+      </mat-form-field>
+  
+      <section class="section-check-stt" style="padding-top: 1rem ;">
+        <mat-slide-toggle (change) = "checkStt()" [checked] = "isChecked" >
+          <span *ngIf="isChecked == true">Public</span>
+          <span *ngIf="isChecked != true">Un public</span>
+        </mat-slide-toggle>
+      </section>
+  
+      <div class="price">
+        <mat-form-field class="priceItem1">
+          <mat-label>Giá gốc</mat-label>
+          <input
+            matInput
+            type="number"
+            name="price"
+            value="{{ticket?.price}}"
+            [(ngModel)]="price"
+            (change)="calPrice_reduce()"
+            >
+        </mat-form-field>
+  
+        <mat-form-field class="priceItem2">
+          <mat-label>Giảm </mat-label>
+          <input
+            matInput
+            type="number"
+            name="percent"
+            value="{{ticket?.percent}}"
+            [(ngModel)]="percent"
+            (change)="calPrice_reduce()"
+          >
+          <mat-label> % </mat-label>
+        </mat-form-field>
+  
+        <mat-form-field class="priceItem3">
+          <mat-label>Giá sau giảm </mat-label>
+          <input
+            matInput type="number"
+            name="price_reduce"
+            value="{{price_reduce}}"
+            [ngModel]='ticket?.price_reduce'
+          >
+          <mat-label>% </mat-label>
+        </mat-form-field>
+      </div>
+  
+      <div style="display: flex;">
+        <mat-form-field style="flex: 50%;">
+          <mat-label>Thể loại</mat-label>
+          <mat-select
+          [(value)]="selectedCategory"
+            required
+            (selectionChange)="changeSelectCategory($event.value)">
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.name"
+              name = "category">
+              {{category.name}}
+            </mat-option>
+          </mat-select>
+          <!-- <mat-error *ngIf="itemSelectControl.hasError('required')">Please choose an category</mat-error> -->
+        </mat-form-field>
+  
+        <mat-form-field style="padding-left: 2rem; flex: 50%;">
+          <mat-label>Dịch vụ</mat-label>
+          <mat-select
+            [(value)] = 'selectedCategoryService'>
+            <mat-option
+              *ngFor="let item of valueItem"
+              [value] = "item"
+              name = "categoryService">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <button mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">Save</button>
+  
+    </form>
+  </mat-card>
+  

@@ -1,3 +1,4 @@
+import { flatten } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -58,8 +59,7 @@ export class TicketCreateComponent implements OnInit {
 
   ticket: Ticket;
 
-  isChecked = true;
-
+  isChecked = false;
 
   calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
@@ -72,6 +72,15 @@ export class TicketCreateComponent implements OnInit {
       this.valueItem = this.categories
                 .find(item => item.name === value).categoryItem;
     }
+  }
+
+  checkStt(){
+    if(this.isChecked){
+      this.isChecked = false;
+    } else {
+      this.isChecked = true;
+    }
+    console.log(this.isChecked);
   }
 
   constructor(

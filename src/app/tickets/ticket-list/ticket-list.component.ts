@@ -24,7 +24,6 @@ export class TicketListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['title', 'category', 'city', 'price_reduce', 'edit', 'delete'];
 
 
-  // @ViewChild('MatPaginator', { static: false}) paginator: MatPaginator;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -40,14 +39,8 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(ticket);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.paginator);
       });
   }
-  // tslint:disable-next-line:use-life-cycle-interface
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  //   this.dataSource.sort = this.sort;
-  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -56,9 +49,11 @@ export class TicketListComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-
   }
 
+  onDelete(ticketId: string) {
+      this.ticketsService.deleteTicket(ticketId);
+  }
 
   ngOnDestroy(): void {
     this.ticketsSub.unsubscribe();

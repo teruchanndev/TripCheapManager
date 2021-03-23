@@ -38,14 +38,10 @@
     </mat-form-field>
 
     <section class="section-check-stt" style="padding-top: 1rem ;">
-      <!-- <label style="font-size: 12px; color: gray;">Trạng thái</label>
-      <mat-radio-group [(ngModel)] = "statusSelect">
-        <mat-radio-button class="item-margin" value="public" name="status" checked>Public</mat-radio-button>
-        <mat-radio-button class="item-margin" value="unpublic" name="status">Un public</mat-radio-button>
-      </mat-radio-group> -->
-
-      <mat-slide-toggle [(ngModel)]="isChecked">Slide Toggle Checked: {{isChecked}}</mat-slide-toggle>
-
+      <mat-slide-toggle (change) = "checkStt()">
+        <span *ngIf="isChecked == true">Public</span>
+        <span *ngIf="isChecked != true">Un public</span>
+      </mat-slide-toggle>
     </section>
 
     <div class="price">
@@ -55,7 +51,8 @@
           matInput
           type="number"
           name="price"
-          [(ngModel)] = 'price'>
+          [(ngModel)] = 'price'
+          (change)="calPrice_reduce()">
       </mat-form-field>
 
       <mat-form-field class="priceItem2">
