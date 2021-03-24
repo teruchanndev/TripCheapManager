@@ -1,14 +1,13 @@
 import { flatten } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CategoriesService } from 'src/app/categories/categories.service';
+import { Category } from 'src/app/categories/category.model';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 
-interface Category {
-  name: string;
-  categoryItem: Array<string>;
-}
 
 @Component({
   selector: 'app-ticket-create',
@@ -16,39 +15,6 @@ interface Category {
   styleUrls: ['./ticket-create.component.css']
 })
 export class TicketCreateComponent implements OnInit {
-
-  categories: Category[] = [
-    {
-      name: 'các điểm tham quan',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['công viên và công viên nước', 'bảo tàng và triển lãm', 'thiên nhiên kỳ thú', 'Cáp treo và ngắm cảnh', 'Di tích lịch sử', 'Vé và vé tham quan']
-    },
-    {
-      name: 'tour',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['đạp xe và đi bộ', 'tour riêng', 'ngắm cảnh từ trên cao', 'tour biển đảo', 'tham quan']
-    },
-    {
-      name: 'thể thao và hoạt động ngoài trời',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['hoạt động dưới nước', 'hoạt động ngoài trời', 'cắm trại', 'ván trượt tuyết']
-    },
-    {
-      name: 'thư giãn & làm đẹp',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['spa & massanges', 'làm đẹp', 'suối nước nóng']
-    },
-    {
-      name: 'văn hóa & workshops',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['lớp học truyền thống', 'lớp học & workshops']
-    },
-    {
-      name: 'Vui chơi & giải trí về đêm',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['games & VR', 'hoạt động về đêm & đồ uống']
-    }
-  ];
 
   price = 0;
   percent = 0;
@@ -58,8 +24,13 @@ export class TicketCreateComponent implements OnInit {
   valueItem: Array<string>;
 
   ticket: Ticket;
+  categories: Category[] = [];
+  private categoriesSub: Subscription;
 
+  form: FormGroup;
+  imagePreview: string;
   isChecked = false;
+
 
   calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
@@ -85,28 +56,72 @@ export class TicketCreateComponent implements OnInit {
 
   constructor(
     public ticketsService: TicketsService,
+    public categoriesService: CategoriesService,
     public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      content: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      city: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      percent: new FormControl(null, {}),
+      price_enter: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      price_reduce: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      image: new FormControl(null, {
+        validators: [Validators.required]
+      })
+    });
+
+    this.categoriesService.getCategories();
+    this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
+      .subscribe((category: Category[]) => {
+        this.categories = category;
+        console.log("category: " + category);
+      })
+    console.log(this.categories);
   }
 
-  onSaveTicket(form: NgForm) {
-    if (form.invalid) { return; } else {
+  onSaveTicket() {
+
       const ticket = this.ticketsService.addTicket(
-        form.value.title,
-        form.value.content,
+        this.form.value.title,
+        this.form.value.content,
         this.isChecked,
-        form.value.price,
+        this.form.value.price_enter,
         this.price_reduce,
-        form.value.percent,
+        this.form.value.percent,
         this.selectItem,
         this.valueItemSelect,
-        form.value.city);
-      console.log(ticket);
-    }
-    form.reset();
+        this.form.value.city
+      );
+
+      this.form.reset();
   }
 
+  onPickImage(event: Event){
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({image: file});
+    this.form.get('image').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  ngOnDestroy(): void {
+    this.categoriesSub.unsubscribe();
+  }
 
 }

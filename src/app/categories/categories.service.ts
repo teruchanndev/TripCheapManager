@@ -36,4 +36,6 @@ export class CategoriesService {
     getCategoryUpdateListener() {
         return this.categoriesUpdated.asObservable();
     }
+
+    
 }

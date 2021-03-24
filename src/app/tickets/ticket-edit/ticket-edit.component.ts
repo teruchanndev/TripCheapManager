@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CategoriesService } from 'src/app/categories/categories.service';
+import { Category } from 'src/app/categories/category.model';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 
-interface Category {
-  name: string;
-  categoryItem: Array<string>;
-}
 
 @Component({
   selector: 'app-ticket-edit',
@@ -16,42 +15,12 @@ interface Category {
 })
 export class TicketEditComponent implements OnInit {
 
-  categories: Category[] = [
-    {
-      name: 'các điểm tham quan',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['công viên và công viên nước', 'bảo tàng và triển lãm', 'thiên nhiên kỳ thú', 'Cáp treo và ngắm cảnh', 'Di tích lịch sử', 'Vé và vé tham quan']
-    },
-    {
-      name: 'tour',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['đạp xe và đi bộ', 'tour riêng', 'ngắm cảnh từ trên cao', 'tour biển đảo', 'tham quan']
-    },
-    {
-      name: 'thể thao và hoạt động ngoài trời',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['hoạt động dưới nước', 'hoạt động ngoài trời', 'cắm trại', 'ván trượt tuyết']
-    },
-    {
-      name: 'thư giãn & làm đẹp',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['spa & massanges', 'làm đẹp', 'suối nước nóng']
-    },
-    {
-      name: 'văn hóa & workshops',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['lớp học truyền thống', 'lớp học & workshops']
-    },
-    {
-      name: 'Vui chơi & giải trí về đêm',
-      // tslint:disable-next-line:max-line-length
-      categoryItem: ['games & VR', 'hoạt động về đêm & đồ uống']
-    }
-  ];
-
   private ticketId: string;
   ticket: Ticket;
   isChecked: boolean; //check status true hay false => set checked slide toggle
+
+  categories: Category[] = [];
+  private categoriesSub: Subscription;
 
   price_reduce;
   selectItem;
@@ -64,6 +33,7 @@ export class TicketEditComponent implements OnInit {
 
   constructor(
     public ticketsService: TicketsService,
+    public categoriesService: CategoriesService,
     public route: ActivatedRoute
   ) { }
 
@@ -89,9 +59,15 @@ export class TicketEditComponent implements OnInit {
         .find(item => item.name === ticketData.category).categoryItem;
       });
     });
+
+    this.categoriesService.getCategories();
+    this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
+      .subscribe((category: Category[]) => {
+        this.categories = category;
+      })
   }
 
-
+  //check value status
   checkStt(){
     if(this.isChecked){
       this.isChecked = false;
@@ -101,7 +77,7 @@ export class TicketEditComponent implements OnInit {
     console.log(this.isChecked);
   }
 
-
+  //calculator price reduce
   calPrice_reduce(){
       this.price_reduce = this.price - (this.price * this.percent) / 100;
       console.log(this.price);
@@ -109,6 +85,7 @@ export class TicketEditComponent implements OnInit {
       console.log(this.price_reduce);
   }
 
+  //function update ticket
   onUpdateTicket(form: NgForm){
     this.ticketsService.updateTickets(
       this.ticketId,
@@ -124,6 +101,7 @@ export class TicketEditComponent implements OnInit {
     );
   }
 
+  //show categoryItem with category name
   changeSelectCategory(value){
     if ( value === '' ) {
       this.valueItem = [];
@@ -131,6 +109,10 @@ export class TicketEditComponent implements OnInit {
       this.valueItem = this.categories
                 .find(item => item.name === value).categoryItem;
     }
+  }
+
+  ngOnDestroy(): void{
+    this.categoriesSub.unsubscribe();
   }
 
 
