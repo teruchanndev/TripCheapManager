@@ -7,7 +7,7 @@ import { CategoriesService } from 'src/app/categories/categories.service';
 import { Category } from 'src/app/categories/category.model';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
-
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-ticket-create',
@@ -45,8 +45,8 @@ export class TicketCreateComponent implements OnInit {
     }
   }
 
-  checkStt(){
-    if(this.isChecked){
+  checkStt() {
+    if (this.isChecked) {
       this.isChecked = false;
     } else {
       this.isChecked = true;
@@ -79,7 +79,8 @@ export class TicketCreateComponent implements OnInit {
         validators: [Validators.required]
       }),
       image: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
       })
     });
 
@@ -87,8 +88,8 @@ export class TicketCreateComponent implements OnInit {
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
-        console.log("category: " + category);
-      })
+        console.log('category: ' + category);
+      });
     console.log(this.categories);
   }
 
@@ -109,7 +110,7 @@ export class TicketCreateComponent implements OnInit {
       this.form.reset();
   }
 
-  onPickImage(event: Event){
+  onPickImage(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({image: file});
     this.form.get('image').updateValueAndValidity();
@@ -120,6 +121,7 @@ export class TicketCreateComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
     this.categoriesSub.unsubscribe();
   }
