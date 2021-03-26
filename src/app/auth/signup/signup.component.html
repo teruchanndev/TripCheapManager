@@ -1,0 +1,62 @@
+<mat-card>
+
+    <form (submit)='onSignIn(loginForm)' #loginForm = 'ngForm'>
+        <h4 style="text-align: center; width: 100%;">Sign Up</h4>
+        
+        <mat-form-field class="form_field">
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              type="text"
+              name = "username"
+              ngModel
+              #usernameInput = 'ngModel'
+              placeholder="Username"
+              required>
+            <mat-error *ngIf="usernameInput.invalid">Please enter username.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form_field">
+            <mat-label>Email</mat-label>
+            <input
+            matInput
+            type="email"
+            name = "email"
+            ngModel
+            #emailInput = 'ngModel'
+            placeholder="Ex. pat@example.com"
+            required email>
+            <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field class="form_field">
+            <mat-label>Password</mat-label>
+            <input
+            matInput
+            type="password"
+            name = "password"
+            ngModel
+            #passwordInput = 'ngModel'
+            placeholder="Password"
+            required>
+            <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form_field">
+            <mat-label>Re-enter password</mat-label>
+            <input
+            matInput
+            type="password"
+            name = "re-password"
+            ngModel
+            #repasswordInput = 'ngModel'
+            placeholder="re-password"
+            required>
+            <mat-error *ngIf="repasswordInput.invalid">Please re-enter a valid password.</mat-error>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="accent" style="width: 100%;  margin-top: 2rem;">Login</button>
+  
+    </form>
+  </mat-card>
+  

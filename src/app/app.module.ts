@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +35,9 @@ import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.com
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { CategoryComponent } from './categories/category/category.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 
 @NgModule({
@@ -47,7 +50,9 @@ import { CategoryComponent } from './categories/category/category.component';
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
-    CategoryComponent
+    CategoryComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +80,7 @@ import { CategoryComponent } from './categories/category/category.component';
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

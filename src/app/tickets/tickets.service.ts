@@ -89,18 +89,6 @@ export class TicketsService {
       ticketData.append('city', city);
       ticketData.append('image', image, title);
       
-    // const ticket: Ticket = {
-    //   id: null,
-    //   title: title,
-    //   content: content,
-    //   status: status,
-    //   price: price,
-    //   price_reduce: price_reduce,
-    //   percent: percent,
-    //   category: category,
-    //   categoryService: categoryService,
-    //   city: city };
-
     this.http
       .post<{ message: string; ticket: Ticket }>('http://localhost:3000/api/tickets', ticketData)
       .subscribe(responseData => {
