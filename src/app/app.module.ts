@@ -35,6 +35,8 @@ import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.com
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { CategoryComponent } from './categories/category/category.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { CategoryComponent } from './categories/category/category.component';
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
-    CategoryComponent
+    CategoryComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
