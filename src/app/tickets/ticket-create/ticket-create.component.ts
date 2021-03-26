@@ -104,7 +104,8 @@ export class TicketCreateComponent implements OnInit {
         this.form.value.percent,
         this.selectItem,
         this.valueItemSelect,
-        this.form.value.city
+        this.form.value.city,
+        this.form.value.image
       );
 
       this.form.reset();

@@ -28,5 +28,29 @@
   .mat-radio-button ~ .mat-radio-button {
     margin-left: 16px;
   }
-  
+
+  .image_preview img {
+    height: 100%;
+    width: auto;
+    background-size: contain;
+  }
+  input[type="file"] {
+    visibility: hidden;
+  }
+
+  .image_preview{
+    margin: 1rem 0;
+  }
+  .image_preview img {
+    height: 4rem;
+    width: 8rem;
+    width: auto;
+    background-size: contain;
+  }
+  .image img {
+    height: 4rem;
+    width: 8rem;
+    width: auto;
+    background-size: contain;
+  }
   

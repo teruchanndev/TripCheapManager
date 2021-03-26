@@ -1,10 +1,34 @@
 const express = require("express");
+const multer = require("multer");
 
 const Ticket = require("../models/ticket");
 
 const router = express.Router();
 
-router.post("", (req, res, next) => {
+const MIME_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg' 
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let error = new Error('Invalid mime type');
+    if(isValid){
+      error = null;
+    }
+    cb(null, "backend/images");
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split(' ').join('-');
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null, name + '-' + Date.now() + '.' + ext);
+  }
+})
+
+router.post("", multer({storage: storage}).single('image'), (req, res, next) => {
+  const url = req.protocol + '://' + req.get('host');
   const ticket = new Ticket({
     title: req.body.title,
     content: req.body.content,
@@ -14,13 +38,17 @@ router.post("", (req, res, next) => {
     category: req.body.category,
     categoryService: req.body.categoryService,
     price_reduce: req.body.price_reduce,
-    city: req.body.city
+    city: req.body.city,
+    imagePath: url + '/images/' + req.file.filename
 
   });
   ticket.save().then(createTicket => {
     res.status(201).json({
       message: "Ticket added successfully",
-      ticketId: createTicket._id
+      ticket: {
+        ...createTicket,
+        id: createTicket._id
+      }
     });
   });
 });

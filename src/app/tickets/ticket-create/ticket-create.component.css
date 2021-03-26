@@ -34,11 +34,11 @@ input[type="file"] {
 }
 
 .image_preview{
-  height: 4rem;
   margin: 1rem 0;
 }
 .image_preview img {
-  height: 100%;
+  height: 2rem;
+  width: 4rem;
   width: auto;
   background-size: contain;
 }
