@@ -21,7 +21,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   private ticketsSub: Subscription;
 
   dataSource;
-  displayedColumns: string[] = ['title', 'category', 'city', 'price_reduce', 'edit', 'delete'];
+  displayedColumns: string[] = ['title', 'category', 'city', 'image', 'price_reduce', 'edit', 'delete'];
 
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;

@@ -1,38 +1,32 @@
 <mat-card>
     <h4>Thêm Vé Mới</h4>
-    <form class="form_add_title" (ngSubmit) = 'onUpdateTicket(ticketForm)' #ticketForm='ngForm'>
+    <form [formGroup] = 'form' class="form_add_title" (ngSubmit) = 'onUpdateTicket()'>
       <mat-form-field class="form_field">
         <mat-label>Tên vé</mat-label>
         <input
           matInput
           type="text"
-          name="title"
-          [ngModel]='ticket?.title'
-          required
-          minlength="3"
+          formControlName = 'title'
           placeholder="Tên vé">
-        <!-- <mat-error *ngIf="title.invalid">Please enter a ticket title.</mat-error> -->
+        <mat-error *ngIf="form.get('title').invalid">Please enter a ticket title.</mat-error>
       </mat-form-field>
 
       <mat-form-field class="form_field">
         <textarea
           matInput
           type="text"
-          name="content"
-          [ngModel]='ticket?.content'
-          required
+          formControlName = 'content'
           placeholder="Mô tả vé">
         </textarea>
-        <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
+        <mat-error *ngIf="form.get('content').invalid">Please enter a ticket title.</mat-error>
       </mat-form-field>
   
       <mat-form-field class="form_field">
         <input
           matInput
           type="text"
-          name="city"
+          formControlName = 'city'
           [ngModel]='ticket?.city'
-          required
           placeholder="Thành phố">
         <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
       </mat-form-field>
@@ -50,9 +44,8 @@
           <input
             matInput
             type="number"
-            name="price"
-            value="{{ticket?.price}}"
-            [(ngModel)]="price"
+            formControlName = "price"
+            [(ngModel)] = 'price'
             (change)="calPrice_reduce()"
             >
         </mat-form-field>
@@ -62,9 +55,8 @@
           <input
             matInput
             type="number"
-            name="percent"
-            value="{{ticket?.percent}}"
-            [(ngModel)]="percent"
+            formControlName = "percent"
+            [(ngModel)] = "percent"
             (change)="calPrice_reduce()"
           >
           <mat-label> % </mat-label>
@@ -74,9 +66,8 @@
           <mat-label>Giá sau giảm </mat-label>
           <input
             matInput type="number"
-            name="price_reduce"
-            value="{{price_reduce}}"
-            [ngModel]='ticket?.price_reduce'
+            formControlName = "price_reduce"
+            [(ngModel)]='price_reduce'
           >
           <mat-label>% </mat-label>
         </mat-form-field>
@@ -96,7 +87,6 @@
               {{category.name}}
             </mat-option>
           </mat-select>
-          <!-- <mat-error *ngIf="itemSelectControl.hasError('required')">Please choose an category</mat-error> -->
         </mat-form-field>
   
         <mat-form-field style="padding-left: 2rem; flex: 50%;">
@@ -112,8 +102,20 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <div>
+        <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
+        <input type="file" #filePicker (change) = "onPickImage($event)">
+      </div>
+
+      <div class="image">
+        <img [src]='ticket?.imagePath' [alt]='ticket?.title'>
+      </div>
+      <div class="image_preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+        <img [src]="imagePreview" [alt]="form.value.title">
+      </div>
   
-      <button mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">Save</button>
+      <button type="submit" mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">Save</button>
   
     </form>
   </mat-card>

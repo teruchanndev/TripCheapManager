@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from 'src/app/categories/categories.service';
 import { Category } from 'src/app/categories/category.model';
+import { mimeType } from '../ticket-create/mime-type.validator';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 
@@ -22,12 +23,17 @@ export class TicketEditComponent implements OnInit {
   categories: Category[] = [];
   private categoriesSub: Subscription;
 
-  price_reduce;
-  selectItem;
+  form: FormGroup;
+
+  imagePreview: string;
+
+  //mảng categoryItem
   valueItem = [];
 
   selectedCategory;
   selectedCategoryService;
+
+  price_reduce;
   percent = 0;
   price = 0;
 
@@ -38,28 +44,67 @@ export class TicketEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      content: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      city: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      percent: new FormControl(null, {}),
+      price: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      price_reduce: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
+      })
+    });
+    
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.ticketId = paramMap.get("ticketId");
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
-        this.ticket = {id: ticketData._id,
-                       title: ticketData.title,
-                       content: ticketData.content,
-                       status: ticketData.status,
-                       price: ticketData.price,
-                       city: ticketData.city,
-                       category: ticketData.category,
-                       categoryService: ticketData.categoryService,
-                       percent: ticketData.percent,
-                       price_reduce: ticketData.price_reduce};
-        console.log(ticketData);
+        this.ticket = {
+          id: ticketData._id,
+          title: ticketData.title,
+          content: ticketData.content,
+          status: ticketData.status,
+          price: ticketData.price,
+          city: ticketData.city,
+          category: ticketData.category,
+          categoryService: ticketData.categoryService,
+          percent: ticketData.percent,
+          price_reduce: ticketData.price_reduce,
+          imagePath: ticketData.imagePath
+        }
+        console.log(this.ticket);
+        
+        this.form.setValue({
+          title: this.ticket.title,
+          content: this.ticket.content,
+          price : this.ticket.price,
+          city : this.ticket.city,
+          percent : this.ticket.percent,
+          price_reduce : this.ticket.price_reduce,
+          image : this.ticket.imagePath
+        });
+
         this.isChecked = ticketData.status;
-        this.selectedCategory = ticketData.category;
-        this.selectedCategoryService = ticketData.categoryService;
-        this.valueItem = this.categories
-        .find(item => item.name === ticketData.category).categoryItem;
+        this.selectedCategory = this.ticket.category;
+        this.selectedCategoryService = this.ticket.categoryService;
+        this.valueItem = this.categories.find(
+          item => item.name === this.ticket.category
+        ).categoryItem;
       });
     });
-
+        
     this.categoriesService.getCategories();
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
@@ -79,25 +124,22 @@ export class TicketEditComponent implements OnInit {
 
   //calculator price reduce
   calPrice_reduce(){
-      this.price_reduce = this.price - (this.price * this.percent) / 100;
-      console.log(this.price);
-      console.log(this.percent);
-      console.log(this.price_reduce);
+    this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
 
   //function update ticket
-  onUpdateTicket(form: NgForm){
+  onUpdateTicket(){
     this.ticketsService.updateTickets(
       this.ticketId,
-      form.value.title,
-      form.value.content,
+      this.form.value.title,
+      this.form.value.content,
       this.isChecked,
-      form.value.price,
+      this.form.value.price,
       this.price_reduce,
-      form.value.percent,
+      this.form.value.percent,
       this.selectedCategory,
       this.selectedCategoryService,
-      form.value.city
+      this.form.value.city
     );
   }
 
@@ -109,6 +151,17 @@ export class TicketEditComponent implements OnInit {
       this.valueItem = this.categories
                 .find(item => item.name === value).categoryItem;
     }
+  }
+
+  onPickImage(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({image: file});
+    this.form.get('image').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 
   ngOnDestroy(): void{
