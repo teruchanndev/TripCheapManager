@@ -20,9 +20,10 @@ export class CategoryComponent implements OnInit {
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
-      })
+      });
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
     this.categoriesSub.unsubscribe();
   }
