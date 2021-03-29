@@ -32,48 +32,68 @@ router.post("",
   checkAuth, 
   multer({storage: storage}).single('image'), 
   (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host');
+    const url = req.protocol + '://' + req.get('host');
 
-  const ticket = new Ticket({
-    title: req.body.title,
-    content: req.body.content,
-    status: req.body.status,
-    price: req.body.price,
-    percent: req.body.percent,
-    category: req.body.category,
-    categoryService: req.body.categoryService,
-    price_reduce: req.body.price_reduce,
-    city: req.body.city,
-    imagePath: url + '/images/' + req.file.filename
-  });
-  console.log('ticket: '+ticket);
-  ticket.save().then(createTicket => {
-    res.status(201).json({
-      message: "Ticket added successfully",
-      ticket: {
-        ...createTicket,
-        id: createTicket._id
-      }
+    const ticket = new Ticket({
+      title: req.body.title,
+      content: req.body.content,
+      status: req.body.status,
+      price: req.body.price,
+      percent: req.body.percent,
+      category: req.body.category,
+      categoryService: req.body.categoryService,
+      price_reduce: req.body.price_reduce,
+      city: req.body.city,
+      imagePath: url + '/images/' + req.file.filename,
+      creator: req.userData.userId
     });
-  });
+
+    ticket.save().then(createTicket => {
+      res.status(201).json({
+        message: "Ticket added successfully",
+        ticket: {
+          ...createTicket,
+          id: createTicket._id
+        }
+      });
+    });
 });
 
-router.put("/:id", checkAuth, (req, res, next) => {
-  const ticket = new Ticket({
-    _id: req.body.id,
-    title: req.body.title,
-    content: req.body.content,
-    status: req.body.status,
-    price: req.body.price,
-    percent: req.body.percent,
-    category: req.body.category,
-    categoryService: req.body.categoryService,
-    price_reduce: req.body.price_reduce,
-    city: req.body.city
-  });
-  Ticket.updateOne({ _id: req.params.id }, ticket).then(result => {
-    res.status(200).json({ message: "Update successful!" });
-  });
+router.put("/:id", 
+  checkAuth,
+  multer({ storage: storage }).single("image"), 
+  (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      imagePath = url + "/images/" + req.file.filename;
+    }
+
+    const ticket = new Ticket({
+      _id: req.body.id,
+      title: req.body.title,
+      content: req.body.content,
+      status: req.body.status,
+      price: req.body.price,
+      percent: req.body.percent,
+      category: req.body.category,
+      categoryService: req.body.categoryService,
+      price_reduce: req.body.price_reduce,
+      city: req.body.city,
+      imagePath: imagePath
+    });
+
+    Ticket.updateOne(
+      { _id: req.params.id, creator: req.userData.userId },
+      ticket).then(result => {
+        if(result.nModified > 0) {
+          res.status(200).json({ message: "Update successful!" });
+        } else {
+          res.status(401).json({ 
+            message: "Not authorized!" });
+        }
+      
+    });
 });
 
 router.get("", checkAuth, (req, res, next) => {
@@ -96,9 +116,14 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", checkAuth, (req, res, next) => {
-  Ticket.deleteOne({ _id: req.params.id }).then(result => {
-    console.log(result);
-    res.status(200).json({ message: "Ticket deleted!" });
+
+  Ticket.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(
+    result => {
+    if(result.n > 0) {
+      res.status(200).json({ message: "Ticket deleted!" });
+     } else {
+      res.status(401).json({ message: "Not authorized!" });
+     }
   });
 });
 

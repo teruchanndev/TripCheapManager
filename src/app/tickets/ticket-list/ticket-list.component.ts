@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 import { ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -19,7 +20,10 @@ export class TicketListComponent implements OnInit, OnDestroy {
   tickets:  Ticket[] = [];
   isLoading = false;
   private ticketsSub: Subscription;
+  private authStatusSub: Subscription;
 
+  userIsAuthenticated = false;
+  userId: string;
   dataSource;
   displayedColumns: string[] = ['title', 'category', 'city', 'image', 'price_reduce', 'edit', 'delete'];
 
@@ -27,11 +31,12 @@ export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public ticketsService: TicketsService) { }
+  constructor(public ticketsService: TicketsService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoading = true;
     this.ticketsService.getTickets();
+    this.userId = this.authService.getUserId();
     this.ticketsSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;
@@ -39,6 +44,12 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(ticket);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 

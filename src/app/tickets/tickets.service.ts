@@ -32,12 +32,14 @@ export class TicketsService {
               category: ticket.category,
               categoryService: ticket.categoryService,
               city: ticket.city,
-              imagePath: ticket.imagePath
+              imagePath: ticket.imagePath,
+              creator: ticket.creator
             };
           });
         })
       )
       .subscribe(transformedTickets => {
+        console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
@@ -59,7 +61,8 @@ export class TicketsService {
         category: string;
         categoryService: string;
         city: string;
-        imagePath: string
+        imagePath: string,
+        creator: string
       }>(
       'http://localhost:3000/api/tickets/' + id
     );
@@ -90,26 +93,28 @@ export class TicketsService {
       ticketData.append('image', image, title);
       
     this.http
-      .post<{ message: string; ticket: Ticket }>('http://localhost:3000/api/tickets', ticketData)
+      .post<
+        { message: string; ticket: Ticket }>
+        ('http://localhost:3000/api/tickets', ticketData)
       .subscribe(responseData => {
-        const ticket: Ticket = {
-          id: responseData.ticket.id,
-          title: title,
-          content: content,
-          status: status,
-          price: price,
-          price_reduce: price_reduce,
-          percent: percent,
-          category: category,
-          categoryService: categoryService,
-          city: city,
-          imagePath: responseData.ticket.imagePath };
+        // const ticket: Ticket = {
+        //   id: responseData.ticket.id,
+        //   title: title,
+        //   content: content,
+        //   status: status,
+        //   price: price,
+        //   price_reduce: price_reduce,
+        //   percent: percent,
+        //   category: category,
+        //   categoryService: categoryService,
+        //   city: city,
+        //   imagePath: responseData.ticket.imagePath};
 
-        // const id = responseData.ticketId;
-        // ticket.id = id;
-        this.tickets.push(ticket);
-        this.ticketsUpdated.next([...this.tickets]);
-        this.router.navigate(['/']);
+        // // const id = responseData.ticketId;
+        // // ticket.id = id;
+        // this.tickets.push(ticket);
+        // this.ticketsUpdated.next([...this.tickets]);
+        this.getTickets();
       });
       return ticketData;
   }
@@ -122,40 +127,59 @@ export class TicketsService {
     percent: number,
     category: string,
     categoryService: string,
-    city: string) {
+    city: string,
+    image: File | string) {
 
-    const ticket: Ticket = {
-      id: id,
-      title: title,
-      content: content,
-      status: status,
-      price: price,
-      price_reduce: price_reduce,
-      percent: percent,
-      category: category,
-      categoryService: categoryService,
-      city: city,
-      imagePath: null };
+    let ticketData: Ticket | FormData;
+    if(typeof image === 'object') {
+      ticketData = new FormData();
+      ticketData.append('id', id);
+      ticketData.append('title', title);
+      ticketData.append('content', content);
+      ticketData.append('status', JSON.stringify(status));
+      ticketData.append('price', JSON.stringify(price));
+      ticketData.append('price_reduce', JSON.stringify(price_reduce));
+      ticketData.append('percent', JSON.stringify(percent));
+      ticketData.append('category', category);
+      ticketData.append('categoryService', categoryService);
+      ticketData.append('city', city);
+      ticketData.append('image', image, title);
+    } else {
+      ticketData = {
+        id: id,
+        title: title,
+        content: content,
+        status: status,
+        price: price,
+        price_reduce: price_reduce,
+        percent: percent,
+        category: category,
+        categoryService: categoryService,
+        city: city,
+        imagePath: image
+
+      }
+    }
+    
 
     this.http
-      .put('http://localhost:3000/api/tickets/' + id, ticket)
+      .put('http://localhost:3000/api/tickets/' + id, ticketData)
       .subscribe(response => {
-        const updateTickets = [...this.tickets];
-        const oldTicketIndex = updateTickets.findIndex(p => p.id === ticket.id);
-        updateTickets[oldTicketIndex] = ticket;
-        this.tickets = updateTickets;
-        this.ticketsUpdated.next([...this.tickets]);
+        // const updateTickets = [...this.tickets];
+        // const oldTicketIndex = updateTickets.findIndex(p => p.id === id);
+        // updateTickets[oldTicketIndex] = ticketData;
+        // this.tickets = updateTickets;
+        // this.ticketsUpdated.next([...this.tickets]);
         this.router.navigate(['/']);
       });
   }
 
   deleteTicket(ticketId: string) {
+    console.log(ticketId);
     this.http
-      .delete('http://localhost:3000/api/tickets/' + ticketId)
-      .subscribe(() => {
-        const updatedTickets = this.tickets.filter(ticket => ticket.id !== ticketId);
-        this.tickets = updatedTickets;
-        this.ticketsUpdated.next([...this.tickets]);
+      .delete('http://localhost:3000/api/tickets/' + ticketId).subscribe(response => {
+        console.log(response);
+        this.getTickets();
       });
   }
 }

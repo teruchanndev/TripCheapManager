@@ -17,6 +17,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatListModule} from '@angular/material/list';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {
   MatInputModule,
@@ -27,9 +28,7 @@ import {
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { HeaderComponent } from './header/header.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
@@ -38,21 +37,22 @@ import { CategoryComponent } from './categories/category/category.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
+import { ErrorComponent } from './error/error/error.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostCreateComponent,
     HeaderComponent,
-    PostListComponent,
     CreateTicketComponent,
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
     CategoryComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -76,11 +76,16 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatSortModule,
     MatPaginatorModule,
     MatSlideToggleModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule {}

@@ -17,6 +17,7 @@ import { TicketsService } from '../tickets.service';
 export class TicketEditComponent implements OnInit {
 
   private ticketId: string;
+  private creator: string;
   ticket: Ticket;
   isChecked: boolean; //check status true hay false => set checked slide toggle
 
@@ -139,7 +140,8 @@ export class TicketEditComponent implements OnInit {
       this.form.value.percent,
       this.selectedCategory,
       this.selectedCategoryService,
-      this.form.value.city
+      this.form.value.city,
+      this.form.value.image
     );
   }
 

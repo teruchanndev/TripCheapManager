@@ -10,7 +10,8 @@ const ticketSchema = mongoose.Schema({
   categoryService: { type: String },
   price_reduce: { type: Number },
   city: { type: String },
-  imagePath: {type: String, required: true }
+  imagePath: {type: String, required: true },
+  creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
 module.exports = mongoose.model('Ticket', ticketSchema);
