@@ -6,18 +6,20 @@ import { Router } from '@angular/router';
 
 import { Ticket } from './ticket.model';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
   private tickets: Ticket[] = [];
   private ticketsUpdated = new Subject<Ticket[]>();
+  BACKEND_URL = environment.apiURL + '/tickets/';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getTickets() {
     this.http
-      .get<{ message: string; ticket: any }>('http://localhost:3000/api/tickets')
+      .get<{ message: string; ticket: any }>(this.BACKEND_URL)
       .pipe(
         map(ticketData => {
           return ticketData.ticket.map(ticket => {
@@ -63,9 +65,7 @@ export class TicketsService {
         city: string;
         imagePath: string,
         creator: string
-      }>(
-      'http://localhost:3000/api/tickets/' + id
-    );
+      }>(this.BACKEND_URL + id);
   }
 
   addTicket(
@@ -95,7 +95,7 @@ export class TicketsService {
     this.http
       .post<
         { message: string; ticket: Ticket }>
-        ('http://localhost:3000/api/tickets', ticketData)
+        (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
         // const ticket: Ticket = {
         //   id: responseData.ticket.id,
@@ -163,7 +163,7 @@ export class TicketsService {
     
 
     this.http
-      .put('http://localhost:3000/api/tickets/' + id, ticketData)
+      .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
         // const updateTickets = [...this.tickets];
         // const oldTicketIndex = updateTickets.findIndex(p => p.id === id);
@@ -177,7 +177,7 @@ export class TicketsService {
   deleteTicket(ticketId: string) {
     console.log(ticketId);
     this.http
-      .delete('http://localhost:3000/api/tickets/' + ticketId).subscribe(response => {
+      .delete(this.BACKEND_URL + ticketId).subscribe(response => {
         console.log(response);
         this.getTickets();
       });

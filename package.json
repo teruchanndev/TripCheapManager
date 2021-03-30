@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:server": "nodemon server.js"
+    "server": "nodemon backend/server.js"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +31,7 @@
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
     "ng2-search-filter": "^0.5.1",
-    "rxjs": "^6.0.0",
+    "rxjs": "^6.6.7",
     "sweetalert2": "^10.15.7",
     "zone.js": "^0.9.1"
   },

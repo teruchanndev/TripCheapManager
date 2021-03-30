@@ -10,6 +10,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
 
 import {
   MatInputModule,
@@ -36,7 +38,9 @@ import {
     MatPaginatorModule,
     MatSlideToggleModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSidenavModule,
+    MatIconModule
   ]
 })
 export class AngularMaterialModule {}

@@ -1,0 +1,62 @@
+
+<mat-toolbar class="example-toolbar" >
+  <span>
+    <button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
+    <a routerLink="/">TRAVELagency</a>
+  </span>
+  <span class="spacer"></span>
+  <ul>
+    <li *ngIf='!userIsAuthenticated'>
+      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+    </li>
+    <li *ngIf='!userIsAuthenticated'>
+      <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SignUp</a>
+    </li>
+    <li *ngIf='userIsAuthenticated'>
+      <button mat-button routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
+    </li>
+  </ul>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="example-container" autosize>
+	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
+		<mat-nav-list>
+			<mat-list-item>
+				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem;">Dashboard</span>
+				<mat-icon mat-list-icon s>space_dashboard</mat-icon>
+			</mat-list-item>
+
+			<mat-expansion-panel>
+				<mat-expansion-panel-header >
+				<mat-panel-title>
+					<mat-icon mat-list-icon purple>bookmarks</mat-icon>
+					<span class="full-width" *ngIf="isExpanded || isShowing">Quản lý vé</span>
+				</mat-panel-title>
+				</mat-expansion-panel-header>
+				<a mat-list-item href="...">Tất cả vé</a>
+				<a mat-list-item href="...">Thêm vé </a>
+			</mat-expansion-panel>
+
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+				<mat-panel-title>
+					<mat-icon mat-list-icon purple>shopping_bag</mat-icon>
+					<span class="full-width" *ngIf="isExpanded || isShowing">Quản Lý Đơn</span>
+				</mat-panel-title>
+				</mat-expansion-panel-header>
+				<a mat-list-item href="...">Tất cả</a>
+				<a mat-list-item href="...">Đơn mới </a>
+				<a mat-list-item href="...">Đơn hủy </a>
+			</mat-expansion-panel>
+
+		</mat-nav-list>
+    <mat-nav-list>
+</mat-nav-list>
+	</mat-sidenav>
+
+	<div class="example-sidenav-content">
+		<router-outlet></router-outlet>
+	</div>
+
+</mat-sidenav-container>

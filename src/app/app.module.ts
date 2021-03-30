@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './menu/header/header.component';
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
@@ -20,6 +20,7 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
+import { SidebarComponent } from './menu/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { AuthModule } from './auth/auth.module';
     TicketListComponent,
     TicketEditComponent,
     CategoryComponent,
-    ErrorComponent
+    ErrorComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
