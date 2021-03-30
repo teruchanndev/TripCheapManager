@@ -7,26 +7,6 @@ import {CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatListModule} from '@angular/material/list';
-import {MatDialogModule} from '@angular/material/dialog';
-
-import {
-  MatInputModule,
-  MatButtonModule,
-  MatToolbarModule,
-  MatExpansionModule,
-  MatProgressSpinnerModule
-} from '@angular/material';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
@@ -34,11 +14,12 @@ import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.com
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { CategoryComponent } from './categories/category/category.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error/error.component';
+import { AngularMaterialModule } from './angular-material.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -50,8 +31,6 @@ import { ErrorComponent } from './error/error/error.component';
     TicketListComponent,
     TicketEditComponent,
     CategoryComponent,
-    LoginComponent,
-    SignupComponent,
     ErrorComponent
   ],
   imports: [
@@ -62,23 +41,8 @@ import { ErrorComponent } from './error/error/error.component';
     CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSlideToggleModule,
-    MatListModule,
-    MatDialogModule
-
+    AngularMaterialModule,
+    AuthModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
