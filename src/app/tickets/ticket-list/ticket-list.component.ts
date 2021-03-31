@@ -8,6 +8,7 @@ import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 import { ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,10 @@ export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public ticketsService: TicketsService, private authService: AuthService) { }
+  constructor(
+    public ticketsService: TicketsService, 
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     this.isLoading = true;

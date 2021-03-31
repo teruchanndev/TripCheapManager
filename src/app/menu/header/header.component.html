@@ -1,8 +1,7 @@
-
+<mat-sidenav-container class="example-container">
 <mat-toolbar class="example-toolbar" *ngIf='userIsAuthenticated'>
   <span>
-    <button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
-    <a routerLink="/">TRAVELagency</a>
+    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
   </span>
   <span class="spacer"></span>
   <ul>
@@ -19,14 +18,20 @@
 </mat-toolbar>
 
 
-<mat-sidenav-container class="example-container" autosize>
+
 	<mat-sidenav
     #sidenav
     class="example-sidenav"
     mode="side" opened="true"
     (click)="mouseenter()" (mouseleave)="mouseleave()"
-    *ngIf='userIsAuthenticated'>
+	*ngIf="isExpanded"
+    >
 		<mat-nav-list>
+			<mat-list-item>
+				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem; text-decoration: none;
+				color: purple; font-weight: 500;">TRAVEL Agency</span>
+			</mat-list-item>
+
 			<mat-list-item>
 				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem;">Dashboard</span>
 				<mat-icon mat-list-icon s>space_dashboard</mat-icon>
@@ -40,8 +45,8 @@
 				</mat-panel-title>
 				</mat-expansion-panel-header>
 
-				<a mat-list-item href="...">Tất cả vé</a>
-				<a mat-list-item href="...">Thêm vé </a>
+				<a mat-list-item (click) = "showChild('list')">Tất cả vé</a>
+				<a mat-list-item (click) = "showChild('create')">Thêm vé </a>
 			</mat-expansion-panel>
 
 			<mat-expansion-panel>
@@ -57,8 +62,7 @@
 			</mat-expansion-panel>
 
 		</mat-nav-list>
-    <mat-nav-list>
-</mat-nav-list>
+
 	</mat-sidenav>
 
 	<div class="example-sidenav-content">

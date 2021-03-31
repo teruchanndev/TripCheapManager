@@ -6,13 +6,25 @@ import { SignupComponent } from './auth/signup/signup.component';
 
 
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
+import { HeaderComponent } from './menu/header/header.component';
+import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
+import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 
 const routes: Routes = [
-  { path: '', component: CreateTicketComponent },
-  { path: 'edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
+
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent }
+  { path: 'signup', component: SignupComponent },
+
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: '', component: HeaderComponent, children: [
+    { path: 'list', component: TicketListComponent},
+    { path: 'create', component: TicketCreateComponent},
+    { path: 'list/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
+    
+  ] }
+  
 ];
 
 @NgModule({
