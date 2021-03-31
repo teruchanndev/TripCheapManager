@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(form.value.email, form.value.password);
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
     this.authStatusSub.unsubscribe();
   }
