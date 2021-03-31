@@ -21,6 +21,7 @@ import { ErrorComponent } from './error/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
 import { SidebarComponent } from './menu/sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { SidebarComponent } from './menu/sidebar/sidebar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     ReactiveFormsModule,
     FormsModule,
     CommonModule,

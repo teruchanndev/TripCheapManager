@@ -5,10 +5,6 @@ ul {
   margin: 0;
 }
 
-a {
-  text-decoration: none;
-  color: purple;
-}
 
 .spacer {
   flex: 1 1 auto;
@@ -24,12 +20,13 @@ mat-icon{
 }
 
 .example-container {
-  height: 100%;
   background-color: none !important;
+  height: 100vh;
 }
 .example-sidenav-content {
-  display: flex;
-  height: 100vh;
+  padding-top: 2rem;
+  width: 60%;
+  margin: 0 auto;
   align-items: center;
   justify-content: center;
 }

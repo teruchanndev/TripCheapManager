@@ -70,6 +70,7 @@ export class TicketEditComponent implements OnInit {
     });
     
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      console.log(paramMap);
       this.ticketId = paramMap.get("ticketId");
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
         this.ticket = {
@@ -100,6 +101,7 @@ export class TicketEditComponent implements OnInit {
         this.isChecked = ticketData.status;
         this.selectedCategory = this.ticket.category;
         this.selectedCategoryService = this.ticket.categoryService;
+        
         this.valueItem = this.categories.find(
           item => item.name === this.ticket.category
         ).categoryItem;

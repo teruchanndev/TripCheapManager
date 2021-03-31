@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { MenuService } from '../menu.service';
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isShowing = false;
   showSubSubMenu = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();
@@ -40,9 +41,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line:member-ordering
-  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
+  @ViewChild('sidenav', {static: false}) sidenav: any;
+  toggleSidenav() {
+      this.sidenav.toggle(true);
+    }
 
-
+  showChild(childPath) {
+    this.router.navigate(['', childPath]);
+  }
 
   mouseenter() {
     if (!this.isExpanded) {
