@@ -20,6 +20,7 @@ import {
   MatExpansionModule,
   MatProgressSpinnerModule
 } from '@angular/material';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   exports: [
@@ -41,6 +42,7 @@ import {
     MatDialogModule,
     MatSidenavModule,
     MatIconModule
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AngularMaterialModule {}

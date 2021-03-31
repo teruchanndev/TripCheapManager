@@ -1,4 +1,3 @@
-
 <mat-card>
     <form (submit)='onSignIn(loginForm)' #loginForm = 'ngForm'>
         <h4 style="text-align: center; width: 100%;">Sign Up</h4>
@@ -59,5 +58,9 @@
 
     </form>
   </mat-card>
+
+  <div style="text-align: center;">
+    <span>If you have account, </span> <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Sign In</a>
+  </div>
 
 

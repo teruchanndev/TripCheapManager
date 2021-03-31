@@ -14,6 +14,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
   valueSidebar = false;
+
+  isExpanded = true;
+  showSubmenu = false;
+  isShowing = false;
+  showSubSubMenu = false;
+
   constructor(private authService: AuthService) {}
 
   ngOnDestroy(): void {
@@ -33,11 +39,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
+  // tslint:disable-next-line:member-ordering
   @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
-  isExpanded = true;
-  showSubmenu: boolean = false;
-  isShowing = false;
-  showSubSubMenu: boolean = false;
+
+
 
   mouseenter() {
     if (!this.isExpanded) {
