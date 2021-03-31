@@ -1,33 +1,105 @@
+<!-- <mat-form-field>
+  <mat-label>Search</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
+</mat-form-field>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource] = "dataSource" matSort *ngIf="userIsAuthenticated && userId === dataSource.creator">
+
+    <ng-container matColumnDef="title" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
+      <td mat-cell *matCellDef="let element">
+        <p  *ngIf="userIsAuthenticated && userId === element.creator">{{element.title}} </p> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Thể loại </th>
+      <td mat-cell *matCellDef="let element">
+        <p  *ngIf="userIsAuthenticated && userId === element.creator"> {{element.category}}</p> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="city" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Thành phố </th>
+      <td mat-cell *matCellDef="let element"><p  *ngIf="userIsAuthenticated && userId === element.creator"> {{element.city}} </p> </td>
+    </ng-container>
+
+    <ng-container matColumnDef = "image" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef> Image </th>
+      <td mat-cell *matCellDef="let element">
+        <img  *ngIf="userIsAuthenticated && userId === element.creator" [src]="element.imagePath" [alt]="element.title" width="40px" height="20px">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price_reduce" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá vé </th>
+      <td mat-cell *matCellDef="let element" > <p *ngIf="userIsAuthenticated && userId === element.creator"> {{element.price_reduce}}</p> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sửa </th>
+      <td mat-cell *matCellDef="let element">
+        <a 
+          mat-stroked-button 
+          color="primary"
+          [routerLink] = "['edit/', element.id]"
+          *ngIf="userIsAuthenticated && userId === element.creator">Sửa</a> 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete" *ngIf="userIsAuthenticated">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Xóa </th>
+      <td mat-cell *matCellDef="let element"> 
+        <button 
+          mat-stroked-button 
+          color="warn" 
+          (click)="onDelete(element.id)"
+          *ngIf="userIsAuthenticated && userId === element.creator">Xóa</button> 
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div> -->
+
+
 <mat-form-field>
   <mat-label>Search</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
 </mat-form-field>
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource] = "dataSource" matSort>
+  <table mat-table [dataSource] = "dataSource" matSort >
 
-    <ng-container matColumnDef="title">
+    <ng-container matColumnDef="title" *ngIf="userIsAuthenticated">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      <td mat-cell *matCellDef="let element">
+        <p  *ngIf="userIsAuthenticated && userId === element.creator">{{element.title}} </p> </td>
     </ng-container>
 
-    <ng-container matColumnDef="category">
+    <ng-container matColumnDef="category" *ngIf="userIsAuthenticated">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Thể loại </th>
-      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+      <td mat-cell *matCellDef="let element">
+        <p  *ngIf="userIsAuthenticated && userId === element.creator"> {{element.category}}</p> </td>
     </ng-container>
 
-    <ng-container matColumnDef="city">
+    <ng-container matColumnDef="city" *ngIf="userIsAuthenticated">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Thành phố </th>
-      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+      <td mat-cell *matCellDef="let element"><p  *ngIf="userIsAuthenticated && userId === element.creator"> {{element.city}} </p> </td>
     </ng-container>
 
-    <ng-container matColumnDef = "image">
+    <ng-container matColumnDef = "image" *ngIf="userIsAuthenticated">
       <th mat-header-cell *matHeaderCellDef> Image </th>
       <td mat-cell *matCellDef="let element">
-        <img [src]="element.imagePath" [alt]="element.title" width="40px" height="20px">
+        <img  *ngIf="userIsAuthenticated && userId === element.creator" [src]="element.imagePath" [alt]="element.title" width="40px" height="20px">
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="price_reduce">
+    <ng-container matColumnDef="price_reduce" *ngIf="userIsAuthenticated">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá vé </th>
       <td mat-cell *matCellDef="let element" > <p *ngIf="userIsAuthenticated && userId === element.creator"> {{element.price_reduce}}</p> </td>
     </ng-container>
@@ -64,5 +136,3 @@
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
-
-
