@@ -49,6 +49,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
+    console.log(this.dataSource);
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
