@@ -33,14 +33,15 @@ export class TicketListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(
-    public ticketsService: TicketsService, 
+    public ticketsService: TicketsService,
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {
     this.isLoading = true;
-    this.ticketsService.getTickets();
     this.userId = this.authService.getUserId();
+    this.ticketsService.getTicketbyCreator(this.userId);
+    console.log('userId: ' + this.userId);
     this.ticketsSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;

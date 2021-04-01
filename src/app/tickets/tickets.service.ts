@@ -68,6 +68,54 @@ export class TicketsService {
       }>(this.BACKEND_URL + id);
   }
 
+  // getTicketbyCreator(creator: string) {
+  //   return this.http.get<{
+  //       _id: string;
+  //       title: string;
+  //       content: string;
+  //       status: boolean;
+  //       price: number;
+  //       price_reduce: number;
+  //       percent: number;
+  //       category: string;
+  //       categoryService: string;
+  //       city: string;
+  //       imagePath: string,
+  //       creator: string
+  //     }>(this.BACKEND_URL + creator);
+  // }
+
+  getTicketbyCreator(creator: string) {
+    this.http
+      .get<
+        { message: string; ticket: any }>(this.BACKEND_URL + creator)
+      .pipe(
+        map(ticketData => {
+          return ticketData.ticket.map(ticket => {
+            return {
+              id: ticket._id,
+              title: ticket.title,
+              content: ticket.content,
+              status: ticket.status,
+              price: ticket.price,
+              price_reduce: ticket.price_reduce,
+              percent: ticket.percent,
+              category: ticket.category,
+              categoryService: ticket.categoryService,
+              city: ticket.city,
+              imagePath: ticket.imagePath,
+              creator: ticket.creator
+            };
+          });
+        })
+      )
+      .subscribe(transformedTickets => {
+        console.log(transformedTickets);
+        this.tickets = transformedTickets;
+        this.ticketsUpdated.next([...this.tickets]);
+      });
+  }
+
   addTicket(
     title: string,
     content: string,
@@ -79,7 +127,7 @@ export class TicketsService {
     categoryService: string,
     city: string,
     image: File) {
-    
+
       const ticketData = new FormData();
       ticketData.append('title', title);
       ticketData.append('content', content);
@@ -91,29 +139,11 @@ export class TicketsService {
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
       ticketData.append('image', image, title);
-      
     this.http
       .post<
         { message: string; ticket: Ticket }>
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
-        // const ticket: Ticket = {
-        //   id: responseData.ticket.id,
-        //   title: title,
-        //   content: content,
-        //   status: status,
-        //   price: price,
-        //   price_reduce: price_reduce,
-        //   percent: percent,
-        //   category: category,
-        //   categoryService: categoryService,
-        //   city: city,
-        //   imagePath: responseData.ticket.imagePath};
-
-        // // const id = responseData.ticketId;
-        // // ticket.id = id;
-        // this.tickets.push(ticket);
-        // this.ticketsUpdated.next([...this.tickets]);
         this.getTickets();
       });
       return ticketData;
@@ -131,7 +161,7 @@ export class TicketsService {
     image: File | string) {
 
     let ticketData: Ticket | FormData;
-    if(typeof image === 'object') {
+    if (typeof image === 'object') {
       ticketData = new FormData();
       ticketData.append('id', id);
       ticketData.append('title', title);
@@ -158,18 +188,12 @@ export class TicketsService {
         city: city,
         imagePath: image
 
-      }
+      };
     }
-    
 
     this.http
       .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
-        // const updateTickets = [...this.tickets];
-        // const oldTicketIndex = updateTickets.findIndex(p => p.id === id);
-        // updateTickets[oldTicketIndex] = ticketData;
-        // this.tickets = updateTickets;
-        // this.ticketsUpdated.next([...this.tickets]);
         this.router.navigate(['/']);
       });
   }

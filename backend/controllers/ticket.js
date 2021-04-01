@@ -99,6 +99,23 @@ exports.getOneTicket = (req, res, next) => {
   })
 }
 
+exports.getTicketOfCreator = (req, res, next) => {
+  Ticket.find({creator: req.params.creator}).then(ticket => {
+    console.log(ticket);
+    if (ticket) {
+      res.status(200).json(ticket);
+    } else {
+      res.status(404).json({
+        message: "Ticket not found!",
+        ticket: ticket });
+    }
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Fetching ticket failed!'
+    })
+  })
+}
+
 exports.deleteOneTicket = (req, res, next) => {
 
   Ticket.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(

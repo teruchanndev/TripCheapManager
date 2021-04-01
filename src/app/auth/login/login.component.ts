@@ -17,9 +17,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
       authStatus => {
-        alert(authStatus);
       }, error => {
-        alert('no');
       }
     );
   }
