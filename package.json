@@ -24,10 +24,10 @@
     "@angular/router": "^8.0.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.18.3",
-    "core-js": "^3.1.2",
+    "core-js": "^3.10.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.2",
+    "mongoose": "^5.12.3",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
     "ng2-search-filter": "^0.5.1",
@@ -55,6 +55,6 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.9.9"
   }
 }
