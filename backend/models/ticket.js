@@ -10,6 +10,7 @@ const ticketSchema = mongoose.Schema({
   categoryService: { type: String },
   price_reduce: { type: Number },
   city: { type: String },
+  trademark: {type: String}, //thương hiệu
   imagePath: {type: String, required: true },
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });

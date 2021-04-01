@@ -1,6 +1,8 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { flatten } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from 'src/app/categories/categories.service';
@@ -31,6 +33,8 @@ export class TicketCreateComponent implements OnInit {
   imagePreview: string;
   isChecked = false;
 
+  @ViewChild(MatSelectionList, {static: true}) private selectionList: MatSelectionList;
+    
 
   calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
@@ -61,6 +65,9 @@ export class TicketCreateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.selectionList.selectedOptions = new SelectionModel<MatListOption>(false);
+    
     this.form = new FormGroup({
       title: new FormControl(null, {
         validators: [Validators.required]
@@ -88,7 +95,6 @@ export class TicketCreateComponent implements OnInit {
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
-        console.log('category: ' + category);
       });
     console.log(this.categories);
   }

@@ -20,6 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   isShowing = false;
   showSubSubMenu = false;
+  userId: string;
+  username: string;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -29,6 +31,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuth();
+    this.userId = this.authService.getUserId();
+    this.username = this.authService.getUsername();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {

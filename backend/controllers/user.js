@@ -57,7 +57,8 @@ exports.userLogin = (req, res, next) => {
           res.status(200).json({
               token: token,
               expiresIn: 3600,
-              userId: fetchUser._id
+              userId: fetchUser._id,
+              username: fetchUser.username
           })
 
       })
@@ -66,4 +67,14 @@ exports.userLogin = (req, res, next) => {
               message: 'Auth failed!'
           });
       });
+}
+
+exports.getUsername = (req, res, next) => {
+    User.findById(req.params.id).then(user => {
+        if (user) {
+        res.status(200).json(user);
+        } else {
+        res.status(404).json({ message: "Username not found!" });
+        }
+    });
 }

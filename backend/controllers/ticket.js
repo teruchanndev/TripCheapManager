@@ -83,7 +83,6 @@ exports.getAllTicket = (req, res, next) => {
 }
 
 exports.getOneTicket = (req, res, next) => {
-  console.log(req.params.id);
   console.log(Ticket.findById(req.params.id));
   Ticket.findById(req.params.id).then(ticket => {
     if (ticket) {
@@ -100,18 +99,16 @@ exports.getOneTicket = (req, res, next) => {
 }
 
 exports.getTicketOfCreator = (req, res, next) => {
-  Ticket.find({creator: req.params.creator}).then(ticket => {
-    console.log(ticket);
-    if (ticket) {
-      res.status(200).json(ticket);
-    } else {
-      res.status(404).json({
-        message: "Ticket not found!",
-        ticket: ticket });
-    }
+  console.log('hello');
+  console.log(req.params);
+  Ticket.find({creator: req.params.creator}).then(documents => {
+    res.status(200).json({
+      message: "Tickets fetched successfully!",
+      ticket: documents
+    });
   }).catch(error => {
     res.status(500).json({
-      message: 'Fetching ticket failed!'
+      message: 'Fetching tickets failed!'
     })
   })
 }

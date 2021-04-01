@@ -40,8 +40,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.userId = this.authService.getUserId();
-    this.ticketsService.getTicketbyCreator(this.userId);
-    console.log('userId: ' + this.userId);
+    this.ticketsService.getTickets();
     this.ticketsSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;
@@ -49,8 +48,9 @@ export class TicketListComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(ticket);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        console.log('ticket' + ticket);
       });
-    console.log(this.dataSource);
+
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {

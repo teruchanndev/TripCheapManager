@@ -3,15 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+    BACKEND_URL = environment.apiURL;
     private token: String;
     private authStatusListener = new Subject<boolean>();
     private isAuthenticated = false;
     private tokenTimer: any;
     private userId: string;
+    private username: string;
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,6 +33,10 @@ export class AuthService {
       return this.userId;
     }
 
+    getUsername() {
+      return this.username;
+    }
+
     createUser(email: string, password: string, username: string) {
         const authData: AuthData = {email: email, password: password, username: username};
         this.http.post('http://localhost:3000/api/user/signup', authData)
@@ -42,11 +50,12 @@ export class AuthService {
     login(email: string, password: string) {
         const authData: AuthData = {email: email, password: password, username: ''};
         console.log(authData);
-        this.http.post<{token: string, expiresIn: number, userId: string }>(
+        this.http.post<{token: string, expiresIn: number, userId: string, username: string }>(
           'http://localhost:3000/api/user/login',
           authData
           )
             .subscribe(response => {
+                console.log('res: ' + response.username);
                 const token = response.token;
                 this.token = token;
                 if (token) {
@@ -54,6 +63,7 @@ export class AuthService {
                   this.setAuthTimer(expiresInDuration);
                   this.isAuthenticated = true;
                   this.userId = response.userId;
+                  this.username = response.username;
                   this.authStatusListener.next(true);
                   const now = new Date();
                   const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);

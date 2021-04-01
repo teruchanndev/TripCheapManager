@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
   private tickets: Ticket[] = [];
+  private ticketsFind: Ticket[] = [];
   private ticketsUpdated = new Subject<Ticket[]>();
   BACKEND_URL = environment.apiURL + '/tickets/';
 
@@ -68,7 +69,7 @@ export class TicketsService {
       }>(this.BACKEND_URL + id);
   }
 
-  // getTicketbyCreator(creator: string) {
+  // getTicketByCreator(creator: string) {
   //   return this.http.get<{
   //       _id: string;
   //       title: string;
@@ -85,35 +86,38 @@ export class TicketsService {
   //     }>(this.BACKEND_URL + creator);
   // }
 
-  getTicketbyCreator(creator: string) {
-    this.http
-      .get<
-        { message: string; ticket: any }>(this.BACKEND_URL + creator)
-      .pipe(
-        map(ticketData => {
-          return ticketData.ticket.map(ticket => {
-            return {
-              id: ticket._id,
-              title: ticket.title,
-              content: ticket.content,
-              status: ticket.status,
-              price: ticket.price,
-              price_reduce: ticket.price_reduce,
-              percent: ticket.percent,
-              category: ticket.category,
-              categoryService: ticket.categoryService,
-              city: ticket.city,
-              imagePath: ticket.imagePath,
-              creator: ticket.creator
-            };
-          });
-        })
-      )
-      .subscribe(transformedTickets => {
-        console.log(transformedTickets);
-        this.tickets = transformedTickets;
-        this.ticketsUpdated.next([...this.tickets]);
-      });
+  getTicketByCreator(creator: string) {
+    console.log('get ticket');
+    return this.http.get(`${this.BACKEND_URL}/${creator}`);
+    // this.http
+    //   .get<
+    //     { message: string; ticket: any }>(this.BACKEND_URL + creator)
+    //   .pipe(
+    //     map(ticketData => {
+    //       console.log('ticket Data: '+ ticketData);
+    //       return ticketData.ticket.map(ticket => {
+    //         return {
+    //           id: ticket._id,
+    //           title: ticket.title,
+    //           content: ticket.content,
+    //           status: ticket.status,
+    //           price: ticket.price,
+    //           price_reduce: ticket.price_reduce,
+    //           percent: ticket.percent,
+    //           category: ticket.category,
+    //           categoryService: ticket.categoryService,
+    //           city: ticket.city,
+    //           imagePath: ticket.imagePath,
+    //           creator: ticket.creator
+    //         };
+    //       });
+    //     })
+    //   )
+    //   .subscribe(transformedTickets => {
+    //     console.log(transformedTickets);
+    //     this.ticketsFind = transformedTickets;
+    //     this.ticketsUpdated.next([...this.ticketsFind]);
+    //   });
   }
 
   addTicket(

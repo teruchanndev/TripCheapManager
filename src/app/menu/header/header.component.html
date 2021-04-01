@@ -11,6 +11,9 @@
     <li *ngIf='!userIsAuthenticated'>
       <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SignUp</a>
     </li>
+	<li *ngIf='userIsAuthenticated'>
+		<button mat-button routerLinkActive="mat-accent">{{username}}</button>
+	  </li>
     <li *ngIf='userIsAuthenticated'>
       <button mat-button routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
     </li>
