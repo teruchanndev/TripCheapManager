@@ -13,6 +13,7 @@ exports.createTicket = (req, res, next) => {
     categoryService: req.body.categoryService,
     price_reduce: req.body.price_reduce,
     city: req.body.city,
+    quantity: req.body.quantity,
     imagePath: url + '/images/' + req.file.filename,
     creator: req.userData.userId
   });
@@ -49,6 +50,7 @@ exports.updateTicket  = (req, res, next) => {
     categoryService: req.body.categoryService,
     price_reduce: req.body.price_reduce,
     city: req.body.city,
+    quantity: req.body.quantity,
     imagePath: imagePath
   });
 

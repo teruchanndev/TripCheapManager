@@ -1,6 +1,6 @@
 <mat-card style="padding: 4rem 5rem">
   <h3>Thêm Một Sản Phẩm Mới</h3>
-  <p style="font-size: 12px; color: #999;">Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</p>
+  <p style="font-size: 13px; color: #999;">Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</p>
   <form [formGroup] = "form" class="form_add_title" (ngSubmit) = 'onSaveTicket()'>
     <mat-form-field class="form_field">
       <mat-label>Tên vé</mat-label>
@@ -22,14 +22,31 @@
       <mat-error *ngIf="form.get('content').invalid">Please enter a ticket content.</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="form_field">
+    <!-- <mat-form-field class="form_field">
       <input
         matInput
         type="text"
         formControlName = "city"
         placeholder="Thành phố">
       <mat-error *ngIf="form.get('city').invalid">Please enter a city.</mat-error>
+    </mat-form-field> -->
+
+
+    <mat-form-field class="form_field">
+      <mat-label>Thành phố</mat-label>
+      <input type="text"
+             placeholder="Chọn thành phố"
+             aria-label="Number"
+             matInput
+             formControlName = "city"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of cities" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
+
 
     <section class="section-check-stt" style="padding-top: 1rem ;">
       <mat-slide-toggle (change) = "checkStt()">
@@ -73,75 +90,99 @@
       </mat-form-field>
     </div>
 
-    <div style="display: flex;">
-        <mat-label>Thể loại</mat-label>
-        <mat-selection-list 
-          #category
-          [(value)] = 'selectItem'
-          (selectionChange)="changeSelectCategory(category.selectedOptions.selected[0]?.value)"
-          [multiple]= 'false' >
+    <mat-form-field class="form_field">
+      <mat-label>Kho hàng</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName = "quantity"
+        placeholder="Nhập số lượng hàng">
+    </mat-form-field>
 
-          <mat-list-option 
-            *ngFor="let category of categories" 
-            [value]="category.name"
-            name = "category">
-            {{category.name}}
-          </mat-list-option>
-          
-        </mat-selection-list>
+    <section>
+      <mat-label>Thể loại</mat-label>
+        <div style="display: flex;">
+          <mat-selection-list 
+            style="flex: 50%; height: 250px; overflow: auto;"
+            #category
+            [(value)] = 'categorySelect'
+            (selectionChange)="changeSelectCategory(category.selectedOptions.selected[0]?.value)"
+            [multiple]= 'false' >
 
-        <mat-selection-list 
-          aria-multiline="false"
-          [multiple]="false" 
-          [(value)] = 'valueItemSelect'>
+            <mat-list-option 
+              *ngFor="let category of categories" 
+              [value]="category.name"
+              name = "category">
+              {{category.name}}
+            </mat-list-option>
+          </mat-selection-list>
 
-          <mat-list-option 
-            *ngFor="let item of valueItem" 
-            [value]="item"
-            name = "categoryService">
-            {{item}}
-          </mat-list-option>
+          <mat-selection-list 
+            style="flex: 50%; height: 250px; overflow: auto;"
+            #categoryService
+            aria-multiline="false"
+            [multiple]="false" 
+            [(value)] = 'categoryServiceSelect'
+            (selectionChange)="getCategoryService(categoryService.selectedOptions.selected[0]?.value)">
+            <mat-list-option 
+              *ngFor="let item of listCategoryService" 
+              [value]="item"
+              name = "categoryService">
+              {{item}}
+            </mat-list-option>
+          </mat-selection-list>
+      </div>
+      <p style="font-size: 14px; color: #999;">Đã chọn: 
+        <span style="color: purple; font-weight: 500;">{{category.selectedOptions.selected[0]?.value}}</span>
+        <span> > </span>
+        <span style="color: purple; font-weight: 500;">{{categoryService.selectedOptions.selected[0]?.value}}</span> </p>
+    </section>
 
-        </mat-selection-list>
+    <section>
+      <mat-label>Chọn hình ảnh</mat-label>
+      <div class="image_upload wrap">
+        <div class="image_upload_item">
+          <mat-icon 
+            mat-list-icon 
+            (click)="filePicker.click()">add_circle_outline</mat-icon>
+          <input type="file" #filePicker (change) = "onPickImage($event)">
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+        <div class="image_upload_item">
+  
+        </div>
+      </div>
+    </section>
+    
 
-      
-      <!-- <mat-form-field style="flex: 50%;">
-        <mat-label>Thể loại</mat-label>
-        <mat-select
-          [(value)] = 'selectItem'
-          required
-          (selectionChange)="changeSelectCategory($event.value)">
-          <mat-option
-            *ngFor="let category of categories"
-            [value]="category.name"
-            name = "category">
-            {{category.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field style="padding-left: 2rem; flex: 50%;">
-        <mat-label>Dịch vụ</mat-label>
-        <mat-select
-          [(value)] = 'valueItemSelect'>
-          <mat-option
-            *ngFor="let item of valueItem"
-            [value] = "item"
-            name = "categoryService">
-            {{item}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-    </div>
-
-    <!-- <div>
+    <div>
       <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
       <input type="file" #filePicker (change) = "onPickImage($event)">
-    </div> -->
+    </div>
     
-    <!-- <div class="image_preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+    <div class="image_preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
       <img [src]="imagePreview" [alt]="form.value.title">
-    </div> -->
+    </div>
 
     <button type="submit" mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">THÊM</button>
 

@@ -9,5 +9,6 @@ export interface Ticket {
   categoryService: string;
   price_reduce: number;
   city: string;
+  quantity: number;
   imagePath: string
 }

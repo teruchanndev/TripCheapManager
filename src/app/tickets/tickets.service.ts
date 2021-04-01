@@ -18,6 +18,7 @@ export class TicketsService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+
   getTickets() {
     this.http
       .get<{ message: string; ticket: any }>(this.BACKEND_URL)
@@ -35,6 +36,7 @@ export class TicketsService {
               category: ticket.category,
               categoryService: ticket.categoryService,
               city: ticket.city,
+              quantity: ticket.quantity,
               imagePath: ticket.imagePath,
               creator: ticket.creator
             };
@@ -64,6 +66,7 @@ export class TicketsService {
         category: string;
         categoryService: string;
         city: string;
+        quantity: number;
         imagePath: string,
         creator: string
       }>(this.BACKEND_URL + id);
@@ -130,6 +133,7 @@ export class TicketsService {
     category: string,
     categoryService: string,
     city: string,
+    quantity: number,
     image: File) {
 
       const ticketData = new FormData();
@@ -142,6 +146,7 @@ export class TicketsService {
       ticketData.append('category', category);
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
+      ticketData.append('quantity', JSON.stringify(quantity));
       ticketData.append('image', image, title);
     this.http
       .post<
@@ -149,6 +154,7 @@ export class TicketsService {
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
         this.getTickets();
+        this.router.navigate(['/list']);
       });
       return ticketData;
   }
@@ -162,6 +168,7 @@ export class TicketsService {
     category: string,
     categoryService: string,
     city: string,
+    quantity: number,
     image: File | string) {
 
     let ticketData: Ticket | FormData;
@@ -177,6 +184,7 @@ export class TicketsService {
       ticketData.append('category', category);
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
+      ticketData.append('quantity', JSON.stringify(quantity));
       ticketData.append('image', image, title);
     } else {
       ticketData = {
@@ -190,6 +198,7 @@ export class TicketsService {
         category: category,
         categoryService: categoryService,
         city: city,
+        quantity: quantity,
         imagePath: image
 
       };

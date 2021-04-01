@@ -1,12 +1,12 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { flatten } from '@angular/compiler';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { CategoriesService } from 'src/app/categories/categories.service';
 import { Category } from 'src/app/categories/category.model';
+import { CitiesService } from '../cities.service';
+import { City } from '../city.model';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
 import { mimeType } from './mime-type.validator';
@@ -21,19 +21,20 @@ export class TicketCreateComponent implements OnInit {
   price = 0;
   percent = 0;
   price_reduce = 0;
-  selectItem = '';
-  valueItemSelect = '';
-  valueItem: Array<string>;
+
+  categorySelect = '';
+  categoryServiceSelect = '';
+  listCategoryService: Array<string>;
 
   ticket: Ticket;
   categories: Category[] = [];
+  cities: City[] = [];
   private categoriesSub: Subscription;
+  private citiesSub: Subscription;
 
   form: FormGroup;
   imagePreview: string;
   isChecked = false;
-
-  @ViewChild(MatSelectionList, {static: true}) private selectionList: MatSelectionList;
     
 
   calPrice_reduce() {
@@ -42,11 +43,16 @@ export class TicketCreateComponent implements OnInit {
 
   changeSelectCategory(value) {
     if ( value === '' ) {
-      this.valueItem = [];
+      this.listCategoryService = [];
     } else {
-      this.valueItem = this.categories
+      this.categorySelect = value;
+      this.listCategoryService = this.categories
                 .find(item => item.name === value).categoryItem;
     }
+  }
+  
+  getCategoryService(value){
+    this.categoryServiceSelect = value;
   }
 
   checkStt() {
@@ -61,13 +67,12 @@ export class TicketCreateComponent implements OnInit {
   constructor(
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
+    public citiesService: CitiesService,
     public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
 
-    this.selectionList.selectedOptions = new SelectionModel<MatListOption>(false);
-    
     this.form = new FormGroup({
       title: new FormControl(null, {
         validators: [Validators.required]
@@ -85,18 +90,25 @@ export class TicketCreateComponent implements OnInit {
       price_reduce: new FormControl(null, {
         validators: [Validators.required]
       }),
+      quantity: new FormControl(null, {}),
       image: new FormControl(null, {
         validators: [Validators.required],
         asyncValidators: [mimeType]
       })
     });
-
+   
     this.categoriesService.getCategories();
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
       });
-    console.log(this.categories);
+    
+    this.citiesService.getCities();
+    this.citiesSub = this.citiesService.getCategoryUpdateListener()
+      .subscribe((city: City[]) => {
+        this.cities = city;
+        console.log(city);
+      });
   }
 
   onSaveTicket() {
@@ -108,9 +120,10 @@ export class TicketCreateComponent implements OnInit {
         this.form.value.price_enter,
         this.price_reduce,
         this.form.value.percent,
-        this.selectItem,
-        this.valueItemSelect,
+        this.categorySelect,
+        this.categoryServiceSelect,
         this.form.value.city,
+        this.form.value.quantity,
         this.form.value.image
       );
 

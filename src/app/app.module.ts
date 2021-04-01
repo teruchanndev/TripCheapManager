@@ -7,6 +7,8 @@ import {CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
@@ -20,7 +22,6 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
-import { SidebarComponent } from './menu/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -34,7 +35,6 @@ import { RouterModule } from '@angular/router';
     TicketEditComponent,
     CategoryComponent,
     ErrorComponent,
-    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +43,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+    NgxMatSelectSearchModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AngularMaterialModule,

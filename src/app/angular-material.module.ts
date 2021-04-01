@@ -12,7 +12,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -40,7 +40,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatListModule,
     MatDialogModule,
     MatSidenavModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

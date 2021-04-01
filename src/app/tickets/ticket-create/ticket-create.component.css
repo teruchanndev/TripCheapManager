@@ -36,9 +36,48 @@ input[type="file"] {
 .image_preview{
   margin: 1rem 0;
 }
+
 .image_preview img {
   height: 2rem;
   width: 4rem;
   width: auto;
   background-size: contain;
+}
+
+.image_upload{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid silver;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.wrap    { 
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}  
+
+.image_upload_item{
+  position: relative;
+  width: 111px;
+  height: 111px;
+  border: 1px dashed purple;
+  padding: 5px;
+  margin: 1rem;
+}
+
+.mat-icon{
+  position: absolute;
+  top: 40%;
+  color: purple;
+  width: 111px;
+  height: 111px;
+  margin: 0 auto;
+  text-align: center;
 }

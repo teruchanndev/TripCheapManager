@@ -84,6 +84,7 @@ export class TicketEditComponent implements OnInit {
           categoryService: ticketData.categoryService,
           percent: ticketData.percent,
           price_reduce: ticketData.price_reduce,
+          quantity: null,
           imagePath: ticketData.imagePath
         }
         console.log(this.ticket);
@@ -143,6 +144,7 @@ export class TicketEditComponent implements OnInit {
       this.selectedCategory,
       this.selectedCategoryService,
       this.form.value.city,
+      null,
       this.form.value.image
     );
   }
