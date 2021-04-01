@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line:member-ordering
-  @ViewChild('sidenav', {static: false}) sidenav: any;
+  @ViewChild('sidenav') sidenav: any;
   toggleSidenav() {
       this.sidenav.toggle(true);
     }
