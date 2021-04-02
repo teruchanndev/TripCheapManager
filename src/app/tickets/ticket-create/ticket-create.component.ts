@@ -35,7 +35,9 @@ export class TicketCreateComponent implements OnInit {
   form: FormGroup;
   imagePreview: string;
   isChecked = false;
-    
+
+  imageArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
 
   calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
@@ -50,8 +52,8 @@ export class TicketCreateComponent implements OnInit {
                 .find(item => item.name === value).categoryItem;
     }
   }
-  
-  getCategoryService(value){
+
+  getCategoryService(value) {
     this.categoryServiceSelect = value;
   }
 
@@ -96,13 +98,11 @@ export class TicketCreateComponent implements OnInit {
         asyncValidators: [mimeType]
       })
     });
-   
     this.categoriesService.getCategories();
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
       });
-    
     this.citiesService.getCities();
     this.citiesSub = this.citiesService.getCategoryUpdateListener()
       .subscribe((city: City[]) => {
@@ -131,6 +131,7 @@ export class TicketCreateComponent implements OnInit {
   }
 
   onPickImage(event: Event) {
+    this.imagePreview = '';
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({image: file});
     this.form.get('image').updateValueAndValidity();
@@ -141,6 +142,9 @@ export class TicketCreateComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  deleteImage() {
+    this.imagePreview = '';
+  }
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
     this.categoriesSub.unsubscribe();

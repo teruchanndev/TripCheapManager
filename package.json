@@ -31,6 +31,7 @@
     "mongoose": "^5.12.3",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
+    "multer-gridfs-storage": "^4.2.0",
     "ng2-search-filter": "^0.5.1",
     "ngx-mat-select-search": "^3.2.0",
     "rxjs": "^6.6.7",
