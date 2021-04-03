@@ -67,61 +67,11 @@ export class TicketsService {
         categoryService: string;
         city: string;
         quantity: number;
-        imagePath: string,
+        imagePath: Array<string>,
         creator: string
       }>(this.BACKEND_URL + id);
   }
 
-  // getTicketByCreator(creator: string) {
-  //   return this.http.get<{
-  //       _id: string;
-  //       title: string;
-  //       content: string;
-  //       status: boolean;
-  //       price: number;
-  //       price_reduce: number;
-  //       percent: number;
-  //       category: string;
-  //       categoryService: string;
-  //       city: string;
-  //       imagePath: string,
-  //       creator: string
-  //     }>(this.BACKEND_URL + creator);
-  // }
-
-  getTicketByCreator(creator: string) {
-    console.log('get ticket');
-    return this.http.get(`${this.BACKEND_URL}/${creator}`);
-    // this.http
-    //   .get<
-    //     { message: string; ticket: any }>(this.BACKEND_URL + creator)
-    //   .pipe(
-    //     map(ticketData => {
-    //       console.log('ticket Data: '+ ticketData);
-    //       return ticketData.ticket.map(ticket => {
-    //         return {
-    //           id: ticket._id,
-    //           title: ticket.title,
-    //           content: ticket.content,
-    //           status: ticket.status,
-    //           price: ticket.price,
-    //           price_reduce: ticket.price_reduce,
-    //           percent: ticket.percent,
-    //           category: ticket.category,
-    //           categoryService: ticket.categoryService,
-    //           city: ticket.city,
-    //           imagePath: ticket.imagePath,
-    //           creator: ticket.creator
-    //         };
-    //       });
-    //     })
-    //   )
-    //   .subscribe(transformedTickets => {
-    //     console.log(transformedTickets);
-    //     this.ticketsFind = transformedTickets;
-    //     this.ticketsUpdated.next([...this.ticketsFind]);
-    //   });
-  }
 
   addTicket(
     title: string,
@@ -134,7 +84,7 @@ export class TicketsService {
     categoryService: string,
     city: string,
     quantity: number,
-    image: File) {
+    image: Array<File> | Array<string>) {
 
       const ticketData = new FormData();
       ticketData.append('title', title);
@@ -147,7 +97,11 @@ export class TicketsService {
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
-      ticketData.append('image', image, title);
+
+      for(let file of image){
+        ticketData.append('image', file);
+      }
+      // ticketData.append('image', JSON.stringify(image), title);
     this.http
       .post<
         { message: string; ticket: Ticket }>
@@ -169,10 +123,11 @@ export class TicketsService {
     categoryService: string,
     city: string,
     quantity: number,
-    image: File | string) {
-
+    imageUrls: Array<string>,
+    image: Array<File> | Array<string>) {
+    console.log(image);
     let ticketData: Ticket | FormData;
-    if (typeof image === 'object') {
+    //if (typeof image === 'object') {
       ticketData = new FormData();
       ticketData.append('id', id);
       ticketData.append('title', title);
@@ -185,29 +140,34 @@ export class TicketsService {
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
-      ticketData.append('image', image, title);
-    } else {
-      ticketData = {
-        id: id,
-        title: title,
-        content: content,
-        status: status,
-        price: price,
-        price_reduce: price_reduce,
-        percent: percent,
-        category: category,
-        categoryService: categoryService,
-        city: city,
-        quantity: quantity,
-        imagePath: image
+      ticketData.append('imageUrls', JSON.stringify(imageUrls));
+      for(let file of image){
+        // console.log(file);
+        ticketData.append('image', file);
+      }
 
-      };
-    }
+    // } else {
+    //   ticketData = {
+    //     id: id,
+    //     title: title,
+    //     content: content,
+    //     status: status,
+    //     price: price,
+    //     price_reduce: price_reduce,
+    //     percent: percent,
+    //     category: category,
+    //     categoryService: categoryService,
+    //     city: city,
+    //     quantity: quantity,
+    //     imagePath: image
 
+    //   };
+    // }
+    console.log(ticketData);
     this.http
       .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
       });
   }
 

@@ -1,56 +1,130 @@
 .form_add_title {
-    width: 100%;
-  }
-  
-  .form_field {
-    width: 100%;
-  }
-  
-  .item-margin{
-    margin: 0 10px;
-  }
-  .price{
-    display: flex;
-    padding-top: 2rem;
-  }
-  .priceItem1{
-    width: 30%;
-    padding-right: 1rem;
-  }
-  .priceItem2{
-    width: 20%;
-    padding-right: 3rem;
-  }
-  .priceItem3{
-    width: 30%;
-  }
-  
-  .mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
-  }
+  width: 100%;
+}
 
-  .image_preview img {
-    height: 100%;
-    width: auto;
-    background-size: contain;
-  }
-  input[type="file"] {
-    visibility: hidden;
-  }
+.form_field {
+  width: 100%;
+}
 
-  .image_preview{
-    margin: 1rem 0;
-  }
-  .image_preview img {
-    height: 4rem;
-    width: 8rem;
-    width: auto;
-    background-size: contain;
-  }
-  .image img {
-    height: 4rem;
-    width: 8rem;
-    width: auto;
-    background-size: contain;
-  }
-  
+.item-margin{
+  margin: 0 10px;
+}
+.price{
+  display: flex;
+  padding-top: 2rem;
+}
+.priceItem1{
+  width: 40%;
+
+}
+.priceItem2{
+  width: 20%;
+  padding: 0 1rem;
+
+}
+.priceItem3{
+  width: 40%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image_preview{
+  margin: 1rem 0;
+}
+
+.image_preview img {
+  height: 111px;
+  width: 111px;
+  width: auto;
+  background-size: contain;
+}
+img{
+  height: 111px;
+  width: 111px;
+  background-size: cover;
+  bottom: 2px;
+  position: absolute;
+}
+.image_upload{
+  padding: 0;
+  justify-content: center;
+  padding: 1rem 0;
+  list-style: none;
+  border: 1px solid silver;
+  border-radius: 5px;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.wrap    {
+  margin-top: 1rem;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.image_upload_item{
+  cursor:pointer;
+  position: relative;
+  width: 111px;
+  height: 111px;
+  border: 1px dashed purple;
+  padding: 2px;
+  margin: 1rem;
+}
+
+.image_upload_item:hover{
+  background-color: rgba(175,74,140, 0.2);
+}
+
+.icon_add{
+  position: absolute;
+  top: 40%;
+  color: purple;
+  width: 111px;
+  height: 111px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.action_image_icon{
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  position: absolute;
+  bottom: 0%;
+  margin-left: -2px;
+}
+
+.explain-text{
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+}
+
+.btn-action{
+  display: flex;
+}
+
+.btn-item{
+  margin: 2rem 1rem;
+  flex: 30%;
+
+}
+
+.selectCategory[aria-selected="true"]{
+  background-color: rgba(175,74,140, 0.2);
+}
+
+.selectCategoryService[aria-selected="true"]{
+  background-color: rgba(175,74,140, 0.2);
+}

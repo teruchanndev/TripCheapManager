@@ -1,0 +1,115 @@
+.info{
+    display: flex;
+    margin-top: 2rem;
+}
+.info1{
+    flex: 45%;
+    border: 1px solid silver;
+}
+.info2{
+    flex: 45%;
+    width: 100%;
+    padding: 0 0 0 2rem;
+}
+input[type="file"] {
+    visibility: hidden;
+}
+.image_cover_upload{
+    position: relative;
+    /* background-color: beige; */
+    border: 1px solid #f9f9f9;
+    height: 200px;
+    width: auto;
+}
+.image_cover_upload img{
+    height: 200px;
+    width: 100%;
+    background-size: cover;
+    border: 1xp solid #f9f9f9;
+    border-radius: 5px;
+    top: 0;
+    position: absolute;
+    left: 0;
+}
+.edit_image_cover{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+}
+.edit_image_cover:hover{
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+}
+.mat-card .mat-divider-horizontal{
+    width: 40%;
+}
+.mat-list-item{
+    border-bottom: 1px solid silver;
+    font-size: 12px;
+    color: #999;
+}
+
+.mat-form-field{
+    width: 100%;
+}
+
+.image_cover_upload_avt{
+    
+    position: relative;
+    border: 1px solid silver;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
+
+.image_cover_upload_avt img{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-size: cover;
+    border: 1xp solid #f9f9f9;
+    top: 0;
+    position: absolute;
+    left: 0;
+}
+.info_user_des{
+    position: relative;
+    flex: 50%;
+}
+.info_user_des > div{
+    padding-left: 1rem;
+    position: absolute;
+    font-size: 16px;
+    bottom: 0;
+}
+
+.info_user{
+    display: flex;
+    padding-bottom: 1rem;
+}
+
+.btn-action{
+    display: flex;
+    margin: 2rem 0;
+}
+.btn-action:first-child button{
+    margin-right: 1rem;
+}
+  
+.btn-item{
+    flex: 30%;
+}
+
+
+.text-content{
+    text-align: center;
+}
+.mat-card{
+    margin-top: 2rem;
+    padding: 4rem 5rem; 
+    width: 50%; 
+    margin: 0 auto;
+}

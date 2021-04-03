@@ -6,6 +6,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 
 
 import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
+import { CreateInfoComponent } from './infomations/create-info/create-info.component';
+import { InformationComponent } from './infomations/information/information.component';
 import { HeaderComponent } from './menu/header/header.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
@@ -22,8 +24,10 @@ const routes: Routes = [
     { path: 'list', component: TicketListComponent},
     { path: 'create', component: TicketCreateComponent},
     { path: 'list/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
+    { path: 'shop/setting', component: InformationComponent, canActivate: [AuthGuard] },
     
-  ] }
+  ] },
+  { path: 'shop/info',component: CreateInfoComponent, canActivate: [AuthGuard] },
   
 ];
 

@@ -4,6 +4,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from 'src/app/categories/categories.service';
 import { Category } from 'src/app/categories/category.model';
+import { CitiesService } from '../cities.service';
+import { City } from '../city.model';
 import { mimeType } from '../ticket-create/mime-type.validator';
 import { Ticket } from '../ticket.model';
 import { TicketsService } from '../tickets.service';
@@ -22,25 +24,29 @@ export class TicketEditComponent implements OnInit {
   isChecked: boolean; //check status true hay false => set checked slide toggle
 
   categories: Category[] = [];
+  cities: City[] = [];
   private categoriesSub: Subscription;
+  private citiesSub: Subscription;
 
   form: FormGroup;
 
-  imagePreview: string;
-
   //mảng categoryItem
   valueItem = [];
+  categorySelect;
+  categoryServiceSelect;
 
-  selectedCategory;
-  selectedCategoryService;
-
-  price_reduce;
+  price_reduce = 0;
   percent = 0;
   price = 0;
+
+  listImage: Array<File> = [];
+  imageUrls: Array<string> = [];
+  imagePreview = ['', '', '', '', '', '', '', '', '', ''];
 
   constructor(
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
+    public citiesService: CitiesService,
     public route: ActivatedRoute
   ) { }
 
@@ -57,16 +63,18 @@ export class TicketEditComponent implements OnInit {
         validators: [Validators.required]
       }),
       percent: new FormControl(null, {}),
-      price: new FormControl(null, {
+      price_enter: new FormControl(null, {
         validators: [Validators.required]
       }),
       price_reduce: new FormControl(null, {
         validators: [Validators.required]
       }),
-      image: new FormControl(null, {
-        validators: [Validators.required],
-        asyncValidators: [mimeType]
-      })
+      quantity: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      // image: new FormControl(null, {
+
+      // })
     });
     
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -84,7 +92,7 @@ export class TicketEditComponent implements OnInit {
           categoryService: ticketData.categoryService,
           percent: ticketData.percent,
           price_reduce: ticketData.price_reduce,
-          quantity: null,
+          quantity: ticketData.quantity,
           imagePath: ticketData.imagePath
         }
         console.log(this.ticket);
@@ -92,20 +100,33 @@ export class TicketEditComponent implements OnInit {
         this.form.setValue({
           title: this.ticket.title,
           content: this.ticket.content,
-          price : this.ticket.price,
+          price_enter : this.ticket.price,
           city : this.ticket.city,
           percent : this.ticket.percent,
           price_reduce : this.ticket.price_reduce,
-          image : this.ticket.imagePath
+          quantity : this.ticket.quantity
         });
 
         this.isChecked = ticketData.status;
-        this.selectedCategory = this.ticket.category;
-        this.selectedCategoryService = this.ticket.categoryService;
+        this.categorySelect = this.ticket.category;
+        this.categoryServiceSelect = this.ticket.categoryService;
+        for(let i = 0; i< 10; i++){
+          if(this.ticket.imagePath[i]){
+            this.imagePreview[i] = this.ticket.imagePath[i];
+            this.imageUrls[i] = this.ticket.imagePath[i];
+          }
+        }
+        console.log(this.imagePreview);
+
+        const app = this;
+        setTimeout(function(){
+          app.valueItem = app.categories.find(
+            item => item.name === app.ticket.category
+          ).categoryItem;
+        }, 2000)
         
-        this.valueItem = this.categories.find(
-          item => item.name === this.ticket.category
-        ).categoryItem;
+        console.log(this.categoryServiceSelect);
+        console.log(this.valueItem);
       });
     });
         
@@ -113,6 +134,7 @@ export class TicketEditComponent implements OnInit {
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
+        
       })
   }
 
@@ -131,6 +153,23 @@ export class TicketEditComponent implements OnInit {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
 
+  getCategoryService(value) {
+    this.categoryServiceSelect = value;
+  }
+
+  //show categoryItem with category name
+  changeSelectCategory(value){
+    if ( value === '' ) {
+      this.categorySelect = '';
+      this.valueItem = [];
+    } else {
+      this.categorySelect = '';
+      this.categoryServiceSelect = '';
+      this.valueItem = this.categories
+                .find(item => item.name === value).categoryItem;
+    }
+  }
+
   //function update ticket
   onUpdateTicket(){
     this.ticketsService.updateTickets(
@@ -141,33 +180,39 @@ export class TicketEditComponent implements OnInit {
       this.form.value.price,
       this.price_reduce,
       this.form.value.percent,
-      this.selectedCategory,
-      this.selectedCategoryService,
+      this.categorySelect,
+      this.categoryServiceSelect,
       this.form.value.city,
-      null,
-      this.form.value.image
+      this.form.value.quantity,
+      this.imageUrls,
+      this.listImage
     );
   }
 
-  //show categoryItem with category name
-  changeSelectCategory(value){
-    if ( value === '' ) {
-      this.valueItem = [];
+  
+  onPickImage(event: Event, index: number) {
+
+    if(this.imagePreview[index] !== ''){
+      this.imageUrls[index] = '';
+      this.imagePreview[index] = '';
+      this.listImage.splice(index, 1);
     } else {
-      this.valueItem = this.categories
-                .find(item => item.name === value).categoryItem;
+      const file = (event.target as HTMLInputElement).files[0];
+      this.form.patchValue({image: file});
+      // this.form.get('image').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview[index] = reader.result as string;
+        this.listImage.splice(index, 0, file);
+      };
+      reader.readAsDataURL(file);
     }
+    console.log(this.imagePreview);
+    console.log(this.listImage);
   }
 
-  onPickImage(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});
-    this.form.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+  deleteImage(index: number) {
+    this.imagePreview[index] = '';
   }
 
   ngOnDestroy(): void{

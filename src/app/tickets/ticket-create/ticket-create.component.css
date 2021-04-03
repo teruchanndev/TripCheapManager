@@ -14,15 +14,16 @@
   padding-top: 2rem;
 }
 .priceItem1{
-  width: 30%;
-  padding-right: 1rem;
+  width: 40%;
+
 }
 .priceItem2{
   width: 20%;
-  padding-right: 3rem;
+  padding: 0 1rem;
+
 }
 .priceItem3{
-  width: 30%;
+  width: 40%;
 }
 
 .mat-radio-button ~ .mat-radio-button {
@@ -52,9 +53,11 @@ img{
 }
 .image_upload{
   padding: 0;
-  margin: 0;
+  justify-content: center;
+  padding: 1rem 0;
   list-style: none;
   border: 1px solid silver;
+  border-radius: 5px;
   -ms-box-orient: horizontal;
   display: -webkit-box;
   display: -moz-box;
@@ -65,6 +68,7 @@ img{
 }
 
 .wrap    {
+  margin-top: 1rem;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
@@ -106,3 +110,22 @@ img{
   font-size: 14px;
   color: #999;
 }
+
+.btn-action{
+  display: flex;
+}
+
+.btn-item{
+  margin: 2rem 1rem;
+  flex: 30%;
+
+}
+
+.selectCategory[aria-selected="true"]{
+  background-color: rgba(175,74,140, 0.2);
+}
+
+.selectCategoryService[aria-selected="true"]{
+  background-color: rgba(175,74,140, 0.2);
+}
+

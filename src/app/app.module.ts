@@ -23,6 +23,8 @@ import { ErrorComponent } from './error/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
+import { InformationComponent } from './infomations/information/information.component';
+import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 
 
 @NgModule({
@@ -35,6 +37,8 @@ import { RouterModule } from '@angular/router';
     TicketEditComponent,
     CategoryComponent,
     ErrorComponent,
+    InformationComponent,
+    CreateInfoComponent,
   ],
   imports: [
     BrowserModule,

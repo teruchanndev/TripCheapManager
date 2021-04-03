@@ -12,11 +12,18 @@
       <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SignUp</a>
     </li>
 	<li *ngIf='userIsAuthenticated'>
-		<button mat-button routerLinkActive="mat-accent">{{username}}</button>
+		<button 
+		mat-button
+		[matMenuTriggerFor]="menu"
+		routerLinkActive="mat-accent">{{username}}</button>
+		<mat-menu #menu = "matMenu">
+			<button mat-menu-item routerLink="/shop/setting"> Hồ sơ shop </button>
+			<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
+		</mat-menu>
 	  </li>
-    <li *ngIf='userIsAuthenticated'>
-      <button mat-button routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
-    </li>
+    <!-- <li *ngIf='userIsAuthenticated'>
+      <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
+    </li> -->
   </ul>
 </mat-toolbar>
 

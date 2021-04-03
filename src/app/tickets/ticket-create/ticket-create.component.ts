@@ -25,6 +25,7 @@ export class TicketCreateComponent implements OnInit {
   categorySelect = '';
   categoryServiceSelect = '';
   listCategoryService: Array<string>;
+  // listImage: Array<string> = [];
 
   ticket: Ticket;
   categories: Category[] = [];
@@ -33,10 +34,10 @@ export class TicketCreateComponent implements OnInit {
   private citiesSub: Subscription;
 
   form: FormGroup;
-  imagePreview: string;
   isChecked = false;
 
-  imageArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  listImage: Array<File> = [];
+  imagePreview = ['', '', '', '', '', '', '', '', '', ''];
 
 
   calPrice_reduce() {
@@ -92,10 +93,11 @@ export class TicketCreateComponent implements OnInit {
       price_reduce: new FormControl(null, {
         validators: [Validators.required]
       }),
-      quantity: new FormControl(null, {}),
+      quantity: new FormControl(null, {
+        
+      }),
       image: new FormControl(null, {
-        validators: [Validators.required],
-        asyncValidators: [mimeType]
+
       })
     });
     this.categoriesService.getCategories();
@@ -124,30 +126,41 @@ export class TicketCreateComponent implements OnInit {
         this.categoryServiceSelect,
         this.form.value.city,
         this.form.value.quantity,
-        this.form.value.image
+        this.listImage
       );
 
       this.form.reset();
   }
 
-  onPickImage(event: Event) {
-    this.imagePreview = '';
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});
-    this.form.get('image').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
+  onPickImage(event: Event, index: number) {
+    if(this.imagePreview[index] !== ''){
+      this.imagePreview[index] = '';
+      this.listImage.splice(index, 1);
+    } else {
+      const file = (event.target as HTMLInputElement).files[0];
+      this.form.patchValue({image: file});
+      this.form.get('image').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview[index] = reader.result as string;
+        this.listImage.splice(index, 0, this.form.value.image);
+      };
+      reader.readAsDataURL(file);
+      console.log('file: '+file.name);
+    }
+    
+    console.log(this.listImage);
   }
 
-  deleteImage() {
-    this.imagePreview = '';
+  deleteImage(index: number) {
+    this.imagePreview[index] = '';
+    this.listImage.splice(index, 1);
   }
+
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
     this.categoriesSub.unsubscribe();
+    this.citiesSub.unsubscribe();
   }
 
 }

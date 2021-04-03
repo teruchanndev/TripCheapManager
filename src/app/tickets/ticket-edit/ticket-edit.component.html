@@ -1,122 +1,209 @@
-<mat-card>
-    <h4>Thêm Vé Mới</h4>
-    <form [formGroup] = 'form' class="form_add_title" (ngSubmit) = 'onUpdateTicket()'>
-      <mat-form-field class="form_field">
-        <mat-label>Tên vé</mat-label>
+<mat-card style="padding: 4rem 5rem">
+  <h3>Thêm Một Sản Phẩm Mới</h3>
+  <p style="font-size: 13px; color: #999;">Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</p>
+  
+  <form 
+    [formGroup] = "form" 
+    class="form_add_title" 
+    enctype="multipart/form-data"
+    (ngSubmit) = 'onUpdateTicket()'>
+
+    <mat-form-field class="form_field" appearance="outline">
+      <mat-label>Tên vé</mat-label>
+      <input
+        #inputTitle
+        matInput
+        minlength = '10'
+        type="text"
+        formControlName = "title"
+        placeholder="Tên vé">
+      <mat-hint align = "end">{{inputTitle.value?.length || 0}}/120</mat-hint>
+      <mat-error *ngIf="form.get('title').hasError('minlength')">Tên sản phẩm của bạn quá ngắn, vui lòng nhập ít nhất 10 ký tự.</mat-error>
+      <mat-error *ngIf="form.get('title').hasError('required')">Vui lòng nhập tên sản phẩm</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form_field" appearance="outline">
+      <mat-label>Mô tả sản phẩm</mat-label>
+      <textarea
+        style="height: 150px;"
+        #inputContent
+        matInput
+        minlength="100"
+        type="text"
+        formControlName = "content"
+        placeholder="Mô tả vé">
+      </textarea>
+      <mat-hint align = "end">{{inputContent.value?.length || 0}}/3000</mat-hint>
+      <mat-error *ngIf="form.get('content').hasError('minlength')">Tên sản phẩm của bạn quá ngắn, vui lòng nhập ít nhất 100 ký tự.</mat-error>
+      <mat-error *ngIf="form.get('content').hasError('required')">Vui lòng nhập tên sản phẩm</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form_field" appearance="outline">
+      <mat-label>Thành phố</mat-label>
+      <input type="text"
+             placeholder="Chọn thành phố"
+             aria-label="Number"
+             matInput
+             formControlName = "city"
+             [matAutocomplete]="auto">
+      <mat-error *ngIf="form.get('city').hasError('required')">Vui lòng chọn một thành phố</mat-error>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of cities" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <section class="section-check-stt" style="padding-top: 1rem ;">
+      <mat-slide-toggle (change) = "checkStt()" [checked] = "isChecked" >
+        <span *ngIf="isChecked == true">Public</span>
+        <span *ngIf="isChecked != true">Un public</span>
+      </mat-slide-toggle>
+    </section>
+
+    <div class="price">
+      <mat-form-field class="priceItem1" appearance="outline">
+        <mat-label>Giá gốc</mat-label>
         <input
           matInput
-          type="text"
-          formControlName = 'title'
-          placeholder="Tên vé">
-        <mat-error *ngIf="form.get('title').invalid">Please enter a ticket title.</mat-error>
+          type="number"
+          min=1.000
+          max = 120.000.000
+          formControlName = "price_enter"
+          [(ngModel)] = 'price'
+          (change)="calPrice_reduce()">
+          <mat-error *ngIf="form.get('price_enter').hasError('required')">Vui lòng nhập giá sản phẩm.</mat-error>
+          <mat-error *ngIf="form.get('price_enter').hasError('min')">Giá trị sản phẩm phải ít nhất 1.000.</mat-error>
+          <mat-error *ngIf="form.get('price_enter').hasError('max')">Giá trị sản phẩm đã vượt quá 120.000.000.</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="form_field">
-        <textarea
-          matInput
-          type="text"
-          formControlName = 'content'
-          placeholder="Mô tả vé">
-        </textarea>
-        <mat-error *ngIf="form.get('content').invalid">Please enter a ticket title.</mat-error>
-      </mat-form-field>
-  
-      <mat-form-field class="form_field">
+      <mat-form-field class="priceItem2" appearance="outline">
+        <mat-label>Giảm </mat-label>
         <input
           matInput
-          type="text"
-          formControlName = 'city'
-          [ngModel]='ticket?.city'
-          placeholder="Thành phố">
-        <!-- <mat-error *ngIf="content.invalid">Please enter a ticket title.</mat-error> -->
+          type="number"
+          min="0"
+          max="100"
+          step="5"
+          formControlName = "percent"
+          [(ngModel)]="percent"
+          (change)="calPrice_reduce()"
+        >
+        <mat-label> % </mat-label>
+        
       </mat-form-field>
-  
-      <section class="section-check-stt" style="padding-top: 1rem ;">
-        <mat-slide-toggle (change) = "checkStt()" [checked] = "isChecked" >
-          <span *ngIf="isChecked == true">Public</span>
-          <span *ngIf="isChecked != true">Un public</span>
-        </mat-slide-toggle>
-      </section>
-  
-      <div class="price">
-        <mat-form-field class="priceItem1">
-          <mat-label>Giá gốc</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName = "price"
-            [(ngModel)] = 'price'
-            (change)="calPrice_reduce()"
-            >
-        </mat-form-field>
-  
-        <mat-form-field class="priceItem2">
-          <mat-label>Giảm </mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName = "percent"
-            [(ngModel)] = "percent"
-            (change)="calPrice_reduce()"
-          >
-          <mat-label> % </mat-label>
-        </mat-form-field>
-  
-        <mat-form-field class="priceItem3">
-          <mat-label>Giá sau giảm </mat-label>
-          <input
-            matInput type="number"
-            formControlName = "price_reduce"
-            [(ngModel)]='price_reduce'
-          >
-          <mat-label>% </mat-label>
-        </mat-form-field>
-      </div>
-  
-      <div style="display: flex;">
-        <mat-form-field style="flex: 50%;">
-          <mat-label>Thể loại</mat-label>
-          <mat-select
-          [(value)]="selectedCategory"
-            required
-            (selectionChange)="changeSelectCategory($event.value)">
-            <mat-option
+
+      <mat-form-field class="priceItem3" appearance="outline">
+        <mat-label>Giá sau giảm </mat-label>
+        <input
+          matInput type="number"
+          formControlName = "price_reduce"
+          [(ngModel)]="price_reduce"
+          value="{{price_reduce}}"
+          ngModel
+        >
+        <mat-label>% </mat-label>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="form_field" appearance="outline">
+      <mat-label>Kho hàng</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName = "quantity"
+        placeholder="Nhập số lượng hàng">
+        <mat-error *ngIf="form.get('quantity').hasError('required')">Không để trống ô này</mat-error>
+    </mat-form-field>
+
+    <section>
+      <mat-label>Thể loại</mat-label>
+        <div style="display: flex; border: 1px solid #e0e0e0; margin-top: 1rem; border-radius: 5px;">
+
+          <mat-selection-list
+            style="flex: 50%; height: 250px; overflow: auto;"
+            #category
+            [(value)] = 'categorySelect'
+            (selectionChange)="changeSelectCategory(category.selectedOptions.selected[0]?.value)"
+            [multiple]= 'false' >
+
+            <mat-list-option
+              class="selectCategory"
+              [ngValue]="categorySelect"
+              aria-selected="true"
               *ngFor="let category of categories"
               [value]="category.name"
               name = "category">
               {{category.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field style="padding-left: 2rem; flex: 50%;">
-          <mat-label>Dịch vụ</mat-label>
-          <mat-select
-            [(value)] = 'selectedCategoryService'>
-            <mat-option
+            </mat-list-option>
+
+          </mat-selection-list>
+
+          <mat-selection-list
+            style="flex: 50%; height: 250px; overflow: auto;"
+            #categoryService
+            aria-multiline="false"
+            [multiple]="false"
+            [(value)] = 'categoryServiceSelect'
+            (selectionChange)="getCategoryService(categoryService.selectedOptions.selected[0]?.value)">
+            <mat-list-option
+              class="selectCategoryService"
               *ngFor="let item of valueItem"
-              [value] = "item"
+              [value]="item"
               name = "categoryService">
               {{item}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+            </mat-list-option>
+          </mat-selection-list>
 
-      <div>
-        <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
-        <input type="file" #filePicker (change) = "onPickImage($event)">
       </div>
+      <p style="font-size: 14px; color: #999;">Đã chọn:
+        <span style="color: purple; font-weight: 500;">{{ categorySelect || category.selectedOptions.selected[0]?.value}}</span>
+        <span> > </span>
+        <span style="color: purple; font-weight: 500;">{{ categoryServiceSelect || categoryService.selectedOptions.selected[0]?.value}}</span> </p>
+    </section>
 
-      <div class="image">
-        <img [src]='ticket?.imagePath' [alt]='ticket?.title'>
+    <section style="padding-top: 1rem;">
+      <mat-label>Chọn hình ảnh</mat-label>
+
+      <div class="image_upload wrap">
+        <div 
+          style="padding-bottom: 2rem;" 
+          *ngFor="let item of imagePreview; index as indexOfelement;">
+
+          <div class="image_upload_item">
+            <mat-icon
+              class="icon_add"
+              mat-list-icon
+              (click)="filePicker.click()">add_circle_outline
+            </mat-icon>
+
+            <input type="file" #filePicker (change) = "onPickImage($event, indexOfelement)">
+            
+            <img 
+              [src]="imagePreview[indexOfelement]" 
+              [alt]="form.value.title" *ngIf="imagePreview[indexOfelement] !== '' && imagePreview[indexOfelement]">
+
+            <div style="text-align: center;" 
+              *ngIf="imagePreview[indexOfelement] !== '' && imagePreview[indexOfelement]">
+              <div class="action_image_icon">
+                <mat-icon mat-list-icon style="color: white; padding: 5px 0px;" (click)="deleteImage(indexOfelement)">delete</mat-icon>
+              </div>
+            </div>
+          </div>
+          <div class="explain-text" *ngIf="indexOfelement === 0">Ảnh bìa</div>
+          <div class="explain-text" *ngIf="indexOfelement !== 0">Ảnh {{indexOfelement}}</div>
+        </div>
+
       </div>
-      <div class="image_preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
-        <img [src]="imagePreview" [alt]="form.value.title">
-      </div>
-  
-      <button type="submit" mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">Save</button>
-  
-    </form>
-  </mat-card>
-  
+    </section> 
+
+    <div class="btn-action">
+      <button mat-stroked-button color="warn" class="btn-item">Hủy</button>
+      <button type="submit" mat-raised-button color="primary" class="btn-item">Lưu & hiển thị</button>
+    </div>
+
+    
+
+  </form>
+</mat-card>

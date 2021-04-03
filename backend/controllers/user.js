@@ -58,7 +58,8 @@ exports.userLogin = (req, res, next) => {
               token: token,
               expiresIn: 3600,
               userId: fetchUser._id,
-              username: fetchUser.username
+              username: fetchUser.username,
+              created_at: fetchUser.created_at
           })
 
       })
@@ -77,4 +78,8 @@ exports.getUsername = (req, res, next) => {
         res.status(404).json({ message: "Username not found!" });
         }
     });
+}
+
+exports.getInfoUser = (req, res, next) => {
+  
 }

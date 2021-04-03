@@ -13,6 +13,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -41,7 +44,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatDialogModule,
     MatSidenavModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule,
+    MatTabsModule,
+    MatDividerModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

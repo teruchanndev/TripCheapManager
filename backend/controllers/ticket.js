@@ -2,6 +2,11 @@ const Ticket = require("../models/ticket");
 
 exports.createTicket = (req, res, next) => {
   const url = req.protocol + '://' + req.get('host');
+  
+  const arr = [];
+  for(let i = 0; i<req.files.length; i++){
+    arr[i] = url + '/images/' + req.files[i].filename;
+  }
 
   const ticket = new Ticket({
     title: req.body.title,
@@ -14,7 +19,8 @@ exports.createTicket = (req, res, next) => {
     price_reduce: req.body.price_reduce,
     city: req.body.city,
     quantity: req.body.quantity,
-    imagePath: url + '/images/' + req.file.filename,
+    // imagePath: url + '/images/' + req.file.filename,
+    imagePath: arr,
     creator: req.userData.userId
   });
 
@@ -34,11 +40,25 @@ exports.createTicket = (req, res, next) => {
 }
 
 exports.updateTicket  = (req, res, next) => {
-  let imagePath = req.body.imagePath;
-  if (req.file) {
+  // console.log(req.files);
+  // let imagePath = req.body.imagePath;
+  const arr = [];
+  if (req.files) {
     const url = req.protocol + "://" + req.get("host");
-    imagePath = url + "/images/" + req.file.filename;
+   
+    for(let i = 0; i<req.files.length; i++){
+      arr[i] = url + '/images/' + req.files[i].filename;
+    }
+    // imagePath = arr;
   }
+
+  
+  
+  var imageOlds = JSON.parse(req.body.imageUrls);
+  var images = arr.concat(imageOlds);
+  console.log("-------------------------");
+  console.log(images);
+
   const ticket = new Ticket({
     _id: req.body.id,
     title: req.body.title,
@@ -51,8 +71,10 @@ exports.updateTicket  = (req, res, next) => {
     price_reduce: req.body.price_reduce,
     city: req.body.city,
     quantity: req.body.quantity,
-    imagePath: imagePath
+    imagePath: images
   });
+
+  console.log(ticket);
 
   Ticket.updateOne(
     { _id: req.params.id, creator: req.userData.userId },
@@ -66,13 +88,14 @@ exports.updateTicket  = (req, res, next) => {
 
   }).catch(error => {
     res.status(500).json({
-      message: "Couldn't update ticket!"
+      message: "Couldn't update ticket!" + error
     })
   })
 }
 
 exports.getAllTicket = (req, res, next) => {
-  Ticket.find().then(documents => {
+  
+  Ticket.find({creator: req.userData.userId}).then(documents => {
     res.status(200).json({
       message: "Tickets fetched successfully!",
       ticket: documents

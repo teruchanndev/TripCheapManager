@@ -13,7 +13,7 @@ const ticketSchema = mongoose.Schema({
   trademark: {type: String}, //thương hiệu
   quantity: { type: Number }, //số lượng
   // imagePath: {type: String, required: true },
-  imagePath: {type: String, required: true},
+  imagePath: {type: Array},
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
