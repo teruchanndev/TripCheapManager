@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
@@ -25,6 +26,8 @@ import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
 import { InformationComponent } from './infomations/information/information.component';
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -38,7 +41,7 @@ import { CreateInfoComponent } from './infomations/create-info/create-info.compo
     CategoryComponent,
     ErrorComponent,
     InformationComponent,
-    CreateInfoComponent,
+    CreateInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -51,12 +54,16 @@ import { CreateInfoComponent } from './infomations/create-info/create-info.compo
     HttpClientModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
-    AuthModule
+    AuthModule,
+    NgxMaterialTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorComponent]

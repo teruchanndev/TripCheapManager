@@ -29,6 +29,9 @@
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }
+.mat-form-field{
+  padding: 0 5px;
+}
 
 input[type="file"] {
   visibility: hidden;
@@ -128,3 +131,46 @@ img{
 .selectCategoryService[aria-selected="true"]{
   background-color: rgba(175,74,140, 0.2);
 }
+
+.mat-chip{
+  height: 50px;
+  font-size: 16px;
+  padding: 0 2rem;
+  background-color: #d5cedd;
+  color: purple;
+}
+
+.mat-standard-chip .mat-chip-remove.mat-icon{
+  color: red;
+}
+
+.time_select{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listIncluded{
+  display: flex;
+}
+
+.included{
+  flex: 50%;
+  padding: 0 10px;
+}
+
+.inputCustomer{
+  display: flex;
+}
+
+.inputCustomer_item{
+  padding: 0 10px;
+  flex: 45%;
+}
+.inputCustomer_item_btn{
+  flex: 10%;
+}
+
+.mat_chip_customer{
+  border: 3px solid purple;
+}
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CategoriesService } from '../categories.service';
-import { Category } from '../category.model';
+import { CategoriesService } from '../../services/categories.service';
+import { Category } from '../../modals/category.model';
 
 @Component({
   selector: 'app-category',

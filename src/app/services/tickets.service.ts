@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 
-import { Ticket } from './ticket.model';
+import { Ticket } from '../modals/ticket.model';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -12,7 +12,6 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
   private tickets: Ticket[] = [];
-  private ticketsFind: Ticket[] = [];
   private ticketsUpdated = new Subject<Ticket[]>();
   BACKEND_URL = environment.apiURL + '/tickets/';
 
@@ -38,7 +37,9 @@ export class TicketsService {
               city: ticket.city,
               quantity: ticket.quantity,
               imagePath: ticket.imagePath,
-              creator: ticket.creator
+              address: ticket.address,
+              creator: ticket.creator,
+              services: ticket.services
             };
           });
         })
@@ -67,7 +68,9 @@ export class TicketsService {
         categoryService: string;
         city: string;
         quantity: number;
-        imagePath: Array<string>,
+        address: string;
+        services: Array<object>;
+        imagePath: Array<string>;
         creator: string
       }>(this.BACKEND_URL + id);
   }
@@ -84,6 +87,8 @@ export class TicketsService {
     categoryService: string,
     city: string,
     quantity: number,
+    address: string,
+    services: Array<object>,
     image: Array<File> | Array<string>) {
 
       const ticketData = new FormData();
@@ -97,18 +102,20 @@ export class TicketsService {
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
+      ticketData.append('address', address);
+      ticketData.append('services',JSON.stringify(services));
 
       for(let file of image){
         ticketData.append('image', file);
       }
-      // ticketData.append('image', JSON.stringify(image), title);
+
     this.http
       .post<
         { message: string; ticket: Ticket }>
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
         this.getTickets();
-        this.router.navigate(['/list']);
+        this.router.navigate(['home/list']);
       });
       return ticketData;
   }
@@ -123,6 +130,8 @@ export class TicketsService {
     categoryService: string,
     city: string,
     quantity: number,
+    address: string,
+    services: Array<object>,
     imageUrls: Array<string>,
     image: Array<File> | Array<string>) {
     console.log(image);
@@ -141,33 +150,18 @@ export class TicketsService {
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
       ticketData.append('imageUrls', JSON.stringify(imageUrls));
+      ticketData.append('address', address);
+      ticketData.append('services',JSON.stringify(services));
       for(let file of image){
         // console.log(file);
         ticketData.append('image', file);
       }
 
-    // } else {
-    //   ticketData = {
-    //     id: id,
-    //     title: title,
-    //     content: content,
-    //     status: status,
-    //     price: price,
-    //     price_reduce: price_reduce,
-    //     percent: percent,
-    //     category: category,
-    //     categoryService: categoryService,
-    //     city: city,
-    //     quantity: quantity,
-    //     imagePath: image
-
-    //   };
-    // }
     console.log(ticketData);
     this.http
       .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
-        // this.router.navigate(['/']);
+        this.router.navigate(['home/list']);
       });
   }
 

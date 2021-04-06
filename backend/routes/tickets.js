@@ -1,9 +1,8 @@
 const express = require("express");
 
-
+const extractFile = require('../middleware/file');
 const checkAuth = require('../middleware/check-auth');
 const TicketController = require("../controllers/ticket");
-const extractFile = require('../middleware/file');
 
 const router = express.Router();
 
@@ -22,8 +21,6 @@ router.put("/:id",
 router.get("", checkAuth, TicketController.getAllTicket);
 
 router.get("/:id", TicketController.getOneTicket);
-
-router.get("/tickets/:creator", TicketController.getTicketOfCreator);
 
 router.delete("/:id", checkAuth, TicketController.deleteOneTicket);
 

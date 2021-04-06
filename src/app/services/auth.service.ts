@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthData } from './auth-data.model';
+import { AuthData } from '../modals/auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     createUser(email: string, password: string, username: string) {
-        const authData: AuthData = {email: email, password: password, username: username};
+        const authData: AuthData = {email: email, password: password, username: username, created_at: ''};
         this.http.post('http://localhost:3000/api/user/signup', authData)
             .subscribe(() => {
               this.router.navigate(['/login']);
@@ -53,7 +53,7 @@ export class AuthService {
     }
 
     login(email: string, password: string) {
-        const authData: AuthData = {email: email, password: password, username: ''};
+        const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
         console.log(authData);
         this.http.post<{token: string, expiresIn: number, userId: string, username: string, created_at: string }>(
           'http://localhost:3000/api/user/login',
@@ -75,7 +75,7 @@ export class AuthService {
                   const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                   console.log(expirationDate);
                   this.saveAuthData(token, expirationDate, this.userId, this.username, this.created_at);
-                  this.router.navigate(['/']);
+                  this.router.navigate(['/home']);
                 }
             }, error => {
               console.log('error ' + authData);

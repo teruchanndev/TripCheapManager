@@ -81,5 +81,61 @@ exports.getUsername = (req, res, next) => {
 }
 
 exports.getInfoUser = (req, res, next) => {
-  
+console.log('res: ' + req.userData.userId);
+  User.findById({_id: req.userData.userId})
+    .then(documents => {
+        if(documents) {
+            res.status(200).json(documents);
+        } else {
+            res.status(404).json({ message: "Not found!" });
+        }
+  }).catch(error => {
+      res.status(500).json({
+          message: "Fetching info user failed!"
+      })
+  })
+}
+
+exports.updateInfo = (req, res, next) => {
+    const url = req.protocol + "://" + req.get("host");
+
+    if(req.files.length >= 2) {
+        iAvt = url + '/images/' + req.files[0].filename;
+        iCover = url + '/images/' + req.files[1].filename;
+    } 
+    else if(req.files.length <= 0) {
+        iAvt = req.body.iAvt;
+        iCover = req.body.iCover;
+    } else {
+        if(req.body.iAvt){
+            iAvt = req.body.iAvt;
+            iCover = url + '/images/' + req.files[0].filename;
+        }
+        if(req.body.iCover){
+            iAvt = url + '/images/' + req.files[0].filename;
+            iCover = req.body.iCover;
+        }
+    }
+    const infoUser = new User({
+        _id: req.userData.userId,
+        nameShop: req.body.nameShop,
+        imageAvt: iAvt,
+        imageCover: iCover,
+        desShop: req.body.desShop
+    });
+
+    console.log(infoUser);
+
+    User.updateOne(
+        { _id: req.userData.userId}, infoUser
+    ).then(result => {
+        res.status(200).json({
+            message: 'Update info successful!',
+            userInfo: result
+        });
+    }).catch(error => {
+        res.status(500).json({
+            message: "Couldn't update info!" + error
+          })
+    })
 }

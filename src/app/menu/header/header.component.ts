@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../auth/auth.service';
-import { MenuService } from '../menu.service';
+import { User } from 'src/app/modals/user.modal';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-header',
@@ -22,8 +24,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubSubMenu = false;
   userId: string;
   username: string;
+  imageAvt: string = '';
+  user: User;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    public route: ActivatedRoute,
+    private userService: UserService
+    ) {}
 
 
   ngOnInit(): void {
@@ -37,6 +46,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
+    
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      this.userService.getInfoUser().subscribe(
+        infoData => {
+          this.user = {
+            username: infoData.username,
+            nameShop: infoData.nameShop,
+            imageAvt: infoData.imageAvt,
+            imageCover: infoData.imageCover,
+            desShop: infoData.desShop,
+            follower: infoData.follower,
+            watching: infoData.watching
+          }
+
+      });
+    });
+    this.imageAvt = this.user.imageAvt;
   }
 
   onLogout() {
@@ -50,7 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
   showChild(childPath) {
-    this.router.navigate(['', childPath]);
+    this.router.navigate(['home', childPath]);
   }
 
   mouseenter() {

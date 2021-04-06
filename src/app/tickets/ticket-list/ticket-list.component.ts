@@ -4,10 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 
-import { Ticket } from '../ticket.model';
-import { TicketsService } from '../tickets.service';
+import { Ticket } from '../../modals/ticket.model';
+import { TicketsService } from '../../services/tickets.service';
 import { ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
 
@@ -26,7 +26,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   userId: string;
   dataSource;
-  displayedColumns: string[] = ['title', 'category', 'city', 'image', 'price_reduce', 'edit', 'delete'];
+  displayedColumns: string[] = ['title', 'category', 'city', 'quantity', 'price_reduce', 'edit', 'delete'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

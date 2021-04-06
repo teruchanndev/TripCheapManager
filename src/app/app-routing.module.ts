@@ -14,17 +14,19 @@ import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 
 const routes: Routes = [
-
+  {path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: HeaderComponent, children: [
+  { path: 'home', component: HeaderComponent, children: [
     { path: 'list', component: TicketListComponent},
     { path: 'create', component: TicketCreateComponent},
     { path: 'list/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
-    { path: 'shop/setting', component: InformationComponent, canActivate: [AuthGuard] },
+    { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
     
   ] },
   { path: 'shop/info',component: CreateInfoComponent, canActivate: [AuthGuard] },

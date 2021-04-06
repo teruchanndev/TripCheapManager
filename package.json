@@ -34,6 +34,7 @@
     "multer-gridfs-storage": "^4.2.0",
     "ng2-search-filter": "^0.5.1",
     "ngx-mat-select-search": "^3.2.0",
+    "ngx-material-timepicker": "^5.5.3",
     "rxjs": "^6.6.7",
     "sweetalert2": "^10.15.7",
     "tslib": "^2.0.0",

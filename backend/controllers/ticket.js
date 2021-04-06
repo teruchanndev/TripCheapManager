@@ -7,7 +7,8 @@ exports.createTicket = (req, res, next) => {
   for(let i = 0; i<req.files.length; i++){
     arr[i] = url + '/images/' + req.files[i].filename;
   }
-
+  const lisService = JSON.parse("[" + req.body.services + "]");
+  // console.log(req);
   const ticket = new Ticket({
     title: req.body.title,
     content: req.body.content,
@@ -19,8 +20,10 @@ exports.createTicket = (req, res, next) => {
     price_reduce: req.body.price_reduce,
     city: req.body.city,
     quantity: req.body.quantity,
+    services: lisService,
     // imagePath: url + '/images/' + req.file.filename,
     imagePath: arr,
+    address: req.body.address,
     creator: req.userData.userId
   });
 
@@ -40,24 +43,17 @@ exports.createTicket = (req, res, next) => {
 }
 
 exports.updateTicket  = (req, res, next) => {
-  // console.log(req.files);
-  // let imagePath = req.body.imagePath;
+
   const arr = [];
   if (req.files) {
     const url = req.protocol + "://" + req.get("host");
-   
     for(let i = 0; i<req.files.length; i++){
       arr[i] = url + '/images/' + req.files[i].filename;
     }
-    // imagePath = arr;
   }
-
-  
-  
+  const lisService = JSON.parse("[" + req.body.services + "]");
   var imageOlds = JSON.parse(req.body.imageUrls);
   var images = arr.concat(imageOlds);
-  console.log("-------------------------");
-  console.log(images);
 
   const ticket = new Ticket({
     _id: req.body.id,
@@ -71,10 +67,10 @@ exports.updateTicket  = (req, res, next) => {
     price_reduce: req.body.price_reduce,
     city: req.body.city,
     quantity: req.body.quantity,
-    imagePath: images
+    imagePath: images,
+    address: req.body.address,
+    services: lisService
   });
-
-  console.log(ticket);
 
   Ticket.updateOne(
     { _id: req.params.id, creator: req.userData.userId },
@@ -88,7 +84,7 @@ exports.updateTicket  = (req, res, next) => {
 
   }).catch(error => {
     res.status(500).json({
-      message: "Couldn't update ticket!" + error
+      message: "Couldn't update ticket!"
     })
   })
 }
@@ -108,7 +104,7 @@ exports.getAllTicket = (req, res, next) => {
 }
 
 exports.getOneTicket = (req, res, next) => {
-  console.log(Ticket.findById(req.params.id));
+
   Ticket.findById(req.params.id).then(ticket => {
     if (ticket) {
       res.status(200).json(ticket);
@@ -119,21 +115,6 @@ exports.getOneTicket = (req, res, next) => {
     console.log(error);
     res.status(500).json({
       message: 'Fetching ticket failed!'
-    })
-  })
-}
-
-exports.getTicketOfCreator = (req, res, next) => {
-  console.log('hello');
-  console.log(req.params);
-  Ticket.find({creator: req.params.creator}).then(documents => {
-    res.status(200).json({
-      message: "Tickets fetched successfully!",
-      ticket: documents
-    });
-  }).catch(error => {
-    res.status(500).json({
-      message: 'Fetching tickets failed!'
     })
   })
 }

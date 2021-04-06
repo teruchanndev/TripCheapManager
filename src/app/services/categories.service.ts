@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
-import { Category } from './category.model';
+import { Category } from '../modals/category.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })

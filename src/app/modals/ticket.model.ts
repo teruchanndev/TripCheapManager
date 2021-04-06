@@ -10,5 +10,7 @@ export interface Ticket {
   price_reduce: number;
   city: string;
   quantity: number;
-  imagePath: Array<string>
+  imagePath: Array<string>;
+  address: string;
+  services: Array<object>;
 }

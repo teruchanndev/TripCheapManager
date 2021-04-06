@@ -16,6 +16,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -47,7 +50,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatAutocompleteModule,
     MatMenuModule,
     MatTabsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatStepperModule,
+    MatChipsModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

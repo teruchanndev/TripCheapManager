@@ -5,19 +5,16 @@
   </span>
   <span class="spacer"></span>
   <ul>
-    <li *ngIf='!userIsAuthenticated'>
-      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
-    </li>
-    <li *ngIf='!userIsAuthenticated'>
-      <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SignUp</a>
-    </li>
+	<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
 	<li *ngIf='userIsAuthenticated'>
 		<button 
 		mat-button
 		[matMenuTriggerFor]="menu"
-		routerLinkActive="mat-accent">{{username}}</button>
+		routerLinkActive="mat-accent">
+		<span>{{username}}</span>
+		</button>
 		<mat-menu #menu = "matMenu">
-			<button mat-menu-item routerLink="/shop/setting"> Hồ sơ shop </button>
+			<button mat-menu-item (click) = "showChild('setting')" > Hồ sơ shop </button>
 			<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
 		</mat-menu>
 	  </li>
@@ -30,16 +27,15 @@
 
 
 	<mat-sidenav
-    #sidenav
-    class="example-sidenav"
-    mode="side" opened="true"
-    (click)="mouseenter()" (mouseleave)="mouseleave()"
-	*ngIf="isExpanded"
-    >
+    	#sidenav
+    	class="example-sidenav"
+    	mode="side" opened="true"
+    	(click)="mouseenter()" (mouseleave)="mouseleave()"
+		*ngIf="isExpanded">
 		<mat-nav-list>
 			<mat-list-item>
 				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem; text-decoration: none;
-				color: purple; font-weight: 500;">TRAVEL Agency</span>
+				color: purple; font-weight: 500;">TripCheap Manager</span>
 			</mat-list-item>
 
 			<mat-list-item>

@@ -3,7 +3,7 @@
     <p style="font-size: 13px; color: #999;">Xem tình trạng Shop và cập nhật hồ sơ Shop của bạn.</p>
     <form 
     [formGroup] = 'form'
-    (submit)="onSaveInfo()">
+    >
 
         <mat-tab-group mat-align-tabs="start">
             <mat-tab label="Thông tin cơ bản" style="color: purple; font-weight: 500;">
@@ -37,7 +37,7 @@
                                 <input type="file" #filePickerAvt (change) = "onPickImageAvt($event)">
                                 <img 
                                     [src]="imagePreviewAvt" 
-                                    *ngIf="imagePreviewAvt !== '' && imagePreviewAvt && form.get('imageAvatar').valid">
+                                    *ngIf="imagePreviewAvt !== '' && imagePreviewAvt && form.get('imageAvt').valid">
                                 <button 
                                 mat-stroked-button 
                                 color="primary" 
@@ -45,7 +45,7 @@
                             </div>
                             <div class="info_user_des">
                                 <div>
-                                    <mat-list-item style="font-size: 18px; color: purple; font-weight: 500;">{{username}}</mat-list-item>
+                                    <mat-list-item style="font-size: 18px; color: purple; font-weight: 500;">{{username || ''}}</mat-list-item>
                                     <mat-list-item>Đã tham gia: {{createdAt}}</mat-list-item>
                                     <mat-list-item>Người theo dõi: </mat-list-item>
                                     <mat-list-item>Theo dõi: </mat-list-item>
@@ -88,7 +88,7 @@
 
         <div class="btn-action">
             <button mat-stroked-button color="warn" class="btn-item" style="margin-right: 1rem;">Hủy</button>
-            <button type="submit" mat-raised-button color="primary" class="btn-item">Lưu & hiển thị</button>
+            <button type="submit" mat-raised-button color="primary" class="btn-item" (click)="onSaveInfo()">Lưu & hiển thị</button>
           </div>
     </form>
 </mat-card>

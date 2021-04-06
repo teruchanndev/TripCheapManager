@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { City } from './city.model';
+import { City } from '../modals/city.model';
 
 @Injectable({ providedIn: 'root' })
 
