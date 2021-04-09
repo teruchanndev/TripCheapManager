@@ -276,6 +276,7 @@ export class TicketEditComponent implements OnInit {
 
   deleteImage(index: number) {
     this.imagePreview[index] = '';
+    this.imageUrls[index] = '';
   }
 
   formatDate(date) {
