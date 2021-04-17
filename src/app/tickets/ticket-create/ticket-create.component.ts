@@ -12,7 +12,7 @@ import { Ticket } from '../../modals/ticket.model';
 import { TicketsService } from '../../services/tickets.service';
 import { mimeType } from './mime-type.validator';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Service } from 'src/app/modals/service.modal';
+import { Service } from 'src/app/modals/service.model';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 

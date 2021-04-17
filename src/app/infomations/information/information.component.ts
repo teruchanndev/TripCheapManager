@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { mimeType } from '../../tickets/ticket-create/mime-type.validator';
-import { User } from '../../modals/user.modal';
+import { User } from '../../modals/user.model';
 import { UserService } from '../../services/user.service';
 
 @Component({

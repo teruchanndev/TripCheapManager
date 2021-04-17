@@ -51,6 +51,39 @@ export class TicketsService {
       });
   }
 
+  getAll() {
+    this.http
+      .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'all')
+      .pipe(
+        map(ticketData => {
+          console.log(ticketData);
+          return ticketData.ticket.map(ticket => {
+            return {
+              id: ticket._id,
+              title: ticket.title,
+              content: ticket.content,
+              status: ticket.status,
+              price: ticket.price,
+              price_reduce: ticket.price_reduce,
+              percent: ticket.percent,
+              category: ticket.category,
+              categoryService: ticket.categoryService,
+              city: ticket.city,
+              quantity: ticket.quantity,
+              imagePath: ticket.imagePath,
+              address: ticket.address,
+              creator: ticket.creator,
+              services: ticket.services
+            };
+          });
+        })
+      ).subscribe(transformedTickets => {
+        console.log(transformedTickets);
+        this.tickets = transformedTickets;
+        this.ticketsUpdated.next([...this.tickets]);
+      });
+  }
+
   getTicketUpdateListener() {
     return this.ticketsUpdated.asObservable();
   }
@@ -74,6 +107,42 @@ export class TicketsService {
         creator: string
       }>(this.BACKEND_URL + id);
   }
+
+  getTicketOfCity(city: string) {
+    console.log(city);
+    this.http
+      .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'city/' + city)
+      .pipe(
+        map(ticketData => {
+          console.log(ticketData);
+          return ticketData.ticket.map(ticket => {
+            return {
+              id: ticket._id,
+              title: ticket.title,
+              content: ticket.content,
+              status: ticket.status,
+              price: ticket.price,
+              price_reduce: ticket.price_reduce,
+              percent: ticket.percent,
+              category: ticket.category,
+              categoryService: ticket.categoryService,
+              city: ticket.city,
+              quantity: ticket.quantity,
+              imagePath: ticket.imagePath,
+              address: ticket.address,
+              creator: ticket.creator,
+              services: ticket.services
+            };
+          });
+        })
+      ).subscribe(transformedTickets => {
+        console.log(transformedTickets);
+        this.tickets = transformedTickets;
+        this.ticketsUpdated.next([...this.tickets]);
+      });
+  }
+
+
 
 
   addTicket(
@@ -103,9 +172,9 @@ export class TicketsService {
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
       ticketData.append('address', address);
-      ticketData.append('services',JSON.stringify(services));
+      ticketData.append('services', JSON.stringify(services));
 
-      for(let file of image){
+      for (const file of image) {
         ticketData.append('image', file);
       }
 
@@ -134,9 +203,8 @@ export class TicketsService {
     services: Array<object>,
     imageUrls: Array<string>,
     image: Array<File> | Array<string>) {
-    console.log(image);
+    // console.log(image);
     let ticketData: Ticket | FormData;
-    //if (typeof image === 'object') {
       ticketData = new FormData();
       ticketData.append('id', id);
       ticketData.append('title', title);
@@ -151,9 +219,8 @@ export class TicketsService {
       ticketData.append('quantity', JSON.stringify(quantity));
       ticketData.append('imageUrls', JSON.stringify(imageUrls));
       ticketData.append('address', address);
-      ticketData.append('services',JSON.stringify(services));
-      for(let file of image){
-        // console.log(file);
+      ticketData.append('services', JSON.stringify(services));
+      for (const file of image) {
         ticketData.append('image', file);
       }
 

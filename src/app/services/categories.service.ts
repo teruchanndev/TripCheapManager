@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
 
 export class CategoriesService {
     private categories: Category[] = [];
-    private categoriesUpdated = new Subject<Category[]>(); 
+    private categoriesUpdated = new Subject<Category[]>();
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    getCategories(){
+    getCategories() {
         this.http
             .get<{ message: string; category: any}>('http://localhost:3000/api/categories')
             .pipe(
@@ -37,5 +37,5 @@ export class CategoriesService {
         return this.categoriesUpdated.asObservable();
     }
 
-    
+
 }

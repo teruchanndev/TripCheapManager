@@ -1,0 +1,49 @@
+<mat-tab-group mat-align-tabs="center"  style="flex: 70%;">
+    <mat-tab *ngFor="let itemTab of ArrayOrderTotal; index as indexTab">
+        <ng-template mat-tab-label>
+            <span
+                matBadge="{{itemTab.arrOrders.length}}"
+                matBadgeSize="medium"
+                matBadgePosition="before" style="padding-left: 1rem;">{{itemTab.label}}</span>
+        </ng-template>
+
+        <section>
+            <div *ngIf="itemTab.arrOrders.length === 0" style="padding-top: 1rem; text-align: center;">
+              <span>Bạn chưa có {{itemTab.label}} nào! </span>
+            </div>
+            <button mat-button mat-stroked-button color="primary">{{'Tổng: ' + cost[indexTab] + 'đ'}}</button>
+            <mat-card *ngIf="itemTab.arrOrders.length !== 0">
+                <table>
+                    <tr>
+                        <th>Ngày đặt</th>
+                        <th>Tên vé</th>
+                        <th>Dịch vụ</th>
+                        <th  colspan="1">Số lượng</th>
+                        <th>Tổng tiền</th>
+                        <th *ngIf="indexTab === 0"  colspan="2">Xác nhận</th>
+                    </tr>
+                    <mat-divider></mat-divider>
+                    <tr *ngFor="let item of itemTab.arrOrders; index as i">
+                        <td rowspan={{item.orders.itemService.length}}>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
+                        <td rowspan={{item.orders.itemService.length}}>
+                            <label>{{item.orders.nameTicket}}</label>
+                        </td>
+                        <td rowspan={{item.orders.itemService.length}}>
+                            <label>{{item.orders.itemService[0].name}}</label>
+                        </td>
+                        <span *ngFor="let itemService of item.orders.itemService">
+                            <td><label>{{itemService.itemServiceName}}</label></td>
+                            <td><label>{{itemService.quantity}}</label></td>
+                        </span>
+                        <td rowspan={{item.orders.itemService.length}} style="width: 100px;">
+                            <div>{{item.price + 'đ'}}</div>
+                        </td>
+                        <td  *ngIf="indexTab === 0"><button mat-button mat-stroked-button color="warn"  style="width: 100%;" (click) = "CancelOrderManager(item.orders.id, item.orders.idCustomer)" >Hủy</button></td>
+                        <td  *ngIf="indexTab === 0 && !item.orders.isConfirm"><button mat-button mat-raised-button color="primary"  style="width: 100%;"  (click) = "ConfirmOrderManager(item.orders.id, item.orders.idCustomer, indexTab, i)" >Xác nhận</button></td>
+                    </tr>
+                   
+                </table>
+            </mat-card>
+        </section>
+    </mat-tab>
+</mat-tab-group>

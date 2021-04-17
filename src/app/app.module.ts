@@ -28,6 +28,8 @@ import { InformationComponent } from './infomations/information/information.comp
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { OrderListComponent, DialogSendMail } from './orders/order-list/order-list.component';
+import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
 
 
 @NgModule({
@@ -41,7 +43,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     CategoryComponent,
     ErrorComponent,
     InformationComponent,
-    CreateInfoComponent
+    CreateInfoComponent,
+    OrderListComponent,
+    OrderDetailComponent,
+    DialogSendMail
   ],
   imports: [
     BrowserModule,
