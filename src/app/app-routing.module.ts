@@ -10,25 +10,30 @@ import { CreateInfoComponent } from './infomations/create-info/create-info.compo
 import { InformationComponent } from './infomations/information/information.component';
 import { HeaderComponent } from './menu/header/header.component';
 import { OrderListComponent } from './orders/order-list/order-list.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 
 const routes: Routes = [
   {path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full',},
   
-    { path: 'login', component: LoginComponent },
-    { path: 'signup', component: SignupComponent },
-  { path: 'home', component: HeaderComponent, children: [
-    { path: 'list', component: TicketListComponent},
-    { path: 'create', component: TicketCreateComponent},
-    { path: 'list/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
-    { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
-    { path: 'order', component: OrderListComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: '', component: HeaderComponent, 
+    children: [
+      { path: 'home', component: DashboardComponent },
+      { path: 'ticket', component: TicketsComponent },
+      { path: 'list', component: TicketListComponent },
+      { path: 'ticket/create', component: TicketCreateComponent },
+      { path: 'ticket/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
+      { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
+      { path: 'order', component: OrderListComponent},
     
-  ] },
+    ] },
   { path: 'shop/info',component: CreateInfoComponent, canActivate: [AuthGuard] },
   
 ];

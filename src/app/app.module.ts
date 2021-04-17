@@ -30,6 +30,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OrderListComponent, DialogSendMail } from './orders/order-list/order-list.component';
 import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TicketsComponent } from './pages/tickets/tickets.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 
 @NgModule({
@@ -46,7 +49,10 @@ import { OrderDetailComponent } from './orders/order-detail/order-detail.compone
     CreateInfoComponent,
     OrderListComponent,
     OrderDetailComponent,
-    DialogSendMail
+    DialogSendMail,
+    DashboardComponent,
+    TicketsComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

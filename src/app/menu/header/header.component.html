@@ -14,7 +14,7 @@
 		<span>{{username}}</span>
 		</button>
 		<mat-menu #menu = "matMenu">
-			<button mat-menu-item (click) = "showChild('setting')" > Hồ sơ shop </button>
+			<button mat-menu-item routerLink="setting"> Hồ sơ shop </button>
 			<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
 		</mat-menu>
 	  </li>
@@ -33,39 +33,29 @@
     	(click)="mouseenter()" (mouseleave)="mouseleave()"
 		*ngIf="isExpanded">
 		<mat-nav-list>
-			<mat-list-item>
-				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem; text-decoration: none;
-				color: purple; font-weight: 500;">TripCheap Manager</span>
+			<mat-list-item style="padding-bottom: 1rem;">
+				<span>
+					<button mat-icon-button routerLink="/home">
+					  <h1 class="logo_detail" style="color: rgb(153, 44, 255);"><span style="color: rgb(102, 160, 247);">Trip</span>Cheap</h1>
+					</button>
+				  </span>
 			</mat-list-item>
 
-			<mat-list-item>
+			<mat-list-item routerLink="home">
+				<span class="material-icons">space_dashboard</span>
 				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem;">Dashboard</span>
-				<mat-icon mat-list-icon s>space_dashboard</mat-icon>
 			</mat-list-item>
 
-			<mat-expansion-panel>
-				<mat-expansion-panel-header >
-				<mat-panel-title>
-					<mat-icon mat-list-icon purple>bookmarks</mat-icon>
-					<span class="full-width" *ngIf="isExpanded || isShowing">Quản lý vé</span>
-				</mat-panel-title>
-				</mat-expansion-panel-header>
+			<mat-list-item routerLink="ticket">
+				<span class="material-icons">confirmation_number</span>
+				<span class="full-width" *ngIf="isExpanded || isShowing"  style="padding-left: 1rem;">Quản lý vé</span>
+			</mat-list-item>
 
-				<a mat-list-item (click) = "showChild('list')">Tất cả vé</a>
-				<a mat-list-item (click) = "showChild('create')">Thêm vé </a>
-			</mat-expansion-panel>
 
-			<mat-expansion-panel>
-				<mat-expansion-panel-header>
-				<mat-panel-title>
-					<mat-icon mat-list-icon purple>shopping_bag</mat-icon>
-					<span class="full-width" *ngIf="isExpanded || isShowing">Quản Lý Đơn</span>
-				</mat-panel-title>
-				</mat-expansion-panel-header>
-				<a mat-list-item routerLink="order">Tất cả</a>
-				<a mat-list-item href="...">Đơn mới </a>
-				<a mat-list-item href="...">Đơn hủy </a>
-			</mat-expansion-panel>
+			<mat-list-item routerLink="order">
+				<span class="material-icons">local_mall</span>
+				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem;">Quản Lý Đơn</span>
+			</mat-list-item>
 
 		</mat-nav-list>
 

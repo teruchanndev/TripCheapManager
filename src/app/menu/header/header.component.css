@@ -43,3 +43,16 @@ mat-icon{
 .menu-button.rotated {
   transform: rotate(180deg);
 }
+
+.logo_detail {
+  font-weight: bolder;
+  font-size: 30px;
+}
+
+.mat-list-item:focus {
+  background-color: rgb(252, 224, 229);
+  color: rgb(61, 40, 80);
+}
+.material-icons {
+  color: rgb(93, 56, 128);
+}

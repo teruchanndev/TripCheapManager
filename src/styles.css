@@ -2,3 +2,15 @@
 
 body { margin: 0; }
 .material-icons.orange600 { color: #FB8C00; }
+
+* {
+    font-family: 'Quicksand', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+p {
+    line-height: 1.5rem;
+}
+
+li {
+    list-style-type: none;
+}
