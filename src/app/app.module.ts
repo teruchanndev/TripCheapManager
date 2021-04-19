@@ -33,6 +33,8 @@ import { OrderDetailComponent } from './orders/order-detail/order-detail.compone
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { TicketsCreateFromImageComponent } from './tickets/tickets-create-from-image/tickets-create-from-image.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     DialogSendMail,
     DashboardComponent,
     TicketsComponent,
-    OrdersComponent
+    OrdersComponent,
+    TicketsCreateFromImageComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
     AuthModule,
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    ImageCropperModule 
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

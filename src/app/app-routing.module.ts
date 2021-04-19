@@ -15,6 +15,7 @@ import { TicketsComponent } from './pages/tickets/tickets.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
+import { TicketsCreateFromImageComponent } from './tickets/tickets-create-from-image/tickets-create-from-image.component';
 
 const routes: Routes = [
   {path: '',
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: 'ticket', component: TicketsComponent },
       { path: 'list', component: TicketListComponent },
       { path: 'ticket/create', component: TicketCreateComponent },
+      { path: 'ticket/create-upload-image', component: TicketsCreateFromImageComponent },
       { path: 'ticket/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
       { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
       { path: 'order', component: OrderListComponent},

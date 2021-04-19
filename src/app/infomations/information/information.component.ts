@@ -97,11 +97,13 @@ export class InformationComponent implements OnInit, OnDestroy {
 
   onPickImage(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
+    console.log(file);
     this.form.patchValue({imageCover: file});
     this.form.get('imageCover').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
+      // console.log(reader.result);
       this.imageStorage = this.form.value.imageCover;
     };
     reader.readAsDataURL(file);

@@ -44,7 +44,7 @@ export class EmailService {
       .subscribe(responseData => {
         console.log(responseData);
       });
-        console.log(emailData);
+    console.log(emailData);
     return emailData;
   }
 

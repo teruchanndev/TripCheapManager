@@ -1,6 +1,6 @@
 <mat-card>
     <button mat-stroked-button color="primary" [routerLink]="['create']">Tự tạo vé mới</button>
-    <button mat-stroked-button color="warn">Nhập từ file excel</button>
-    <button mat-stroked-button color="accent">Nhập từ file pdf/png</button>
+    <button mat-stroked-button color="warn" >Nhập từ file excel</button>
+    <button mat-stroked-button color="accent" [routerLink] = "['create-upload-image']">Nhập từ file pdf/png</button>
 </mat-card>
 <app-ticket-list></app-ticket-list>

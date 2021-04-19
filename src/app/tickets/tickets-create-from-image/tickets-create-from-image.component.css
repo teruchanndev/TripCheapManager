@@ -1,0 +1,147 @@
+.mat-form-field {
+    width: 100%;
+}
+
+
+input[type="file"] {
+    visibility: hidden;
+  }
+  
+  
+  .image_preview{
+    margin: 1rem 0;
+  }
+  
+  .image_preview img {
+    height: 111px;
+    width: 111px;
+    width: auto;
+    background-size: contain;
+  }
+  img{
+    height: 111px;
+    width: 111px;
+    background-size: cover;
+    bottom: 2px;
+    position: absolute;
+  }
+  .image_upload{
+    padding: 0;
+    justify-content: center;
+    padding: 1rem 0;
+    list-style: none;
+    border: 1px solid silver;
+    border-radius: 5px;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+  }
+  
+  .wrap    {
+    margin-top: 1rem;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  
+  .image_upload_item{
+    cursor:pointer;
+    position: relative;
+    width: 111px;
+    height: 111px;
+    border: 1px dashed purple;
+    padding: 2px;
+    margin: 1rem;
+  }
+  
+  .image_upload_item:hover{
+    background-color: rgba(175,74,140, 0.2);
+  }
+  
+  .icon_add{
+    position: absolute;
+    top: 40%;
+    color: purple;
+    width: 111px;
+    height: 111px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .action_image_icon{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    position: absolute;
+    bottom: 0%;
+    margin-left: -2px;
+  }
+  
+  .explain-text{
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .btn-action{
+    display: flex;
+  }
+  
+  .btn-item{
+    margin: 2rem 1rem;
+    flex: 30%;
+  
+  }
+  
+  .selectCategory[aria-selected="true"]{
+    background-color: rgba(175,74,140, 0.2);
+  }
+  
+  .selectCategoryService[aria-selected="true"]{
+    background-color: rgba(175,74,140, 0.2);
+  }
+  
+  .mat-chip{
+    height: 50px;
+    font-size: 16px;
+    padding: 0 2rem;
+    background-color: #d5cedd;
+    color: purple;
+  }
+  
+  .mat-standard-chip .mat-chip-remove.mat-icon{
+    color: red;
+  }
+  
+  .time_select{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .listIncluded{
+    display: flex;
+  }
+  
+  .included{
+    flex: 50%;
+    padding: 0 10px;
+  }
+  
+  .inputCustomer{
+    display: flex;
+  }
+  
+  .inputCustomer_item{
+    padding: 0 10px;
+    flex: 45%;
+  }
+  .inputCustomer_item_btn{
+    flex: 10%;
+  }
+  
+  .mat_chip_customer{
+    border: 3px solid purple;
+  }
+  

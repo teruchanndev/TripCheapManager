@@ -1,28 +1,28 @@
 <mat-sidenav-container class="example-container">
-<mat-toolbar class="example-toolbar" *ngIf='userIsAuthenticated'>
-  <span>
-    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-  </span>
-  <span class="spacer"></span>
-  <ul>
-	<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
-	<li *ngIf='userIsAuthenticated'>
-		<button
-		mat-button
-		[matMenuTriggerFor]="menu"
-		routerLinkActive="mat-accent">
-		<span>{{username}}</span>
-		</button>
-		<mat-menu #menu = "matMenu">
-			<button mat-menu-item routerLink="setting"> Hồ sơ shop </button>
-			<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
-		</mat-menu>
-	  </li>
-    <!-- <li *ngIf='userIsAuthenticated'>
-      <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
-    </li> -->
-  </ul>
-</mat-toolbar>
+	<mat-toolbar class="example-toolbar" *ngIf='userIsAuthenticated'>
+	<span>
+		<button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+	</span>
+	<span class="spacer"></span>
+	<ul>
+		<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
+		<li *ngIf='userIsAuthenticated'>
+			<button
+			mat-button
+			[matMenuTriggerFor]="menu"
+			routerLinkActive="mat-accent">
+			<span>{{username}}</span>
+			</button>
+			<mat-menu #menu = "matMenu">
+				<button mat-menu-item routerLink="setting"> Hồ sơ shop </button>
+				<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
+			</mat-menu>
+		</li>
+		<!-- <li *ngIf='userIsAuthenticated'>
+		<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
+		</li> -->
+	</ul>
+	</mat-toolbar>
 
 
 

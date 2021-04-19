@@ -115,33 +115,33 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   CancelOrderManager(idOrder, idCustomer) {
+
     this.customerService.getInfoCustomerFromManager(idCustomer).subscribe(
       infoCustomer => {
         this.emailCustomer = infoCustomer.email;
       });
 
     setTimeout(() => {
-
-      this.emailService.sendEmail(
-        this.emailCustomer,
-        'tripcheap.pay@gmail.com',
-        'Thông báo hủy đơn hàng - TripCheap',
-        'this is email from TripCheap team.',
-        'hello'
-      );
+      // this.emailService.sendEmail(
+      //   this.emailCustomer,
+      //   'tripcheap.pay@gmail.com',
+      //   'Thông báo hủy đơn hàng - TripCheap',
+      //   'this is email from TripCheap team.',
+      //   'hello'
+      // );
       const dialogRef = this.dialog.open(DialogSendMail, {
         width: '250px',
         data: {content: this.content}
       });
       dialogRef.afterClosed().subscribe(result => {
         this.content = result;
-        // this.emailService.sendEmail(
-        //   this.emailCustomer,
-        //   'tripcheap.pay@gmail.com',
-        //   'Thông báo hủy đơn hàng - TripCheap',
-        //   'this is email from TripCheap team.',
-        //   this.content
-        // );
+        this.emailService.sendEmail(
+          this.emailCustomer,
+          'tripcheap.pay@gmail.com',
+          'Thông báo hủy đơn hàng - TripCheap',
+          'this is email from TripCheap team.',
+          this.content
+        );
     
         this.orderService.updateIsSuccessOrder(idOrder, true, false);
         this._document.defaultView.location.reload();
