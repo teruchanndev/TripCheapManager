@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Ticket } from 'src/app/modals/ticket.model';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -8,6 +9,8 @@ import * as XLSX from 'xlsx';
 })
 export class DashboardComponent implements OnInit {
 
+  ticket: Ticket;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -15,13 +18,13 @@ export class DashboardComponent implements OnInit {
 
   arrayBuffer:any;
   file:File;
-  incomingfile(event) 
+  incomingfile(event)
   {
-    this.file= event.target.files[0]; 
+    this.file= event.target.files[0];
   }
 
   Upload() {
-      let fileReader = new FileReader();
+    let fileReader = new FileReader();
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
             var data = new Uint8Array(this.arrayBuffer);
@@ -29,12 +32,10 @@ export class DashboardComponent implements OnInit {
             for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             var bstr = arr.join("");
             var workbook = XLSX.read(bstr, {type:"binary"});
-            for(let item of workbook.SheetNames) {
-              // var first_sheet_name = workbook.SheetNames[1];
-              var worksheet = workbook.Sheets[item];
-              console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
-            }
-            
+            var first_sheet_name = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[first_sheet_name];
+            var row = XLSX.utils.sheet_to_json(worksheet,{raw:true});
+            console.log(row[0]['address']);
         }
         fileReader.readAsArrayBuffer(this.file);
   }

@@ -24,11 +24,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubSubMenu = false;
   userId: string;
   username: string;
-  imageAvt: string = '';
+  imageAvt: String = '';
   user: User;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
     private userService: UserService
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.userService.getInfoUser().subscribe(
         infoData => {
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             desShop: infoData.desShop,
             follower: infoData.follower,
             watching: infoData.watching
-          }
+          };
 
       });
     });

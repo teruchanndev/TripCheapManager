@@ -5,7 +5,6 @@ ul {
   margin: 0;
 }
 
-
 .spacer {
   flex: 1 1 auto;
 }
@@ -31,6 +30,7 @@ mat-icon{
   justify-content: center;
 }
 .example-sidenav {
+  width: 15%;
    user-select: none;
 }
 .full-width {
@@ -46,7 +46,8 @@ mat-icon{
 
 .logo_detail {
   font-weight: bolder;
-  font-size: 30px;
+  font-size: 25px;
+  padding: 1rem;
 }
 
 .mat-list-item:focus {

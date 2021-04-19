@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-    BACKEND_URL = environment.apiURL;
+    BACKEND_URL = environment.apiURL + '/user/';
     private token: String;
     private authStatusListener = new Subject<boolean>();
     private isAuthenticated = false;
@@ -44,7 +44,7 @@ export class AuthService {
 
     createUser(email: string, password: string, username: string) {
         const authData: AuthData = {email: email, password: password, username: username, created_at: ''};
-        this.http.post('http://localhost:3000/api/user/signup', authData)
+        this.http.post(this.BACKEND_URL + 'signup', authData)
             .subscribe(() => {
               this.router.navigate(['/login']);
             }, error => {
@@ -56,7 +56,7 @@ export class AuthService {
         const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
         console.log(authData);
         this.http.post<{token: string, expiresIn: number, userId: string, username: string, created_at: string }>(
-          'http://localhost:3000/api/user/login',
+          this.BACKEND_URL + 'login',
           authData
           )
             .subscribe(response => {

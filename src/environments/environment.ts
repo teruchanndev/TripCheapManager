@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:3000/api'
+  apiURL: 'https://tripcheap-2f380.web.app/api'
 };
 
 /*

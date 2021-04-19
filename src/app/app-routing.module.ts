@@ -19,11 +19,11 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
 const routes: Routes = [
   {path: '',
     redirectTo: 'home',
-    pathMatch: 'full',},
-  
+    pathMatch: 'full', },
+
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: '', component: HeaderComponent, 
+  { path: '', component: HeaderComponent,
     children: [
       { path: 'home', component: DashboardComponent },
       { path: 'ticket', component: TicketsComponent },
@@ -32,10 +32,10 @@ const routes: Routes = [
       { path: 'ticket/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
       { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
       { path: 'order', component: OrderListComponent},
-    
+
     ] },
-  { path: 'shop/info',component: CreateInfoComponent, canActivate: [AuthGuard] },
-  
+  { path: 'shop/info', component: CreateInfoComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({

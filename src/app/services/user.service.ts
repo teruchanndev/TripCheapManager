@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { environment } from "src/environments/environment";
-import { User } from "../modals/user.model";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { User } from '../modals/user.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,7 @@ export class UserService {
     private infoUserUpdated = new Subject<User[]>();
     BACKEND_URL = environment.apiURL + '/user/';
 
-    UrlAvt : string;
+    UrlAvt: string;
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -38,15 +38,15 @@ export class UserService {
     ) {
         let infoData: User | FormData;
 
-        
+
             infoData = new FormData();
             infoData.append('nameShop', nameShop);
-            if(typeof iAvt === 'string') {
+            if (typeof iAvt === 'string') {
                 infoData.append('iAvt', iAvt);
             } else {
                 infoData.append('image', iAvt);
             }
-            if(typeof iCover === 'string') {
+            if (typeof iCover === 'string') {
                 infoData.append('iCover', iCover);
             } else {
                 infoData.append('image', iCover);
@@ -54,7 +54,7 @@ export class UserService {
             // infoData.append('image', iAvt);
             // infoData.append('image', iCover);
             infoData.append('desShop', desShop);
-        
+
         console.log(infoData);
 
         this.http.put(this.BACKEND_URL + 'info/edit', infoData)
@@ -63,7 +63,7 @@ export class UserService {
         });
     }
 
-    getAvatar(){
+    getAvatar() {
         return this.UrlAvt;
     }
 }

@@ -7,7 +7,7 @@
   <ul>
 	<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
 	<li *ngIf='userIsAuthenticated'>
-		<button 
+		<button
 		mat-button
 		[matMenuTriggerFor]="menu"
 		routerLinkActive="mat-accent">
@@ -33,7 +33,7 @@
     	(click)="mouseenter()" (mouseleave)="mouseleave()"
 		*ngIf="isExpanded">
 		<mat-nav-list>
-			<mat-list-item style="padding-bottom: 1rem;">
+			<mat-list-item style="padding-bottom: 2rem;">
 				<span>
 					<button mat-icon-button routerLink="/home">
 					  <h1 class="logo_detail" style="color: rgb(153, 44, 255);"><span style="color: rgb(102, 160, 247);">Trip</span>Cheap</h1>

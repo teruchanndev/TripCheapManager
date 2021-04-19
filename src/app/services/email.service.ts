@@ -28,7 +28,7 @@ export class EmailService {
   ) {
     // tslint:disable-next-line:prefer-const
     let emailData: Email | FormData;
-    
+
     emailData = {
         to: to,
         from: from,
