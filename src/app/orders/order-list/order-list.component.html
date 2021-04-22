@@ -41,8 +41,10 @@
                         <td  *ngIf="indexTab === 0"><button mat-button mat-stroked-button color="warn"  style="width: 100%;" (click) = "CancelOrderManager(item.orders.id, item.orders.idCustomer)" >Hủy</button></td>
                         <td  *ngIf="indexTab === 0 && !item.orders.isConfirm"><button mat-button mat-raised-button color="primary"  style="width: 100%;"  (click) = "ConfirmOrderManager(item.orders.id, item.orders.idCustomer, indexTab, i)" >Xác nhận</button></td>
                     </tr>
-                   
+
                 </table>
+                <!-- <img #canvas>
+                <qrcode #qrcode [qrdata]="'Your data'" [width]="256" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode> -->
             </mat-card>
         </section>
     </mat-tab>

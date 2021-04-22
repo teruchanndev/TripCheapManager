@@ -4,8 +4,6 @@ import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
-
-import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { InformationComponent } from './infomations/information/information.component';
 import { HeaderComponent } from './menu/header/header.component';
@@ -15,11 +13,12 @@ import { TicketsComponent } from './pages/tickets/tickets.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
+import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-excel/tickets-create-from-excel.component';
 import { TicketsCreateFromImageComponent } from './tickets/tickets-create-from-image/tickets-create-from-image.component';
 
 const routes: Routes = [
   {path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full', },
 
   { path: 'login', component: LoginComponent },
@@ -31,6 +30,7 @@ const routes: Routes = [
       { path: 'list', component: TicketListComponent },
       { path: 'ticket/create', component: TicketCreateComponent },
       { path: 'ticket/create-upload-image', component: TicketsCreateFromImageComponent },
+      { path: 'ticket/create-upload-excel', component: TicketsCreateFromExcelComponent },
       { path: 'ticket/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
       { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
       { path: 'order', component: OrderListComponent},

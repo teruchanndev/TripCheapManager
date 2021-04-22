@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { EmailService } from 'src/app/services/email.service';
 import { OrdersService } from 'src/app/services/order.service';
+import html2canvas from 'html2canvas';
+import { Customer } from 'src/app/modals/customer.model';
+import { QRCodeModule, QRCodeComponent } from 'angularx-qrcode';
 
 export interface ArrayOrder {
   orders: Order;
@@ -32,6 +35,9 @@ export interface DialogData {
 })
 
 export class OrderListComponent implements OnInit, OnDestroy {
+
+  // @ViewChild('canvas') canvas: ElementRef;
+  // @ViewChild('qrcode') qrcode: QRCodeComponent;
 
   private orderListenerSubs: Subscription;
 
@@ -61,7 +67,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public emailService: EmailService
   ) { }
-  
+
 
   ngOnInit(): void {
     this.authService.autoAuthUser();
@@ -85,15 +91,15 @@ export class OrderListComponent implements OnInit, OnDestroy {
         }
 
         this.listTabValue.push(this.ArrOrders.filter(
-          element => !element.orders.status && !element.orders.isCancel && !element.orders.isSuccess)); //mới
+          element => !element.orders.status && !element.orders.isCancel && !element.orders.isSuccess)); // mới
         this.listTabValue.push(this.ArrOrders.filter(
-          element => element.orders.status)); //đã hoàn thành
+          element => element.orders.status)); // đã hoàn thành
         this.listTabValue.push(this.ArrOrders.filter(
-          element => element.orders.isSuccess)); //đã hủy
+          element => element.orders.isSuccess)); // đã hủy
         this.listTabValue.push(this.ArrOrders.filter(
-          element => element.orders.isCancel)); //bị hủy
+          element => element.orders.isCancel)); // bị hủy
 
-        
+
         for (let i = 0; i < 4; i++) {
           this.ArrayOrderTotal[i] = {
             label: this.labels[i],
@@ -101,10 +107,10 @@ export class OrderListComponent implements OnInit, OnDestroy {
             isConfirm: Array(this.listTabValue[i].length).fill(false)
           };
         }
-        //tổng cost mỗi tab
-        for(let i = 0;i < 4 ; i++) {
+        // tổng cost mỗi tab
+        for (let i = 0; i < 4 ; i++) {
           let sum = 0;
-          for(let j = 0; j < this.ArrayOrderTotal[i].arrOrders.length; j++) {
+          for (let j = 0; j < this.ArrayOrderTotal[i].arrOrders.length; j++) {
             sum += this.ArrayOrderTotal[i].arrOrders[j].priceNumber;
           }
           this.cost.push(sum.toLocaleString('en-us', {minimumFractionDigits: 2}));
@@ -114,7 +120,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
       });
   }
 
-  CancelOrderManager(idOrder, idCustomer) {
+  CancelOrderManager(idOrder: string, idCustomer: string) {
 
     this.customerService.getInfoCustomerFromManager(idCustomer).subscribe(
       infoCustomer => {
@@ -122,13 +128,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
       });
 
     setTimeout(() => {
-      // this.emailService.sendEmail(
-      //   this.emailCustomer,
-      //   'tripcheap.pay@gmail.com',
-      //   'Thông báo hủy đơn hàng - TripCheap',
-      //   'this is email from TripCheap team.',
-      //   'hello'
-      // );
       const dialogRef = this.dialog.open(DialogSendMail, {
         width: '250px',
         data: {content: this.content}
@@ -142,25 +141,30 @@ export class OrderListComponent implements OnInit, OnDestroy {
           'this is email from TripCheap team.',
           this.content
         );
-    
+
         this.orderService.updateIsSuccessOrder(idOrder, true, false);
         this._document.defaultView.location.reload();
       });
     }, 1000);
   }
 
-  ConfirmOrderManager(idOrder, idCustomer, indexTab, i) {
+  ConfirmOrderManager(idOrder: any, idCustomer: any, indexTab: any, i: any) {
+    // console.log(this.qrcode.qrcElement.nativeElement);
+  //  html2canvas(this.qrcode).then(canvas => {
+  //     this.canvas.nativeElement.src = canvas.toDataURL();
+  //     this.canvas.nativeElement.href = canvas.toDataURL('image/png');
+  //   });
     // this.emailService.sendEmail(
-        //   this.emailCustomer,
-        //   'tripcheap.pay@gmail.com',
-        //   'Thông báo hủy đơn hàng - TripCheap',
-        //   'this is email from TripCheap team.',
-        //   this.content
-        // );
-    
-    this.ArrayOrderTotal[indexTab].isConfirm[i] = true;
-    this.orderService.updateIsSuccessOrder(idOrder, false, true);
-    this._document.defaultView.location.reload();
+    //       this.emailCustomer,
+    //       'tripcheap.pay@gmail.com',
+    //       'Thông báo hủy đơn hàng - TripCheap',
+    //       'this is email from TripCheap team.',
+    //       this.content
+    //     );
+
+    // this.ArrayOrderTotal[indexTab].isConfirm[i] = true;
+    // this.orderService.updateIsSuccessOrder(idOrder, false, true);
+    // this._document.defaultView.location.reload();
   }
 
   ngOnDestroy(): void {
@@ -170,9 +174,11 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'dialog-send-mail',
   templateUrl: 'dialog-send-mail.html',
 })
+// tslint:disable-next-line:component-class-suffix
 export class DialogSendMail {
 
   constructor(

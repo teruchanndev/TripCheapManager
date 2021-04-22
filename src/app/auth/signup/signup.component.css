@@ -2,6 +2,23 @@
     width: 100%;
   }
 .mat-card{
-    width: 30%;
-    margin: 0 auto;
+  width: 30%;
+  margin: 0 auto;
+  box-shadow: 0 0 20px #e2e1e1;
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.form_signup {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo_detail {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 25px;
+  padding: 1rem;
 }

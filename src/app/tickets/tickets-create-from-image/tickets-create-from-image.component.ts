@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { base64ToFile, Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { createWorker } from 'tesseract.js';
-import * as Tesseract from 'tesseract.js'
+import * as Tesseract from 'tesseract.js';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { Category } from 'src/app/modals/category.model';
 import { City } from 'src/app/modals/city.model';
@@ -45,7 +45,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
   placeholderTime: string;
   services: Service[] = [];
 
-  daySelect : string;
+  daySelect: string;
   isSelectDayAct = false;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   daysAct = ['Từ Thứ 2 - Chủ Nhật', 'Từ Thứ 2 - Thứ 6', 'Thứ 7 - Chủ Nhật', 'Ngày Khác'];
@@ -57,7 +57,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
   listNotInclude = [];
   lisCustomer = [];
 
-   //services
+   // services
    isEditable = false;
    isShow = 'none';
    isSelectDay = '';
@@ -65,7 +65,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
    addOnBlur = true;
    selectable = true;
    removable = true;
-   mode = -1; 
+   mode = -1;
 
   // image/crop/...
   imageChangedEvent: any = '';
@@ -76,9 +76,9 @@ export class TicketsCreateFromImageComponent implements OnInit {
   showCropper = false;
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
-  ocrResult = "Recognizing...";
+  ocrResult = 'Recognizing...';
   isShowImage = false;
-  
+
 
   constructor(
     public ticketsService: TicketsService,
@@ -109,7 +109,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
       timeStart: new FormControl(null, {}),
       timeStop: new FormControl(null, {}),
       dayActive: new FormControl(null, {}),
-      dateStart: new FormControl(null, {}), 
+      dateStart: new FormControl(null, {}),
       dateEnd: new FormControl(null, {}),
       included: new FormControl(null, {}),
       notIncluded: new FormControl(null, {}),
@@ -179,7 +179,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
 
     // FORMAR DATE TO DD/MM/YYYY
     formatDate(date) {
-      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+      return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
     }
 
     // CAL PRICE IS REDUCE
@@ -187,15 +187,14 @@ export class TicketsCreateFromImageComponent implements OnInit {
       this.price_reduce = this.price - (this.price * this.percent) / 100;
     }
 
-    
-    isShowFormService(){
-      if(this.isShow === 'block') this.isShow = 'none';
-      else this.isShow = 'block';
+
+    isShowFormService() {
+      if (this.isShow === 'block') { this.isShow = 'none'; } else { this.isShow = 'block'; }
     }
 
     // CHECK DATE ACTIVE
     CheckValueDay(event) {
-      if(this.daySelect === 'Ngày Khác') {
+      if (this.daySelect === 'Ngày Khác') {
         this.isSelectDayAct = true;
       } else {
         this.isSelectDayAct = false;
@@ -203,9 +202,9 @@ export class TicketsCreateFromImageComponent implements OnInit {
       }
     }
 
-    //CHECK RANGER DATE
+    // CHECK RANGER DATE
     checkRangerDate() {
-      this.dayChoose = this.formatDate(this.formService.value.dateStart) + "and" +  this.formatDate(this.formService.value.dateEnd);
+      this.dayChoose = this.formatDate(this.formService.value.dateStart) + 'and' +  this.formatDate(this.formService.value.dateEnd);
       console.log(this.dayChoose);
     }
 
@@ -236,14 +235,14 @@ export class TicketsCreateFromImageComponent implements OnInit {
       }
     }
 
-    //ADD A SERVICE
+    // ADD A SERVICE
     add(): void {
-      if(this.mode > 0 ) {
+      if (this.mode > 0 ) {
         this.remove(this.services[this.mode]);
       }
       this.services.push(
         {
-          name: this.formService.value.name.trim(), 
+          name: this.formService.value.name.trim(),
           timeStart: this.formService.value.timeStart,
           timeStop:  this.formService.value.timeStop,
           dayActive: this.dayChoose,
@@ -255,10 +254,10 @@ export class TicketsCreateFromImageComponent implements OnInit {
       this.resetFormService();
     }
 
-    ShowServiceItem(i){
+    ShowServiceItem(i) {
       this.resetFormService();
-      this.mode = i; 
-      if(this.services[i].dayActive.indexOf('and')<0) {
+      this.mode = i;
+      if (this.services[i].dayActive.indexOf('and') < 0) {
         this.formService.setValue({
           name: this.services[i].name,
           timeStart: this.services[i].timeStart ,
@@ -275,9 +274,9 @@ export class TicketsCreateFromImageComponent implements OnInit {
         this.listIncluded = this.services[i].included;
         this.listNotInclude = this.services[i].notIncluded;
       } else {
-        var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-        var dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern,'$3-$2-$1'));
-        var dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern,'$3-$2-$1'));
+        const pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+        const dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern, '$3-$2-$1'));
+        const dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern, '$3-$2-$1'));
         this.formService.setValue({
           name: this.services[i].name,
           timeStart: this.services[i].timeStart ,
@@ -297,15 +296,15 @@ export class TicketsCreateFromImageComponent implements OnInit {
     }
 
     addInclude(include) {
-      if(include.trim() === ''){
+      if (include.trim() === '') {
         this.formService.patchValue({
-          included: '' 
+          included: ''
         });
         return;
       }
       this.listIncluded.push(include);
       this.formService.patchValue({
-        included: '' 
+        included: ''
       });
     }
 
@@ -314,15 +313,15 @@ export class TicketsCreateFromImageComponent implements OnInit {
     }
 
     addNotInclude(notInclude) {
-      if(notInclude.trim() === ''){
+      if (notInclude.trim() === '') {
         this.formService.patchValue({
-          notIncluded: '' 
+          notIncluded: ''
         });
         return;
       }
       this.listNotInclude.push(notInclude);
       this.formService.patchValue({
-        notIncluded: '' 
+        notIncluded: ''
       });
     }
 
@@ -331,7 +330,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
     }
 
     addCustomer(title, price) {
-      if(title.trim() === '' || price.trim() === ''){
+      if (title.trim() === '' || price.trim() === '') {
         this.formService.patchValue({
           customerTitle: '',
           customerPrice: ''
@@ -365,7 +364,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
     getCategoryService(value) {
       this.categoryServiceSelect = value;
     }
-  
+
     checkStt() {
       if (this.isChecked) {
         this.isChecked = false;
@@ -376,7 +375,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
     }
 
 
-    
+
     // IMAGE TO TEXT
     async doOCR(base64) {
       const worker = createWorker({
@@ -397,13 +396,13 @@ export class TicketsCreateFromImageComponent implements OnInit {
       this.imageChangedEvent = event;
     }
 
-    //IMAGE CROP
+    // IMAGE CROP
     imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
       console.log(this.croppedImage);
       console.log(event, base64ToFile(event.base64));
 
-      var image = new Image();
+      const image = new Image();
       image.src = this.croppedImage;
       console.log(image);
       this.doOCR(image.src);
@@ -490,7 +489,7 @@ export class TicketsCreateFromImageComponent implements OnInit {
       };
     }
 
-    
+
 
 
 

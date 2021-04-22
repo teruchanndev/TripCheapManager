@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -10,13 +10,12 @@ import { ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.css']
 })
-export class TicketListComponent implements OnInit, OnDestroy {
+export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
 
   tickets:  Ticket[] = [];
   isLoading = false;
@@ -25,7 +24,9 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   userIsAuthenticated = false;
   userId: string;
-  dataSource;
+  dataSource = [];
+  listTicket = [];
+  tabName = ['Vé Công Khai', 'Vé Ẩn'];
   displayedColumns: string[] = ['title', 'category', 'city', 'quantity', 'price_reduce', 'edit', 'delete'];
 
 
@@ -37,6 +38,13 @@ export class TicketListComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router) { }
 
+  ngAfterViewInit() {
+    for (const item of this.dataSource) {
+      item.paginator = this.paginator;
+      item.sort = this.sort;
+    }
+
+  }
   ngOnInit() {
     this.isLoading = true;
     this.userId = this.authService.getUserId();
@@ -45,10 +53,17 @@ export class TicketListComponent implements OnInit, OnDestroy {
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;
         this.tickets = ticket;
-        this.dataSource = new MatTableDataSource(ticket);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        console.log('ticket' + ticket);
+
+        this.listTicket.push(this.tickets.filter(
+          element => element.status));
+        this.listTicket.push(this.tickets.filter(
+          element => !element.status));
+
+        for (let i = 0; i < this.listTicket.length; i++) {
+          this.dataSource[i] = new MatTableDataSource(this.listTicket[i]);
+       //   this.dataSource[i].paginator = this.paginator;
+       //   this.dataSource[i].sort = this.sort;
+        }
       });
 
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -61,10 +76,12 @@ export class TicketListComponent implements OnInit, OnDestroy {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    for (const item of this.dataSource) {
+      item.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+      if (item.paginator) {
+        item.paginator.firstPage();
+      }
     }
   }
 

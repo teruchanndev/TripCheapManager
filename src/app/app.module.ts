@@ -12,7 +12,6 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
-import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
@@ -28,6 +27,7 @@ import { InformationComponent } from './infomations/information/information.comp
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { QRCodeModule } from 'angularx-qrcode';
 import { OrderListComponent, DialogSendMail } from './orders/order-list/order-list.component';
 import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -35,13 +35,13 @@ import { TicketsComponent } from './pages/tickets/tickets.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { TicketsCreateFromImageComponent } from './tickets/tickets-create-from-image/tickets-create-from-image.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-excel/tickets-create-from-excel.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    CreateTicketComponent,
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
@@ -55,7 +55,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     DashboardComponent,
     TicketsComponent,
     OrdersComponent,
-    TicketsCreateFromImageComponent
+    TicketsCreateFromImageComponent,
+    TicketsCreateFromExcelComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +73,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ImageCropperModule 
+    ImageCropperModule,
+    QRCodeModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

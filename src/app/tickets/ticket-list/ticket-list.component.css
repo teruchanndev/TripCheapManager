@@ -9,3 +9,7 @@ table {
   font-size: 14px;
   width: 100%;
 }
+
+td.mat-cell:first-of-type {
+  padding-right: 24px ;
+}

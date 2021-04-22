@@ -13,6 +13,9 @@ mat-icon{
 }
 
 .example-toolbar{
+  position: fixed;
+  z-index: 9999;
+  width: 85%;
   box-shadow:  5px 5px 5px #f1f1f1;
   border-bottom: 0.5px solid #f1f1f1;
   background-color: white;
@@ -23,7 +26,7 @@ mat-icon{
   height: 100vh;
 }
 .example-sidenav-content {
-  padding-top: 2rem;
+  padding-top: 5rem;
   width: 90%;
   margin: 0 auto;
   align-items: center;
@@ -49,6 +52,7 @@ mat-icon{
   font-size: 25px;
   padding: 1rem;
 }
+
 
 .mat-list-item:focus {
   background-color: rgb(252, 224, 229);

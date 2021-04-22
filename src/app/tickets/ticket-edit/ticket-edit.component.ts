@@ -27,7 +27,7 @@ export class TicketEditComponent implements OnInit {
   private ticketId: string;
   private creator: string;
   ticket: Ticket;
-  isChecked: boolean; //check status true hay false => set checked slide toggle
+  isChecked: boolean; // check status true hay false => set checked slide toggle
 
   categories: Category[] = [];
   cities: City[] = [];
@@ -40,11 +40,11 @@ export class TicketEditComponent implements OnInit {
   formImage: FormGroup;
   formDone: FormGroup;
 
-  //mảng categoryItem
+  // mảng categoryItem
   valueItem = [];
   categorySelect;
   categoryServiceSelect;
-  
+
   listImage: Array<File> = [];
   imageUrls: Array<string> = [];
   imagePreview = ['', '', '', '', '', '', '', '', '', ''];
@@ -52,16 +52,16 @@ export class TicketEditComponent implements OnInit {
   placeholderTime: string;
   services: Service[] = [];
 
-  //services
+  // services
   isEditable = true;
   isShow = 'block';
   isSelectDay = '';
   addOnBlur = true;
   selectable = true;
   removable = true;
-  mode = -1; 
+  mode = -1;
 
-  daySelect : string;
+  daySelect: string;
   isSelectDayAct = false;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   daysAct = ['Từ Thứ 2 - Chủ Nhật', 'Từ Thứ 2 - Thứ 6', 'Thứ 7 - Chủ Nhật', 'Ngày Khác'];
@@ -118,7 +118,7 @@ export class TicketEditComponent implements OnInit {
       timeStart: new FormControl(null, {}),
       timeStop: new FormControl(null, {}),
       dayActive: new FormControl(null, {}),
-      dateStart: new FormControl(null, {}), 
+      dateStart: new FormControl(null, {}),
       dateEnd: new FormControl(null, {}),
       included: new FormControl(null, {}),
       notIncluded: new FormControl(null, {}),
@@ -129,10 +129,10 @@ export class TicketEditComponent implements OnInit {
     this.formDone = new FormGroup({
       check: new FormControl(null, {})
     });
-    
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       console.log(paramMap);
-      this.ticketId = paramMap.get("ticketId");
+      this.ticketId = paramMap.get('ticketId');
       this.categoriesService.getCategories();
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
         this.ticket = {
@@ -151,10 +151,10 @@ export class TicketEditComponent implements OnInit {
           services: ticketData.services,
           imagePath: ticketData.imagePath,
           creator: ticketData.creator
-        }
+        };
 
         console.log(this.ticket);
-        
+
         this.formInfo.setValue({
           title: this.ticket.title,
           content: this.ticket.content,
@@ -172,8 +172,8 @@ export class TicketEditComponent implements OnInit {
         this.isChecked = ticketData.status;
         this.categorySelect = this.ticket.category;
         this.categoryServiceSelect = this.ticket.categoryService;
-        for(let i = 0; i< 10; i++){
-          if(this.ticket.imagePath[i]){
+        for (let i = 0; i < 10; i++) {
+          if (this.ticket.imagePath[i]) {
             this.imagePreview[i] = this.ticket.imagePath[i];
             this.imageUrls[i] = this.ticket.imagePath[i];
           }
@@ -183,12 +183,12 @@ export class TicketEditComponent implements OnInit {
         // console.log(this.imagePreview);
 
         const app = this;
-        setTimeout(function(){
+        setTimeout(function() {
           app.valueItem = app.categories.find(
             item => item.name === app.ticket.category
           ).categoryItem;
         }, 2000);
-        
+
       });
     });
     this.categoriesSub = this.categoriesService.getCategoryUpdateListener()
@@ -200,9 +200,9 @@ export class TicketEditComponent implements OnInit {
       });
   }
 
-  //check value status
-  checkStt(){
-    if(this.isChecked){
+  // check value status
+  checkStt() {
+    if (this.isChecked) {
       this.isChecked = false;
     } else {
       this.isChecked = true;
@@ -210,8 +210,8 @@ export class TicketEditComponent implements OnInit {
     console.log(this.isChecked);
   }
 
-  //calculator price reduce
-  calPrice_reduce(){
+  // calculator price reduce
+  calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
 
@@ -219,8 +219,8 @@ export class TicketEditComponent implements OnInit {
     this.categoryServiceSelect = value;
   }
 
-  //show categoryItem with category name
-  changeSelectCategory(value){
+  // show categoryItem with category name
+  changeSelectCategory(value) {
     if ( value === '' ) {
       this.categorySelect = '';
       this.valueItem = [];
@@ -232,8 +232,8 @@ export class TicketEditComponent implements OnInit {
     }
   }
 
-  //function update ticket
-  onUpdateTicket(){
+  // function update ticket
+  onUpdateTicket() {
     this.ticketsService.updateTickets(
       this.ticketId,
       this.formInfo.value.title,
@@ -253,10 +253,10 @@ export class TicketEditComponent implements OnInit {
     );
   }
 
-  
+
   onPickImage(event: Event, index: number) {
 
-    if(this.imagePreview[index] !== ''){
+    if (this.imagePreview[index] !== '') {
       this.imageUrls[index] = '';
       this.imagePreview[index] = '';
       this.listImage.splice(index, 1);
@@ -281,16 +281,15 @@ export class TicketEditComponent implements OnInit {
   }
 
   formatDate(date) {
-    return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
   }
 
-  isShowFormService(){
-    if(this.isShow === 'block') this.isShow = 'none';
-    else this.isShow = 'block';
+  isShowFormService() {
+    if (this.isShow === 'block') { this.isShow = 'none'; } else { this.isShow = 'block'; }
   }
 
   CheckValueDay(event) {
-    if(this.daySelect === 'Ngày Khác') {
+    if (this.daySelect === 'Ngày Khác') {
       this.isSelectDayAct = true;
     } else {
       this.isSelectDayAct = false;
@@ -300,7 +299,7 @@ export class TicketEditComponent implements OnInit {
 
   checkRangerDate() {
 
-    this.dayChoose = this.formatDate(this.formService.value.dateStart) + "and" +  this.formatDate(this.formService.value.dateEnd);
+    this.dayChoose = this.formatDate(this.formService.value.dateStart) + 'and' +  this.formatDate(this.formService.value.dateEnd);
     console.log(this.dayChoose);
   }
 
@@ -324,12 +323,12 @@ export class TicketEditComponent implements OnInit {
 
   add(): void {
     console.log(this.mode);
-    if(this.mode >= 0 ) {
+    if (this.mode >= 0 ) {
       this.remove(this.services[this.mode]);
     }
     this.services.push(
       {
-        name: this.formService.value.name.trim(), 
+        name: this.formService.value.name.trim(),
         timeStart: this.formService.value.timeStart,
         timeStop:  this.formService.value.timeStop,
         dayActive: this.dayChoose,
@@ -348,12 +347,12 @@ export class TicketEditComponent implements OnInit {
     }
   }
 
-  ShowServiceItem(i){
+  ShowServiceItem(i) {
     this.resetFormService();
     console.log(this.services);
-    this.mode = i; 
+    this.mode = i;
     console.log(this.services[i].dayActive);
-    if(typeof this.services[i].dayActive !== 'undefined' && this.services[i].dayActive.indexOf('and')<0) {
+    if (typeof this.services[i].dayActive !== 'undefined' && this.services[i].dayActive.indexOf('and') < 0) {
       this.formService.setValue({
         name: this.services[i].name,
         timeStart: this.services[i].timeStart ,
@@ -372,10 +371,10 @@ export class TicketEditComponent implements OnInit {
       this.listIncluded = this.services[i].included;
       this.listNotInclude = this.services[i].notIncluded;
     } else {
-      var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-      var dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern,'$3-$2-$1'));
-      var dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern,'$3-$2-$1'));
-      
+      const pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+      const dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern, '$3-$2-$1'));
+      const dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern, '$3-$2-$1'));
+
       console.log(dateSp, dateSt);
       this.formService.setValue({
         name: this.services[i].name,
@@ -398,15 +397,15 @@ export class TicketEditComponent implements OnInit {
   }
 
   addInclude(include) {
-    if(include.trim() === ''){
+    if (include.trim() === '') {
       this.formService.patchValue({
-        included: '' 
+        included: ''
       });
       return;
     }
     this.listIncluded.push(include);
     this.formService.patchValue({
-      included: '' 
+      included: ''
     });
   }
 
@@ -415,15 +414,15 @@ export class TicketEditComponent implements OnInit {
   }
 
   addNotInclude(notInclude) {
-    if(notInclude.trim() === ''){
+    if (notInclude.trim() === '') {
       this.formService.patchValue({
-        notIncluded: '' 
+        notIncluded: ''
       });
       return;
     }
     this.listNotInclude.push(notInclude);
     this.formService.patchValue({
-      notIncluded: '' 
+      notIncluded: ''
     });
   }
 
@@ -432,7 +431,7 @@ export class TicketEditComponent implements OnInit {
   }
 
   addCustomer(title, price) {
-    if(title.trim() === '' || price.trim() === ''){
+    if (title.trim() === '' || price.trim() === '') {
       this.formService.patchValue({
         customerTitle: '',
         customerPrice: ''
@@ -453,7 +452,8 @@ export class TicketEditComponent implements OnInit {
     this.lisCustomer.splice(i, 1);
   }
 
-  ngOnDestroy(): void{
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy(): void {
     this.categoriesSub.unsubscribe();
   }
 
