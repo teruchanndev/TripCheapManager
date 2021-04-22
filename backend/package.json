@@ -2,6 +2,9 @@
   "name": "mean-course",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "serve": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.18.3",

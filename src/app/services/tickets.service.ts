@@ -200,8 +200,27 @@ export class TicketsService {
     services: Array<object>,
     imageUrls: Array<string>,
     image: Array<File> | Array<string>) {
-    // console.log(image);
+    console.log(image);
     let ticketData: Ticket | FormData;
+
+    // ticketData = {
+    //   id: id,
+    //   title: title,
+    //   content: content,
+    //   status: status,
+    //   price: price,
+    //   price_reduce: price_reduce,
+    //   percent: percent,
+    //   category: category,
+    //   categoryService: categoryService,
+    //   city: city,
+    //   quantity: quantity,
+    //   imageUrls: imageUrls,
+    //   address: address,
+    //   services: services,
+    //   image: image
+    // };
+    // console.log(image);
       ticketData = new FormData();
       ticketData.append('id', id);
       ticketData.append('title', title);
@@ -214,7 +233,7 @@ export class TicketsService {
       ticketData.append('categoryService', categoryService);
       ticketData.append('city', city);
       ticketData.append('quantity', JSON.stringify(quantity));
-      ticketData.append('imageUrls', JSON.stringify(imageUrls));
+      ticketData.append('imageUrls', JSON.stringify(imageUrls || []));
       ticketData.append('address', address);
       ticketData.append('services', JSON.stringify(services));
       for (const file of image) {

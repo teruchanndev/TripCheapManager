@@ -36,7 +36,8 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { TicketsCreateFromImageComponent } from './tickets/tickets-create-from-image/tickets-create-from-image.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-excel/tickets-create-from-excel.component';
-
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,9 @@ import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-e
     MatDatepickerModule,
     MatNativeDateModule,
     ImageCropperModule,
-    QRCodeModule
+    QRCodeModule,
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'https-tripcheap-2f380-web-app', upload_preset: 'mypreset',
+    cname: 'https-tripcheap-2f380-web-app'}),
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

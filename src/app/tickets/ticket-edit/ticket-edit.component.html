@@ -12,7 +12,7 @@
 
 <!-- section step 1 - information -->
   <mat-step [stepControl]="formInfo" [editable]="isEditable">
-    <form [formGroup]="formInfo">
+    <form [formGroup]="formInfo" enctype="multipart/form-data">
       <ng-template matStepLabel>Thông tin cơ bản</ng-template>
       <mat-card>
         <mat-form-field class="form_field" appearance="outline">
@@ -81,7 +81,7 @@
 
 <!-- section step 2 - price/category -->
   <mat-step [stepControl]="formCategory" [editable]="isEditable">
-    <form [formGroup]="formCategory">
+    <form [formGroup]="formCategory" enctype="multipart/form-data">
       <ng-template matStepLabel>Giá / thể loại</ng-template>
       <mat-card>
         <div class="price">
@@ -188,7 +188,7 @@
 
 <!-- section step 3 - services -->
 <mat-step [stepControl]="formService" [editable]="isEditable">
-  <form [formGroup]="formService">
+  <form [formGroup]="formService" enctype="multipart/form-data">
     <ng-template matStepLabel>Dịch vụ</ng-template>
     <mat-card>
       <button mat-stroked-button color="accent" (click)="isShowFormService()">
@@ -380,7 +380,7 @@
 
 <!-- section step 4 - images -->
 <mat-step [stepControl]="formImage" [editable]="isEditable">
-  <form [formGroup]="formImage">
+  <form [formGroup]="formImage" enctype="multipart/form-data">
     <ng-template matStepLabel>Ảnh mô tả</ng-template>
     <mat-card>
       <section style="padding-top: 1rem;">
