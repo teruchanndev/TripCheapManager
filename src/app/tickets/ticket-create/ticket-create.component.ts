@@ -3,7 +3,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { finalize, map, startWith } from 'rxjs/operators';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { Category } from 'src/app/modals/category.model';
 import { CitiesService } from '../../services/cities.service';
@@ -14,6 +14,7 @@ import { mimeType } from './mime-type.validator';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Service } from 'src/app/modals/service.model';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
 
 
 @Component({
@@ -26,6 +27,10 @@ export class TicketCreateComponent implements OnInit {
   price = 0;
   percent = 0;
   price_reduce = 0;
+
+  downloadURL: Observable<string>;
+  storageRef: AngularFireStorageReference;
+  arrImage: Array<string> = [];
 
   categorySelect = '';
   categoryServiceSelect = '';
@@ -72,6 +77,7 @@ export class TicketCreateComponent implements OnInit {
   lisCustomer = [];
 
   constructor(
+    private storage: AngularFireStorage,
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
     public citiesService: CitiesService,
@@ -338,8 +344,30 @@ export class TicketCreateComponent implements OnInit {
       });
   }
 
+  onUploadImageToFirebase(img) {
+    var n = Date.now();
+    console.log(img);
+    const filePath = `image_upload/${n}`;
+    const fileRef = this.storage.ref(filePath);
+
+    return new Promise<any>((resolve, reject) => {
+      const task = this.storage.upload(`image_upload/${n}`, img);
+
+        task.snapshotChanges().pipe(
+            finalize(() => fileRef.getDownloadURL().subscribe(
+                res => resolve(res),
+                err => reject(err))
+            )
+        ).subscribe();
+    })
+  };
+
   onSaveTicket() {
-    
+    let listUploadImage = [];
+    for(const item of this.listImage) {
+      listUploadImage.push(this.onUploadImageToFirebase(item));
+    }
+    Promise.all(listUploadImage).then(values => {
       const ticket = this.ticketsService.addTicket(
         this.formInfo.value.title,
         this.formInfo.value.content,
@@ -353,14 +381,15 @@ export class TicketCreateComponent implements OnInit {
         this.formCategory.value.quantity,
         this.formInfo.value.address,
         this.services,
-        this.listImage
+        values
       );
-
       this.formInfo.reset();
       this.formCategory.reset();
       this.formImage.reset();
       this.formService.reset();
       this.formDone.reset();
+    });
+      
   }
 
   onPickImage(event: Event, index: number) {

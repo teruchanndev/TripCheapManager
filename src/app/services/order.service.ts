@@ -106,7 +106,6 @@ export class OrdersService {
 
   // đơn hàng tới người bán
   getOrderOfCreator() {
-    console.log('test');
     this.http.get<
       { message: string; order: any }>
       (this.BACKEND_URL + 'manager').pipe(

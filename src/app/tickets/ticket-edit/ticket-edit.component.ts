@@ -7,10 +7,12 @@ import { CategoriesService } from 'src/app/services/categories.service';
 import { Category } from 'src/app/modals/category.model';
 import { CitiesService } from '../../services/cities.service';
 import { City } from '../../modals/city.model';
-import { mimeType } from '../ticket-create/mime-type.validator';
 import { Ticket } from '../../modals/ticket.model';
 import { TicketsService } from '../../services/tickets.service';
 import { Service } from 'src/app/modals/service.model';
+import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
+import { map, finalize } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 
 @Component({
@@ -23,6 +25,11 @@ export class TicketEditComponent implements OnInit {
   price_reduce = 0;
   percent = 0;
   price = 0;
+
+  downloadURL: Observable<string>;
+  storageRef: AngularFireStorageReference;
+  arrImage: Array<string> = [];
+
 
   private ticketId: string;
   private creator: string;
@@ -73,6 +80,7 @@ export class TicketEditComponent implements OnInit {
   lisCustomer = [];
 
   constructor(
+    private storage: AngularFireStorage,
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
     public citiesService: CitiesService,
@@ -80,7 +88,6 @@ export class TicketEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.formInfo = new FormGroup({
       title: new FormControl(null, {
         validators: [Validators.required]
@@ -172,13 +179,13 @@ export class TicketEditComponent implements OnInit {
         this.isChecked = ticketData.status;
         this.categorySelect = this.ticket.category;
         this.categoryServiceSelect = this.ticket.categoryService;
+
         for (let i = 0; i < 10; i++) {
           if (this.ticket.imagePath[i]) {
             this.imagePreview[i] = this.ticket.imagePath[i];
-            this.imageUrls[i] = this.ticket.imagePath[i];
           }
         }
-        this.services = this.ticket.services[0] as Array<Service>;
+        this.services = this.ticket.services as Array<Service>;
         console.log(this.services);
         // console.log(this.imagePreview);
 
@@ -232,38 +239,65 @@ export class TicketEditComponent implements OnInit {
     }
   }
 
+  onUploadImageToFirebase(img) {
+      var n = Date.now();
+      console.log(img);
+      const filePath = `image_upload/${n}`;
+      const fileRef = this.storage.ref(filePath);
+
+      return new Promise<any>((resolve, reject) => {
+        const task = this.storage.upload(`image_upload/${n}`, img);
+
+          task.snapshotChanges().pipe(
+              finalize(() => fileRef.getDownloadURL().subscribe(
+                res => resolve(res),
+                err => reject(err))
+              )
+          ).subscribe();
+      })
+  };
+
+
   // function update ticket
   onUpdateTicket() {
-    this.ticketsService.updateTickets(
-      this.ticketId,
-      this.formInfo.value.title,
-      this.formInfo.value.content,
-      this.isChecked,
-      this.formCategory.value.price_enter,
-      this.price_reduce,
-      this.formCategory.value.percent,
-      this.categorySelect,
-      this.categoryServiceSelect,
-      this.formInfo.value.city,
-      this.formCategory.value.quantity,
-      this.formInfo.value.address,
-      this.services,
-      this.imageUrls,
-      this.listImage
-    );
+    this.arrImage = this.imagePreview.filter(img => img !== '' && img.substr(0,4) !== 'data' );
+    let listUploadImage = [];
+    for(const item of this.listImage) {
+      listUploadImage.push(this.onUploadImageToFirebase(item));
+    }
+
+    Promise.all(listUploadImage).then(values => {
+      this.ticketsService.updateTickets(
+        this.ticketId,
+        this.formInfo.value.title,
+        this.formInfo.value.content,
+        this.isChecked,
+        this.formCategory.value.price_enter,
+        this.price_reduce,
+        this.formCategory.value.percent,
+        this.categorySelect,
+        this.categoryServiceSelect,
+        this.formInfo.value.city,
+        this.formCategory.value.quantity,
+        this.formInfo.value.address,
+        this.services,
+        values.concat(this.arrImage)
+      );
+
+    }).catch(e => {
+      console.log('e: '+ e);
+    });
   }
 
 
   onPickImage(event: Event, index: number) {
 
     if (this.imagePreview[index] !== '') {
-      this.imageUrls[index] = '';
       this.imagePreview[index] = '';
       this.listImage.splice(index, 1);
     } else {
       const file = (event.target as HTMLInputElement).files[0];
       this.formImage.patchValue({image: file});
-      // this.form.get('image').updateValueAndValidity();
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview[index] = reader.result as string;
@@ -271,13 +305,10 @@ export class TicketEditComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
-    console.log(this.imagePreview);
-    console.log(this.listImage);
   }
 
   deleteImage(index: number) {
     this.imagePreview[index] = '';
-    this.imageUrls[index] = '';
   }
 
   formatDate(date) {

@@ -155,29 +155,27 @@ export class TicketsService {
     quantity: number,
     address: string,
     services: Array<object>,
-    image: Array<File> | Array<string>) {
+    imagePath: Array<string>) {
 
-      const ticketData = new FormData();
-      ticketData.append('title', title);
-      ticketData.append('content', content);
-      ticketData.append('status', JSON.stringify(status));
-      ticketData.append('price', JSON.stringify(price));
-      ticketData.append('price_reduce', JSON.stringify(price_reduce));
-      ticketData.append('percent', JSON.stringify(percent));
-      ticketData.append('category', category);
-      ticketData.append('categoryService', categoryService);
-      ticketData.append('city', city);
-      ticketData.append('quantity', JSON.stringify(quantity));
-      ticketData.append('address', address);
-      ticketData.append('services', JSON.stringify(services));
-
-      for (const file of image) {
-        ticketData.append('image', file);
-      }
+    const ticketData = {
+      title: title,
+      content: content,
+      status: status,
+      price: price,
+      price_reduce: price_reduce,
+      percent: percent,
+      category: category,
+      categoryService: categoryService,
+      city: city,
+      quantity: quantity,
+      address: address,
+      services: services,
+      imagePath: imagePath
+    };
 
     this.http
       .post<
-        { message: string; ticket: Ticket }>
+        { message: string; ticket: Object }>
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
         this.getTickets();
@@ -198,53 +196,31 @@ export class TicketsService {
     quantity: number,
     address: string,
     services: Array<object>,
-    imageUrls: Array<string>,
-    image: Array<File> | Array<string>) {
-    console.log(image);
-    let ticketData: Ticket | FormData;
+    imagePath: Array<string>) {
+      
+    let ticketData: Object;
+    // console.log('imagePath: ', JSON.stringify(imagePath));
+    ticketData = {
+      id: id,
+      title: title,
+      content: content,
+      status: status,
+      price: price,
+      price_reduce: price_reduce,
+      percent: percent,
+      category: category,
+      categoryService: categoryService,
+      city: city,
+      quantity: quantity,
+      address: address,
+      services: services,
+      imagePath: imagePath
+    };
 
-    // ticketData = {
-    //   id: id,
-    //   title: title,
-    //   content: content,
-    //   status: status,
-    //   price: price,
-    //   price_reduce: price_reduce,
-    //   percent: percent,
-    //   category: category,
-    //   categoryService: categoryService,
-    //   city: city,
-    //   quantity: quantity,
-    //   imageUrls: imageUrls,
-    //   address: address,
-    //   services: services,
-    //   image: image
-    // };
-    // console.log(image);
-      ticketData = new FormData();
-      ticketData.append('id', id);
-      ticketData.append('title', title);
-      ticketData.append('content', content);
-      ticketData.append('status', JSON.stringify(status));
-      ticketData.append('price', JSON.stringify(price));
-      ticketData.append('price_reduce', JSON.stringify(price_reduce));
-      ticketData.append('percent', JSON.stringify(percent));
-      ticketData.append('category', category);
-      ticketData.append('categoryService', categoryService);
-      ticketData.append('city', city);
-      ticketData.append('quantity', JSON.stringify(quantity));
-      ticketData.append('imageUrls', JSON.stringify(imageUrls || []));
-      ticketData.append('address', address);
-      ticketData.append('services', JSON.stringify(services));
-      for (const file of image) {
-        ticketData.append('image', file);
-      }
-
-    console.log(ticketData);
     this.http
       .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
-        this.router.navigate(['home/list']);
+        this.router.navigate(['ticket']);
       });
   }
 

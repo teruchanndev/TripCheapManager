@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center"  style="flex: 70%;">
+<mat-tab-group mat-align-tabs="start"  style="flex: 70%;">
     <mat-tab *ngFor="let itemTab of ArrayOrderTotal; index as indexTab">
         <ng-template mat-tab-label>
             <span
@@ -24,27 +24,31 @@
                     </tr>
                     <mat-divider></mat-divider>
                     <tr *ngFor="let item of itemTab.arrOrders; index as i">
-                        <td rowspan={{item.orders.itemService.length}}>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
-                        <td rowspan={{item.orders.itemService.length}}>
-                            <label>{{item.orders.nameTicket}}</label>
+                        <td [attr.rowspan] = item.orders.itemService.length>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
+                        <td [attr.rowspan] = item.orders.itemService.length>
+                            <label> {{item.orders.nameTicket}}</label>
                         </td>
-                        <td rowspan={{item.orders.itemService.length}}>
+                        <td [attr.rowspan] = item.orders.itemService.length>
                             <label>{{item.orders.itemService[0].name}}</label>
                         </td>
                         <span *ngFor="let itemService of item.orders.itemService">
                             <td><label>{{itemService.itemServiceName}}</label></td>
                             <td><label>{{itemService.quantity}}</label></td>
                         </span>
-                        <td rowspan={{item.orders.itemService.length}} style="width: 100px;">
+                        <td [attr.rowspan] = item.orders.itemService.length style="width: 100px;">
                             <div>{{item.price + 'đ'}}</div>
                         </td>
+
                         <td  *ngIf="indexTab === 0"><button mat-button mat-stroked-button color="warn"  style="width: 100%;" (click) = "CancelOrderManager(item.orders.id, item.orders.idCustomer)" >Hủy</button></td>
-                        <td  *ngIf="indexTab === 0 && !item.orders.isConfirm"><button mat-button mat-raised-button color="primary"  style="width: 100%;"  (click) = "ConfirmOrderManager(item.orders.id, item.orders.idCustomer, indexTab, i)" >Xác nhận</button></td>
+                        <td  *ngIf="indexTab === 0 && !item.orders.isConfirm"><button mat-button mat-raised-button color="primary" style="width: 100%;"  (click) = "ConfirmOrderManager(item.orders.id, item.orders.idCustomer, indexTab, i)" >Xác nhận</button></td>
                     </tr>
 
                 </table>
-                <!-- <img #canvas>
-                <qrcode #qrcode [qrdata]="'Your data'" [width]="256" [errorCorrectionLevel]="'M'" [elementType]="'img'"></qrcode> -->
+                <div class="qrcode">
+                    <img #canvas>
+                    <qrcode #qrcode [qrdata]="qrcodeContent" [width]="256" [errorCorrectionLevel]="'M'" [elementType]="'img'" allowEmptyString="true"></qrcode>
+                </div>
+
             </mat-card>
         </section>
     </mat-tab>

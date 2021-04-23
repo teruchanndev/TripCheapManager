@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +38,14 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-excel/tickets-create-from-excel.component';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as  Cloudinary from 'cloudinary-core';
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "../environments/environment";
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+  // StorageBucket
+} from "@angular/fire/storage";
 
 @NgModule({
   declarations: [
@@ -76,10 +84,10 @@ import * as  Cloudinary from 'cloudinary-core';
     MatNativeDateModule,
     ImageCropperModule,
     QRCodeModule,
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'https-tripcheap-2f380-web-app', upload_preset: 'mypreset',
-    cname: 'https-tripcheap-2f380-web-app'}),
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
