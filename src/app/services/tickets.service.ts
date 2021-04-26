@@ -179,7 +179,7 @@ export class TicketsService {
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
         this.getTickets();
-        this.router.navigate(['home/list']);
+        this.router.navigate(['ticket']);
       });
       return ticketData;
   }

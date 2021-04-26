@@ -50,9 +50,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   emailCustomer: string;
   ArrOrders: Array<ArrayOrder> = [];
-  ordersNew: Array<ArrayOrder> = []; // order mới
-  ordersComplete: Array<ArrayOrder> = []; // order đã hoàn thành
-  ordersCancel: Array<ArrayOrder> = []; // order đã bị hủy
 
   ArrayOrderTotal: Array<ArrayOrderTotal> = [];
   labels = ['Đơn mới', 'Đơn chưa hoàn thành', 'Đơn đã hoàn thành', 'Đơn đã hủy'];
@@ -105,7 +102,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
           element => element.orders.status && element.orders.isConfirm)); // đơn đã dùng
         this.listTabValue.push(this.ArrOrders.filter(
           element => element.orders.isCancel)); // đơn đã hủy
-
 
         for (let i = 0; i < 4; i++) {
           this.ArrayOrderTotal[i] = {

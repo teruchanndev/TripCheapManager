@@ -59,10 +59,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
             follower: infoData.follower,
             watching: infoData.watching
           };
+          this.imageAvt = this.user.imageAvt;
 
       });
     });
-    this.imageAvt = this.user.imageAvt;
+    
   }
 
   onLogout() {
