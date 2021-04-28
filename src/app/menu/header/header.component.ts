@@ -1,3 +1,4 @@
+import { variable } from '@angular/compiler/src/output/output_ast';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -39,31 +40,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.userId = this.authService.getUserId();
     this.username = this.authService.getUsername();
-    console.log(this.userId);
-    console.log(this.username);
+
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
 
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.userService.getInfoUser().subscribe(
-        infoData => {
-          this.user = {
-            username: infoData.username,
-            nameShop: infoData.nameShop,
-            imageAvt: infoData.imageAvt,
-            imageCover: infoData.imageCover,
-            desShop: infoData.desShop,
-            follower: infoData.follower,
-            watching: infoData.watching
-          };
-          this.imageAvt = this.user.imageAvt;
-
+    const info = new Promise((resolve, reject) => {
+      this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        this.userService.getInfoUser().subscribe(
+          infoData => {
+            resolve(infoData);
+        });
       });
     });
-    
+    info.then((value) => {
+      const v = value as User;
+      this.user = {
+        username: v.username,
+        nameShop: v.nameShop,
+        imageAvt: v.imageAvt,
+        imageCover: v.imageCover,
+        desShop: v.desShop,
+        follower: v.follower,
+        watching: v.watching
+      };
+      this.imageAvt = v.imageAvt;
+    });
+
   }
 
   onLogout() {
