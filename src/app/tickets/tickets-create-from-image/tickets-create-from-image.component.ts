@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { base64ToFile, Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { createWorker } from 'tesseract.js';
@@ -6,13 +6,17 @@ import * as Tesseract from 'tesseract.js';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { Category } from 'src/app/modals/category.model';
 import { City } from 'src/app/modals/city.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Service } from 'src/app/modals/service.model';
 import { TicketsService } from 'src/app/services/tickets.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { CitiesService } from 'src/app/services/cities.service';
 import { ActivatedRoute } from '@angular/router';
+import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
+import { finalize } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-tickets-create-from-image',
@@ -29,6 +33,9 @@ export class TicketsCreateFromImageComponent implements OnInit {
   categorySelect = '';
   categoryServiceSelect = '';
   listCategoryService: Array<string>;
+
+  downloadURL: Observable<string>;
+  storageRef: AngularFireStorageReference;
 
   ticket: Ticket;
   categories: Category[] = [];
@@ -81,10 +88,12 @@ export class TicketsCreateFromImageComponent implements OnInit {
 
 
   constructor(
+    private storage: AngularFireStorage,
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
     public citiesService: CitiesService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    @Inject(DOCUMENT) private _document: Document,
   ) {}
 
   ngOnInit(): void {
@@ -134,47 +143,72 @@ export class TicketsCreateFromImageComponent implements OnInit {
       });
   }
 
+  onUploadImageToFirebase(img) {
+    var n = Date.now();
+    console.log(img);
+    const filePath = `image_upload/${n}`;
+    const fileRef = this.storage.ref(filePath);
 
-    onSaveTicket() {
-      console.log(this.formInfo.value.title,
+    return new Promise<any>((resolve, reject) => {
+      const task = this.storage.upload(`image_upload/${n}`, img);
+
+        task.snapshotChanges().pipe(
+            finalize(() => fileRef.getDownloadURL().subscribe(
+                res => resolve(res),
+                err => reject(err))
+            )
+        ).subscribe();
+    })
+  };
+
+
+  onSaveTicket() {
+    let listUploadImage = [];
+    for(const item of this.listImage) {
+      listUploadImage.push(this.onUploadImageToFirebase(item));
+    }
+    Promise.all(listUploadImage).then(values => {
+      const ticket = this.ticketsService.addTicket(
+        this.formInfo.value.title,
         this.formInfo.value.content,
-          this.isChecked,
-          this.formCategory.value.price_enter,
-          this.price_reduce,
-          this.formCategory.value.percent,
-          this.categorySelect,
-          this.categoryServiceSelect,
-          this.formInfo.value.city,
-          this.formCategory.value.quantity,
-          this.formInfo.value.address,
-          this.services,
-          this.listImage);
-      // const ticket = this.ticketsService.addTicket(
-      //   this.formInfo.value.title,
-      //   this.formInfo.value.content,
-      //   this.isChecked,
-      //   this.formCategory.value.price_enter,
-      //   this.price_reduce,
-      //   this.formCategory.value.percent,
-      //   this.categorySelect,
-      //   this.categoryServiceSelect,
-      //   this.formInfo.value.city,
-      //   this.formCategory.value.quantity,
-      //   this.formInfo.value.address,
-      //   this.services,
-      //   this.listImage
-      // );
+        this.isChecked,
+        this.formCategory.value.price_enter,
+        this.price_reduce,
+        this.formCategory.value.percent,
+        this.categorySelect,
+        this.categoryServiceSelect,
+        this.formInfo.value.city,
+        this.formCategory.value.quantity,
+        this.formInfo.value.address,
+        this.services,
+        values
+      ).then((value) => {
+        if(value) {
+          Swal.fire({
+            title: 'Tạo vé thành công',
+            icon: 'success'
+          }).then(() => {
+            this._document.defaultView.location.reload();
+          });
+        }
+      })
 
       this.formInfo.reset();
       this.formCategory.reset();
       this.formImage.reset();
       this.formService.reset();
       this.formDone.reset();
-    }
-
+    });
+      
+  }
     setText(id) {
-      id.value = this.ocrResult;
-      // alert(this.ocrResult);
+      if(id.type === 'text') {
+        id.value = this.ocrResult;
+      } else if(id.type === 'number') {
+        var x = this.ocrResult.split('.').join('');
+        id.value = parseInt(x);
+      }
+
     }
 
     // FORMAR DATE TO DD/MM/YYYY
@@ -489,9 +523,29 @@ export class TicketsCreateFromImageComponent implements OnInit {
       };
     }
 
+    onPickImage(event: Event, index: number) {
+      if(this.imagePreview[index] !== ''){
+        this.imagePreview[index] = '';
+        this.listImage.splice(index, 1);
+      } else {
+        const file = (event.target as HTMLInputElement).files[0];
+        this.formImage.patchValue({image: file});
+        this.formImage.get('image').updateValueAndValidity();
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreview[index] = reader.result as string;
+          this.listImage.splice(index, 0, this.formImage.value.image);
+        };
+        reader.readAsDataURL(file);
+        console.log('file: '+file.name);
+      }
+      console.log(this.listImage);
+    }
 
-
-
-
+    deleteImage(index: number) {
+      this.imagePreview[index] = '';
+      this.listImage.splice(index, 1);
+    }
+  
 
 }

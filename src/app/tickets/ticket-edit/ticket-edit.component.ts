@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { Category } from 'src/app/modals/category.model';
@@ -13,7 +13,8 @@ import { Service } from 'src/app/modals/service.model';
 import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
 import { map, finalize } from "rxjs/operators";
 import { Observable } from "rxjs";
-
+import Swal from 'sweetalert2';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-ticket-edit',
@@ -84,7 +85,9 @@ export class TicketEditComponent implements OnInit {
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
     public citiesService: CitiesService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    @Inject(DOCUMENT) private _document: Document,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -282,7 +285,17 @@ export class TicketEditComponent implements OnInit {
         this.formInfo.value.address,
         this.services,
         values.concat(this.arrImage)
-      );
+      ).then((value) => {
+        if(value) {
+          Swal.fire({
+            title: 'Cật nhật vé thành công',
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['ticket']);
+            // this._document.defaultView.location.reload();
+          });
+        }
+      })
 
     }).catch(e => {
       console.log('e: '+ e);

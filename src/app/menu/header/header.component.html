@@ -1,8 +1,8 @@
 <mat-sidenav-container class="example-container">
 	<mat-toolbar class="example-toolbar" *ngIf='userIsAuthenticated'>
-	<span>
+	<!-- <span>
 		<button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-	</span>
+	</span> -->
 	<span class="spacer"></span>
 	<ul>
 		<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
@@ -34,7 +34,7 @@
 			<mat-list-item style="padding-bottom: 2rem; margin-top: -1rem;">
 				<span>
 					<button mat-icon-button routerLink="/home">
-					  <h1 class="logo_detail" style="color: rgb(153, 44, 255);"><span style="color: rgb(102, 160, 247);">Trip</span>Cheap</h1>
+					  <h1 class="logo_detail" style="color: rgb(153, 44, 255); font-size: 30px;"><span style="color: rgb(102, 160, 247);font-size: 30px;">Trip</span>Cheap</h1>
 					</button>
 				</span>
 			</mat-list-item>
