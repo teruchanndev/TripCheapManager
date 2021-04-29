@@ -231,4 +231,8 @@ export class TicketsService {
     return this.http
       .delete(this.BACKEND_URL + ticketId);
   }
+
+  updateQuantity() {
+    
+  }
 }

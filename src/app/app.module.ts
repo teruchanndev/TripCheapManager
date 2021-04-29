@@ -47,6 +47,7 @@ import {
   AngularFireUploadTask,
   // StorageBucket
 } from "@angular/fire/storage";
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import {
     QRCodeModule,
     AngularFireStorageModule,
     [SweetAlert2Module.forRoot()],
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
+    ChartsModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   providers: [
