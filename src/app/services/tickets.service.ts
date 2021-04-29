@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Ticket } from '../modals/ticket.model';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 
 @Injectable({ providedIn: 'root' })
@@ -172,16 +173,16 @@ export class TicketsService {
       services: services,
       imagePath: imagePath
     };
-
-    this.http
-      .post<
+    return new Promise((resolve) => {
+      this.http
+      .post<git 
         { message: string; ticket: Object }>
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
-        this.getTickets();
-        this.router.navigate(['ticket']);
+        resolve(ticketData);
       });
-      return ticketData;
+    });
+
   }
 
   updateTickets(id: string, title: string,
@@ -197,7 +198,7 @@ export class TicketsService {
     address: string,
     services: Array<object>,
     imagePath: Array<string>) {
-      
+
     let ticketData: Object;
     // console.log('imagePath: ', JSON.stringify(imagePath));
     ticketData = {
@@ -217,19 +218,18 @@ export class TicketsService {
       imagePath: imagePath
     };
 
-    this.http
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve) => {
+      this.http
       .put(this.BACKEND_URL + id, ticketData)
       .subscribe(response => {
-        this.router.navigate(['ticket']);
+        resolve(ticketData);
       });
+    });
   }
 
   deleteTicket(ticketId: string) {
-    console.log(ticketId);
-    this.http
-      .delete(this.BACKEND_URL + ticketId).subscribe(response => {
-        console.log(response);
-        this.getTickets();
-      });
+    return this.http
+      .delete(this.BACKEND_URL + ticketId);
   }
 }

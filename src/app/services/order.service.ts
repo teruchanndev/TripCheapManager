@@ -223,34 +223,16 @@ export class OrdersService {
       });
   }
 
-  updateIsCancelOrder(
+  updateIsSuccessOrder(
     id: string,
-    status: boolean,
+    isConfirm: boolean,
     isCancel: boolean
   ) {
     let orderData: Object;
     orderData = {
-        status: status,
-        isCancel: isCancel
-    };
-
-    this.http
-      .put<{ message: string; order: Object }>
-        (this.BACKEND_URL + id, orderData)
-      .subscribe(responseData => {
-        console.log(responseData);
-      });
-  }
-
-  updateIsSuccessOrder(
-    id: string,
-    isSuccess: boolean,
-    isConfirm: boolean
-  ) {
-    let orderData: Object;
-    orderData = {
-      isSuccess: isSuccess,
-      isConfirm: isConfirm
+      id: id,
+      isConfirm: isConfirm,
+      isCancel: isCancel
     };
 
     this.http

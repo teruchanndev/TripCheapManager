@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,6 +9,8 @@ import { TicketsService } from '../../services/tickets.service';
 import { ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-ticket-list',
@@ -22,6 +24,8 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
   private ticketsSub: Subscription;
   private authStatusSub: Subscription;
 
+  
+
   userIsAuthenticated = false;
   userId: string;
   dataSource = [];
@@ -34,6 +38,7 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    @Inject(DOCUMENT) private _document: Document,
     public ticketsService: TicketsService,
     private authService: AuthService,
     private router: Router) { }
@@ -61,8 +66,8 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
 
         for (let i = 0; i < this.listTicket.length; i++) {
           this.dataSource[i] = new MatTableDataSource(this.listTicket[i]);
-       //   this.dataSource[i].paginator = this.paginator;
-       //   this.dataSource[i].sort = this.sort;
+        //  this.dataSource[i].paginator = this.paginator;
+        //  this.dataSource[i].sort = this.sort;
         }
       });
 
@@ -86,7 +91,23 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
   }
 
   onDelete(ticketId: string) {
-      this.ticketsService.deleteTicket(ticketId);
+    Swal.fire({
+      title: 'Đồng ý xóa vé',
+      showDenyButton: true,
+      confirmButtonText: `Xóa`,
+      denyButtonText: `Hủy`,
+      icon: 'error'
+    }).then((result)=> {
+      if (result.isConfirmed) {
+        this.ticketsService.deleteTicket(ticketId).subscribe((result) => {
+          Swal.fire({
+            title: "Đã xóa vé thành công!",
+            icon: 'success'}).then(()=> {
+              this._document.defaultView.location.reload();
+            });
+        });
+      } else if (result.isDenied) {}
+    });
   }
 
   ngOnDestroy(): void {

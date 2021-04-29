@@ -7,46 +7,81 @@
                 matBadgePosition="before" style="padding-left: 1rem;">{{itemTab.label}}</span>
         </ng-template>
 
-        <section>
-            <div *ngIf="itemTab.arrOrders.length === 0" style="padding-top: 1rem; text-align: center;">
-              <span>Bạn chưa có {{itemTab.label}} nào! </span>
-            </div>
-            <button mat-button mat-stroked-button color="primary">{{'Tổng: ' + cost[indexTab] + 'đ'}}</button>
-            <div class="row-data" style="padding-top: 1rem; font-weight: bold;">
-                <div class="col-data">Ngay đặt</div>
-                <div class="col-data">Ten vé</div>
-                <div class="col-data">Dịch vụ</div>
-                
-                <div class="col-data">Số lượng</div>
-                <div class="col-data">Tổng tiền</div>
-                <div class="col-data" *ngIf="indexTab === 0">Xác nhận</div>
-            </div>
-            <mat-divider></mat-divider>
-            <mat-card *ngIf="itemTab.arrOrders.length !== 0">
-                <div class="row-data" *ngFor="let item of itemTab.arrOrders; index as i">
-                    <div class="col-data">{{item.orders.dateStart + " - " + item.orders.dateEnd}}</div>
-                    <div class="col-data">{{item.orders.nameTicket}}</div>
-                    <div class="col-data">{{item.orders.itemService[0].name}}</div>
-                    
-                    <div class="col-data">
-                      <div class="col-data-item" *ngFor="let itemService of item.orders.itemService">
-                        {{itemService.quantity}}  x {{itemService.itemServiceName}}
-                      </div>
-                    </div>
-                    <div class="col-data">{{item.price + 'đ'}}</div>
-                    <div class="col-data" *ngIf="indexTab === 0">
-                        <button mat-button mat-stroked-button color="warn"  style="width: 100%;" 
-                            (click) = "CancelOrderManager(item.orders.id, item.orders.idCustomer)">Hủy</button>
-                        <button mat-button mat-raised-button color="primary" style="width: 100%;"  
-                            (click) = "ConfirmOrderManager(item.orders.id, item.orders.idCustomer, indexTab, i)">Xác nhận</button>
-                    </div>
-                </div>
-                <div class="qrcode">
-                    <img #canvas>
-                    <qrcode #qrcode [qrdata]="qrcodeContent" [width]="256" [errorCorrectionLevel]="'M'" [elementType]="'img'" allowEmptyString="true"></qrcode>
-                </div>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="itemTab.arrOrders" matSort>
 
-            </mat-card>
-        </section>
+                <ng-container matColumnDef="qrcode" style=" width: 10%;">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <td mat-cell *matCellDef="let row; let i = index">
+                        <div class="qrcode">
+                            <img #canvas>
+                            <qrcode #qrcode 
+                                [qrdata]="row.qrcode" 
+                                [width]="40" 
+                                [errorCorrectionLevel]="'M'" 
+                                [elementType]="'img'" allowEmptyString="true"></qrcode>
+                        </div>
+                    </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày đặt </th>
+                    <td mat-cell *matCellDef="let row"> {{row.orders.dateStart + " - " + row.orders.dateEnd}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nameTicket">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
+                    <td mat-cell *matCellDef="let row"> {{row.orders.nameTicket}} </td>
+                </ng-container>
+          
+
+                <ng-container matColumnDef="service">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên dịch vụ </th>
+                    <td mat-cell *matCellDef="let row"> {{row.orders.itemService[0].name}} </td>
+                </ng-container>
+          
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng </th>
+                    
+                    <td mat-cell *matCellDef="let row">
+                        <div class="col-data-item" *ngFor="let itemService of row.orders.itemService">
+                            {{itemService.quantity}}  x {{itemService.itemServiceName}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Thanh toán </th>
+                    <td mat-cell *matCellDef="let row"> {{row.price}}đ </td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                    <td mat-cell *matCellDef="let row" >
+                        <button
+                            *ngIf="indexTab === 0" 
+                            mat-button mat-stroked-button color="warn"  style="width: 100%;" 
+                            (click) = "CancelOrderManager(row.orders.id, row.orders.idCustomer)">Hủy</button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="confirm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <td mat-cell *matCellDef="let row; let i = index">
+                        <button 
+                            *ngIf="indexTab === 0"
+                            mat-button mat-raised-button color="primary" style="width: 100%;"  
+                            (click) = "ConfirmOrderManager(row.orders.id, row.orders.idCustomer, indexTab, i)">Xác nhận</button>
+                    </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+
     </mat-tab>
 </mat-tab-group>

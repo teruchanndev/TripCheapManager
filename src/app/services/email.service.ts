@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { stringify } from '@angular/compiler/src/util';
 import { ServiceSelect } from '../modals/serviceSelect.model';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 @Injectable({ providedIn: 'root' })
 export class EmailService {
@@ -36,16 +37,16 @@ export class EmailService {
         text: text,
         html: html
     };
-    console.log(emailData);
-    this.http
+    return new Promise((resolve) => {
+      this.http
       .post<
         { message: string; email: Email }>
-        (this.BACKEND_URL + 'send', emailData)
-      .subscribe(responseData => {
-        console.log(responseData);
-      });
-    console.log(emailData);
-    return emailData;
+        (this.BACKEND_URL + 'send', emailData).subscribe(
+          response => {
+            resolve(response);
+          }
+        )
+    }) 
   }
 
 }

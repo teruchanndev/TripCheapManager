@@ -28,7 +28,7 @@ import { CreateInfoComponent } from './infomations/create-info/create-info.compo
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
-import { OrderListComponent, DialogSendMail } from './orders/order-list/order-list.component';
+import { OrderListComponent } from './orders/order-list/order-list.component';
 import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
@@ -38,14 +38,15 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { TicketsCreateFromExcelComponent } from './tickets/tickets-create-from-excel/tickets-create-from-excel.component';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as  Cloudinary from 'cloudinary-core';
-import { AngularFireModule } from "@angular/fire";
-import { environment } from "../environments/environment";
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import {
   AngularFireStorageModule,
   AngularFireStorageReference,
   AngularFireUploadTask,
   // StorageBucket
-} from "@angular/fire/storage";
+} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,6 @@ import {
     CreateInfoComponent,
     OrderListComponent,
     OrderDetailComponent,
-    DialogSendMail,
     DashboardComponent,
     TicketsComponent,
     OrdersComponent,
@@ -85,7 +85,8 @@ import {
     ImageCropperModule,
     QRCodeModule,
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
+    [SweetAlert2Module.forRoot()],
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud')
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   providers: [

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -15,7 +15,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Service } from 'src/app/modals/service.model';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
-
+import Swal from 'sweetalert2';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-ticket-create',
@@ -81,7 +82,8 @@ export class TicketCreateComponent implements OnInit {
     public ticketsService: TicketsService,
     public categoriesService: CategoriesService,
     public citiesService: CitiesService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    @Inject(DOCUMENT) private _document: Document,
   ) { }
 
 
@@ -382,7 +384,17 @@ export class TicketCreateComponent implements OnInit {
         this.formInfo.value.address,
         this.services,
         values
-      );
+      ).then((value) => {
+        if(value) {
+          Swal.fire({
+            title: 'Tạo vé thành công',
+            icon: 'success'
+          }).then(() => {
+            this._document.defaultView.location.reload();
+          });
+        }
+      })
+
       this.formInfo.reset();
       this.formCategory.reset();
       this.formImage.reset();
@@ -408,7 +420,6 @@ export class TicketCreateComponent implements OnInit {
       reader.readAsDataURL(file);
       console.log('file: '+file.name);
     }
-    
     console.log(this.listImage);
   }
 

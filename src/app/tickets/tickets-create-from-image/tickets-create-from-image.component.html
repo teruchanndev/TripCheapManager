@@ -1,5 +1,5 @@
 <section style="display: flex;">
-    <mat-card style="flex: 60%;">
+    <mat-card style="flex: 50%;">
         <button mat-stroked-button color="primary" (click) = "fileImage.click()">Chọn ảnh (png/jpg)</button>
         <input type="file" (change)="fileChangeEvent($event)" #fileImage style="visibility: hidden;" />
         <div style="width: 750px; min-height: 850px; background-color: #999;">
@@ -37,7 +37,7 @@
             </mat-card>
         </div>
     </mat-card>
-    <mat-card style="flex: 40%; overflow-y: scroll; height: 900px;">
+    <mat-card style="flex: 50%; overflow-y: scroll; height: 900px;">
         <div style="padding: 1rem;"><h3>Tạo một ticket mới:</h3></div>
         
         <mat-vertical-stepper linear #stepper>
@@ -408,7 +408,7 @@
                                     <div style="text-align: center;" 
                                         *ngIf="imagePreview[indexOfelement] !== '' && imagePreview[indexOfelement] && formImage.get('image').valid">
                                         <div class="action_image_icon">
-                                            <mat-icon mat-list-icon style="color: white; padding: 5px 0px;" (click)="deleteImage(indexOfelement)">delete</mat-icon>
+                                            <mat-icon mat-list-icon style="color: white; padding: 5px 0px;" (click)= "deleteImage(indexOfelement)">delete</mat-icon>
                                         </div>
                                     </div>
                                 </div>
