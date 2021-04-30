@@ -173,9 +173,10 @@ export class TicketsService {
       services: services,
       imagePath: imagePath
     };
+    // tslint:disable-next-line:no-shadowed-variable
     return new Promise((resolve) => {
       this.http
-      .post<git 
+      .post<
         { message: string; ticket: Object }>
         (this.BACKEND_URL, ticketData)
       .subscribe(responseData => {
@@ -233,7 +234,4 @@ export class TicketsService {
       .delete(this.BACKEND_URL + ticketId);
   }
 
-  updateQuantity() {
-    
-  }
 }

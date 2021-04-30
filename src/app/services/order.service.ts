@@ -152,7 +152,7 @@ export class OrdersService {
     isConfirm: boolean
   ) {
     // tslint:disable-next-line:prefer-const
-    let orderData: Order | FormData;
+    let orderData: Object | FormData;
     orderData = {
         id: null,
         nameTicket: nameTicket,
@@ -167,11 +167,11 @@ export class OrdersService {
         status: status,
         isCancel: isCancel,
         isSuccess: isSuccess,
-        isConfirm: isConfirm
+        isConfirm: isConfirm,
     };
     this.http
       .post<
-        { message: string; order: Order }>
+        { message: string; order: Object }>
         (this.BACKEND_URL, orderData)
       .subscribe(responseData => {
         console.log(responseData);
@@ -196,7 +196,7 @@ export class OrdersService {
     isSuccess: boolean,
     isConfirm: boolean
   ) {
-    let orderData: Order | FormData;
+    let orderData: Object | FormData;
     orderData = {
         id: id,
         nameTicket: nameTicket,
@@ -216,7 +216,7 @@ export class OrdersService {
     };
 
     this.http
-      .put<{ message: string; order: Order }>
+      .put<{ message: string; order: Object }>
         (this.BACKEND_URL + id, orderData)
       .subscribe(responseData => {
         console.log(responseData);
@@ -252,4 +252,37 @@ export class OrdersService {
         this.getOrders();
       });
   }
+
+  // get order of creator 2
+  getOrderCreator() {
+    this.http.get<
+      { message: string; order: any }>
+      (this.BACKEND_URL + 'manager').pipe(
+        map(orderData => {
+          console.log(orderData);
+          return orderData.order.map(order => {
+            return {
+              id: order._id,
+              nameTicket: order.nameTicket,
+              imageTicket: order.imageTicket,
+              dateStart: order.dateStart,
+              dateEnd: order.dateEnd,
+              idTicket: order.idTicket,
+              idCreator: order.idCreator,
+              idCustomer: order.idCustomer,
+              itemService: order.itemService,
+              status: order.status,
+              isCancel: order.isCancel,
+              isSuccess: order.isSuccess,
+              isConfirm: order.isConfirm
+            };
+          });
+        })
+      ).subscribe(transformedOrder => {
+        console.log(transformedOrder);
+        this.orders = transformedOrder;
+        this.ordersUpdated.next([...this.orders]);
+      });
+  }
+
 }

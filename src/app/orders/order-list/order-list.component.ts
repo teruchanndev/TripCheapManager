@@ -44,8 +44,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('qrcode') qrcode: QRCodeComponent;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
 
   private orderListenerSubs: Subscription;

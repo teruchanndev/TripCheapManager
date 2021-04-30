@@ -48,6 +48,8 @@ import {
   // StorageBucket
 } from '@angular/fire/storage';
 import { ChartsModule } from 'ng2-charts';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -87,8 +89,12 @@ import { ChartsModule } from 'ng2-charts';
     QRCodeModule,
     AngularFireStorageModule,
     [SweetAlert2Module.forRoot()],
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
-    ChartsModule
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    ChartsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   providers: [
