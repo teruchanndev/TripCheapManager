@@ -15,5 +15,5 @@ export interface Order {
     isCancel: boolean; // người dùng hủy
     isSuccess: boolean; // người bán hủy
     isConfirm: boolean; // người bán xác nhận
-    created_at: string;
+    created_at: Date;
 }

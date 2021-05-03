@@ -52,6 +52,32 @@ export class AuthService {
             });
     }
 
+    chagePassword(password: string) {
+      return new Promise((resolve, reject) => {
+        this.http.put(this.BACKEND_URL + 'password', password)
+          .subscribe(() => {
+            resolve(true);
+          }, error => {
+            reject(false);
+          });
+      });
+    }
+
+    deleteAccount(id: string) {
+      return new Promise((resolve) => {
+        this.http.delete(this.BACKEND_URL + 'delete/' + id).subscribe(() => {
+          this.token = null;
+          this.isAuthenticated = false;
+          this.authStatusListener.next(false);
+          this.userId = null;
+          clearTimeout(this.tokenTimer);
+          this.clearAuthData();
+          this.router.navigate(['/home']);
+        }
+        );
+      })
+    }
+
     login(email: string, password: string) {
         const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
         console.log(authData);

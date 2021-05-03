@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: 'ticket/create-upload-image', component: TicketsCreateFromImageComponent },
       { path: 'ticket/create-upload-excel', component: TicketsCreateFromExcelComponent },
       { path: 'ticket/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
-      { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
+      { path: 'home/setting', component: InformationComponent, canActivate: [AuthGuard] },
       { path: 'order', component: OrderListComponent},
 
     ] },

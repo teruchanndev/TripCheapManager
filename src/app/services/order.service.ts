@@ -125,7 +125,8 @@ export class OrdersService {
               status: order.status,
               isCancel: order.isCancel,
               isSuccess: order.isSuccess,
-              isConfirm: order.isConfirm
+              isConfirm: order.isConfirm,
+              created_at: order.created_at
             };
           });
         })

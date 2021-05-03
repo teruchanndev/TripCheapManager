@@ -1,45 +1,113 @@
-
-
-<mwl-demo-utils-calendar-header
-  [(view)]="view"
-  [(viewDate)]="viewDate"
-  (viewDateChange)="fetchEvents()"
-  (viewChange)="fetchEvents()"
->
-</mwl-demo-utils-calendar-header>
-
-<ng-template #loading>
-  <div class="text-center">
-    <i class="fas fa-spin fa-spinner fa-5x"></i> <br />
-    Loading events...
+<div style="display: flex;">
+  <!-- calendar -->
+  <div style="flex: 60%;">
+    <!-- button -->
+    <div style="display: flex; width: 100%; justify-content: space-between; padding-bottom: 2rem;">
+      <div class="btn_pre_next" style="display: flex;">
+        <button mat-stroked-button
+                color = "accent"
+                mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">Previous
+        </button>
+        <button mat-stroked-button
+                mwlCalendarToday [(viewDate)]="viewDate">Today
+        </button>
+        <button mat-stroked-button
+                color = "primary"
+                mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">Next
+        </button>
+      </div>
+      <div>
+          <h2>{{ viewDate | calendarDate: (view + 'ViewTitle') : 'en' }}</h2>
+      </div>
+      <div class="btn_swith" style="display: flex; float: right;">
+        <button mat-stroked-button
+                color = "primary"
+                (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month
+        </button>
+        <button mat-stroked-button
+                color = "primary"
+                (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week
+        </button>
+        <button mat-stroked-button
+                color = "primary"
+                (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day
+        </button>
+      </div>
+    </div>
+    <!-- calendar -->
+    <mat-card [ngSwitch]="view">
+      <mwl-calendar-month-view 
+        *ngSwitchCase="CalendarView.Month" 
+        [viewDate]="viewDate" 
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)">
+      </mwl-calendar-month-view>
+    
+      <mwl-calendar-week-view 
+        *ngSwitchCase="CalendarView.Week" 
+        [viewDate]="viewDate" 
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)">
+      </mwl-calendar-week-view>
+    
+      <mwl-calendar-day-view 
+        *ngSwitchCase="CalendarView.Day" 
+        [viewDate]="viewDate" 
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)">
+      </mwl-calendar-day-view>
+    </mat-card>
   </div>
-</ng-template>
+  
+  <div style="flex: 40%; margin-left: 2rem;">
+    <!-- info user -->
+    <mat-card style="display: flex; padding: 2rem;">
+      <img src={{user.imageAvt}} width="60px" height="60px">
+      <div style="margin-left: 1rem;">
+        <div><span style="font-weight: bold; color: #235bd2;">Tên: </span>  {{user.username}}</div>
+        <div><span style="font-weight: bold; color: #235bd2;">Tên đại lý: </span>  {{user.nameShop}}</div>
+        <div><span style="font-weight: bold; color: #235bd2;">Số lượng vé: </span>  {{countTicket}} vé</div>
+      </div>
+      <div style="position: absolute; right: 0; margin-right: 2rem;">
+        <button mat-stroked-button color="primary" [routerLink]="['setting']">Chỉnh Sửa</button>
+      </div>
+    </mat-card>
 
-<div *ngIf="events; else loading; let events">
-  <div [ngSwitch]="view">
-    <mwl-calendar-month-view
-      *ngSwitchCase="'month'"
-      [viewDate]="viewDate"
-      [events]="events"
-      [activeDayIsOpen]="activeDayIsOpen"
-      (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="eventClicked($event.event)"
-    >
-    </mwl-calendar-month-view>
-    <mwl-calendar-week-view
-      *ngSwitchCase="'week'"
-      [viewDate]="viewDate"
-      [events]="events"
-      (eventClicked)="eventClicked($event.event)"
-    >
-    </mwl-calendar-week-view>
-    <mwl-calendar-day-view
-      *ngSwitchCase="'day'"
-      [viewDate]="viewDate"
-      [events]="events"
-      (eventClicked)="eventClicked($event.event)"
-    >
-    </mwl-calendar-day-view>
+    <!-- chart ticket -->
+    <div style="margin-top: 1rem; display: flex;">
+      <mat-card class="item-ticket" style="margin-right: 0.5rem; background-color: #ffe6e2;">
+        <div style="width: 100%; text-align: center; color: #fc684f; font-weight: bolder;"> Đã Bán </div>
+        <div class="count_ticket">{{countTicketComplete}}/<span style="font-size: 32px;">{{countTicket}}</span></div>
+        <div class="count_ticket_lable">vé</div>
+      </mat-card>
+      <mat-card class="item-ticket" style="margin-left: 0.5rem; background-color: #e3f8fa;">
+        <div style="width: 100%; text-align: center; color: #59d4e3; font-weight: bolder;">Tổng Doanh Thu </div>
+        <div class="money_ticket">{{revenueTicket.toLocaleString('en-us', {minimumFractionDigits: 0})}} </div>
+        <div class="money_ticket_lable">đồng</div>
+      </mat-card>
+    </div>
+
+    <!-- chart order -->
+    <mat-card style="margin-top: 1rem;">
+      <div class="chart-wrapper" style="padding-bottom: 1rem;">
+        <h4 style="text-align: center;margin-top: 0rem; margin-bottom: 2.5rem;">Thống Kê Đơn Hàng</h4>
+        <canvas baseChart 
+          [colors]="chartColors"
+          [data]="doughnutChartData"
+          [labels]="doughnutChartLabels"
+          [chartType]="doughnutChartType"
+          [options]="options">
+        </canvas>
+      </div>
+    </mat-card>
   </div>
 </div>
+
+
 

@@ -1,3 +1,54 @@
 .dashboard {
     display: flex;
 }
+.cal-events {
+    display: none !important;
+}
+.item-ticket {
+    flex: 50%;
+    display: flex; 
+    padding-top: 2rem;
+    justify-content: center; 
+    align-items: center; 
+    flex-wrap: wrap;
+}
+.count_ticket {
+    width: 100%; 
+    text-align: center;
+    padding: 1rem 0.5rem 0rem 0.5rem;
+    font-size: 40px;
+    font-weight: bolder;
+    color: #fc684f;
+}
+.money_ticket {
+    width: 100%; 
+    text-align: center;
+    padding: 1rem 0.5rem 0rem 0.5rem;
+    font-size: 40px;
+    font-weight: bolder;
+    color: #26c6da;
+}
+.money_ticket_lable {
+    width: 100%; 
+    text-align: center;
+    padding-bottom: 2rem;
+    /* padding: 1rem 0.5rem 2rem 0.5rem; */
+    font-size: 40px;
+    font-weight: bolder;
+    color: #26c6da;
+}
+.count_ticket_lable {
+    width: 100%; 
+    text-align: center;
+    padding-bottom: 2rem;
+    /* padding: 1rem 0.5rem 2rem 0.5rem; */
+    font-size: 40px;
+    font-weight: bolder;
+    color: #fc684f;
+}
+
+.cal-month-view .cal-open-day-events  {
+    background-color: #e3f8fa;
+    color: dodgerblue;
+    box-shadow: none;
+}

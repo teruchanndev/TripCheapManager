@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { mimeType } from '../../tickets/ticket-create/mime-type.validator';
 import { User } from '../../modals/user.model';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2';
+import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-information',
@@ -16,11 +19,16 @@ export class InformationComponent implements OnInit, OnDestroy {
 
   private authListenerSubs: Subscription;
   private infoUserSub: Subscription;
+  showChangePass = false;
+
   userIsAuthenticated = false;
   username: string;
   createdAt: string;
+  userId: string;
 
   user: User;
+  downloadURL: Observable<string>;
+  storageRef: AngularFireStorageReference;
 
   imagePreview = '';
   imageStorage: File;
@@ -30,15 +38,18 @@ export class InformationComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   constructor(
+    private storage: AngularFireStorage,
     private authService: AuthService,
     public route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
   
   ngOnInit(): void {
 
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.username = this.authService.getUsername();
+    this.userId = this.authService.getUserId();
     this.createdAt = this.authService.getCreatedAt();
     console.log(this.createdAt);
     this.authListenerSubs = this.authService
@@ -85,14 +96,48 @@ export class InformationComponent implements OnInit, OnDestroy {
     })
   }
 
+  onUploadImageToFirebase(img) {
+    var n = Date.now();
+    console.log(img);
+    const filePath = `image_upload/${n}`;
+    const fileRef = this.storage.ref(filePath);
+
+    return new Promise<any>((resolve, reject) => {
+      const task = this.storage.upload(`image_upload/${n}`, img);
+
+        task.snapshotChanges().pipe(
+            finalize(() => fileRef.getDownloadURL().subscribe(
+                res => resolve(res),
+                err => reject(err))
+            )
+        ).subscribe();
+    })
+  };
+
   onSaveInfo(){
+    console.log(this.imagePreview);
     console.log(this.form.value);
-    this.userService.updateInfo(
-      this.form.value.nameShop,
-      this.form.value.imageAvt,
-      this.form.value.imageCover,
-      this.form.value.desShop
-    );
+    var imageAvtUploaded;
+    var imageCoverUploaded;
+
+    if(this.imagePreviewAvt.substr(0,4) === 'data' && this.imagePreview.substr(0,4) !== 'data') {
+      imageAvtUploaded = this.onUploadImageToFirebase(this.imagePreviewAvt);
+          this.userService.updateInfo(
+          this.form.value.nameShop,
+          imageAvtUploaded,
+          this.form.value.imageCover,
+          this.form.value.desShop
+        );
+    }
+    if(this.imagePreview.substr(0,4) === 'data' && this.imagePreviewAvt.substr(0,4) !== 'data') {
+      imageCoverUploaded = this.onUploadImageToFirebase(this.imagePreview);
+    }
+    // this.userService.updateInfo(
+    //   this.form.value.nameShop,
+    //   this.form.value.imageAvt,
+    //   this.form.value.imageCover,
+    //   this.form.value.desShop
+    // );
   }
 
   onPickImage(event: Event) {
@@ -121,6 +166,64 @@ export class InformationComponent implements OnInit, OnDestroy {
     };
     reader.readAsDataURL(file);
   }
+
+  chagePassword(form: NgForm) {
+
+    if (form.invalid) { return; }
+    if(form.value.passwordChange !== form.value.rePasswordChange) {
+      Swal.fire({
+        title: 'Mật khẩu không trùng khớp!',
+        icon: 'error'
+      });
+    } else {
+      this.authService.chagePassword(form.value.passwordChange).then(
+        (result) => {
+          if(result) {
+            Swal.fire({
+              title: 'Bạn đã thay đổi mật khẩu thành công! Vui lòng đăng nhập lại!',
+              icon: 'success'
+            }).then(() => {
+              this.router.navigate(['/login']);
+            });
+          } else {
+            Swal.fire({
+              title: 'Thay đổi mật khẩu thất bại! Vui lòng kiểm tra lại!',
+              icon: 'error'
+            }).then(() => {
+              // this.router.navigate(['/login']);
+            });
+          }
+        });
+    }
+    
+  }
+
+  cancelChangePass() {
+    this.showChangePass = false;
+  }
+
+  deleteAccount() {
+    Swal.fire({
+      title: 'Bạn có muốn xóa tài khoản không?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((result) => {
+      if(result.isConfirmed) {
+        console.log('customerId: ', this.userId);
+        this.authService.deleteAccount(this.userId).then(() => {
+          Swal.fire({
+            title: 'Bạn đã xóa thành công!',
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['home']);
+          })
+        });
+      } else {
+
+      }
+    })
+  }
+  
 
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();

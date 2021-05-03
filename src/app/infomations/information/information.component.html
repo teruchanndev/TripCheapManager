@@ -1,12 +1,11 @@
 <mat-card style="padding: 4rem 5rem">
-    <h3>Hồ Sơ Shop</h3>
-    <p style="font-size: 13px; color: #999;">Xem tình trạng Shop và cập nhật hồ sơ Shop của bạn.</p>
+    <h2>Thông Tin Cá Nhân</h2>
+    <p style="font-size: 16px; color: #999;">Thay đổi thông tin của bạn.</p>
     <form 
-    [formGroup] = 'form'
-    >
+    [formGroup] = 'form'>
 
-        <mat-tab-group mat-align-tabs="start">
-            <mat-tab label="Thông tin cơ bản" style="color: purple; font-weight: 500;">
+        <!-- <mat-tab-group mat-align-tabs="start"> -->
+            <!-- <mat-tab label="Thông tin cơ bản" style="color: purple; font-weight: 500;"> -->
                 <div class="info">
                     <div class="info1">
                         <div class="image_cover_upload">
@@ -19,23 +18,10 @@
                             color="primary" 
                             class="edit_image_cover" (click) = "filePickerCover.click()">Sửa ảnh bìa</button>
                         </div>
-                        <div>
-                            <mat-list>
-                                <mat-list-item>Giao diện shop trên máy tính</mat-list-item>
-                                <mat-list-item>Sản phẩm</mat-list-item>
-                                <mat-list-item>Tỉ lệ phản hồi</mat-list-item>
-                                <mat-list-item>Thời gian phản hồi</mat-list-item>
-                                <mat-list-item>Đánh giá shop</mat-list-item>
-                                <mat-list-item>Tỉ lệ đơn không thành công</mat-list-item>
-                            </mat-list>
-                        </div>
-                    </div>
-                    <div class="info2">
-                        
                         <div class="info_user">
                             <div class="image_cover_upload_avt">
                                 <input type="file" #filePickerAvt (change) = "onPickImageAvt($event)">
-                                <img 
+                                <img width="60px" height="60px"
                                     [src]="imagePreviewAvt" 
                                     *ngIf="imagePreviewAvt !== '' && imagePreviewAvt && form.get('imageAvt').valid">
                                 <button 
@@ -47,44 +33,101 @@
                                 <div>
                                     <mat-list-item style="font-size: 18px; color: purple; font-weight: 500;">{{username || ''}}</mat-list-item>
                                     <mat-list-item>Đã tham gia: {{createdAt}}</mat-list-item>
-                                    <mat-list-item>Người theo dõi: </mat-list-item>
-                                    <mat-list-item>Theo dõi: </mat-list-item>
                                 </div>
                             </div>
                         </div>
-                            
-
                         <mat-form-field class="form_field" appearance="outline">
-                            <mat-label>Tên Shop</mat-label>
+                            <mat-label>Tên Đại Lý</mat-label>
                             <input
                             #inputName
                             matInput
                             minlength = '5'
                             type="text"
                             formControlName = "nameShop"
-                            placeholder="Tên Shop">
+                            placeholder="Tên Đại Lý">
                             <mat-hint align = "end">{{inputName.value?.length || 0}}/30</mat-hint>
                             <mat-error *ngIf="form.get('nameShop').hasError('minlength')">Tên shop phải ít nhất từ 5-30 ký tự.</mat-error>
                             <mat-error *ngIf="form.get('nameShop').hasError('required')">Vui lòng nhập tên shop</mat-error>
                         </mat-form-field>
-
+    
                         <mat-form-field class="form_field" appearance="outline">
-                            <mat-label>Mô tả shop</mat-label>
+                            <mat-label>Mô tả đại lý</mat-label>
                             <textarea
                               style="height: 150px;"
                               #inputDes
                               matInput
                               type="text"
                               formControlName = "desShop"
-                              placeholder="Mô tả shop">
+                              placeholder="Mô tả đại lý">
                             </textarea>
                             <mat-hint align = "end">{{inputDes.value?.length || 0}}/5000</mat-hint>
-                          </mat-form-field>
-
+                        </mat-form-field>
+                    </div>
+                    
+                        
+                    <div class="info2"> 
+                        <div class="action">
+                            <mat-card style="margin-bottom: 1rem;">
+                              <tr style="width: 100%;">
+                                <td>Thay đổi mật khẩu</td>
+                                <td  style="width: 5%;">
+                                  <button mat-stroked-button color="warn" (click)="showChangePass = !showChangePass">
+                                    <span *ngIf="!showChangePass">Đặt lại mật khẩu</span>
+                                    <span *ngIf="showChangePass">Hủy</span>
+                                  </button>
+                                </td>
+                              </tr>
+                            </mat-card>
+                            <mat-card class="change-pass" *ngIf="showChangePass">
+                              <form style="width: 100%;" (submit)='chagePassword(formChangePass)' #formChangePass = 'ngForm'>
+                                <div class="change-pass-item">
+                                  <h5>Nhập mật khẩu mới:</h5>
+                                  <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Nhập mật khẩu mới:</mat-label>
+                                    <input 
+                                      type="password"
+                                      matInput placeholder=""
+                                      name = "passwordChange"
+                                      ngModel
+                                      #passwordChange = 'ngModel'
+                                      required
+                                      >
+                                      <mat-error *ngIf="passwordChange.invalid">Vui lòng nhập mật khẩu.</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="change-pass-item">
+                                  <h5>Nhập lại mật khẩu mới:</h5>
+                                  <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Nhập lại mật khẩu mới:</mat-label>
+                                    <input 
+                                      type="password" 
+                                      matInput placeholder=""
+                                      name = "rePasswordChange"
+                                      ngModel
+                                      #rePasswordChange = 'ngModel'
+                                      required
+                                      >
+                                      <mat-error *ngIf="rePasswordChange.invalid">Vui lòng nhập mật khẩu.</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div style="margin: 1rem;">
+                                  <button mat-stroked-button color="accent" (click) = "cancelChangePass()">Hủy</button>
+                                  <button type="submit" mat-raised-button color="primary" style="margin-left: 1rem;">Lưu thay đổi</button>
+                                </div>
+                              </form>
+                              
+                            </mat-card>
+                            <mat-card>
+                              <tr style="width: 100%;">
+                                <td>Xóa tài khoản</td>
+                                <td style="width: 5%;"><button mat-stroked-button color="warn" (click) = "deleteAccount()">Xóa</button></td>
+                              </tr>
+                            </mat-card>
+                          </div>
                     </div>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
+            <!-- </mat-tab> -->
+        <!-- </mat-tab-group> -->
 
         <div class="btn-action">
             <button mat-stroked-button color="warn" class="btn-item" style="margin-right: 1rem;">Hủy</button>

@@ -4,7 +4,7 @@
 }
 .info1{
     flex: 45%;
-    border: 1px solid silver;
+    /* border: 1px solid silver; */
 }
 .info2{
     flex: 45%;
@@ -57,17 +57,17 @@ input[type="file"] {
 }
 
 .image_cover_upload_avt{
-    
+    margin-top: 1rem;
     position: relative;
     border: 1px solid silver;
     border-radius: 50%;
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
 }
 
 .image_cover_upload_avt img{
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
     border-radius: 50%;
     background-size: cover;
     border: 1xp solid #f9f9f9;
@@ -102,3 +102,17 @@ input[type="file"] {
 .btn-item{
     flex: 30%;
 }
+
+.change-pass {
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 100%; */
+  }
+  
+  .change-pass-item {
+    width: 100%;
+  }
+
+  .mat-tab-body.mat-tab-body-active {
+      overflow-y: hidden !important;
+  }
