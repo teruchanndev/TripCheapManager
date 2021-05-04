@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 import Swal from 'sweetalert2';
 import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-information',
@@ -42,7 +43,8 @@ export class InformationComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public route: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private _document: Document
   ) { }
   
   ngOnInit(): void {
@@ -121,23 +123,70 @@ export class InformationComponent implements OnInit, OnDestroy {
     var imageCoverUploaded;
 
     if(this.imagePreviewAvt.substr(0,4) === 'data' && this.imagePreview.substr(0,4) !== 'data') {
-      imageAvtUploaded = this.onUploadImageToFirebase(this.imagePreviewAvt);
-          this.userService.updateInfo(
+      imageAvtUploaded = this.onUploadImageToFirebase(this.imageAvtStorage).then((result) => {
+        this.userService.updateInfo(
           this.form.value.nameShop,
-          imageAvtUploaded,
-          this.form.value.imageCover,
+          result,
+          this.imagePreview,
           this.form.value.desShop
-        );
+        ).then((resovel) => {
+          Swal.fire({
+            title: 'Sửa thông tin thành công!',
+            icon: 'success'
+          }).then(() => { this._document.defaultView.location.reload(); });
+        });
+      });
+
     }
-    if(this.imagePreview.substr(0,4) === 'data' && this.imagePreviewAvt.substr(0,4) !== 'data') {
+    else if(this.imagePreview.substr(0,4) === 'data' && this.imagePreviewAvt.substr(0,4) !== 'data') {
+      imageCoverUploaded = this.onUploadImageToFirebase(this.imageStorage).then((result) => {
+        this.userService.updateInfo(
+          this.form.value.nameShop,
+          this.imagePreviewAvt,
+          result,
+          this.form.value.desShop
+        ).then((resovel) => {
+          Swal.fire({
+            title: 'Sửa thông tin thành công!',
+            icon: 'success'
+          }).then(() => { this._document.defaultView.location.reload(); });
+        });
+      });
+      
+      
+    }
+    else if(this.imagePreview.substr(0,4) === 'data' && this.imagePreviewAvt.substr(0,4) === 'data') {
+      imageAvtUploaded = this.onUploadImageToFirebase(this.imagePreviewAvt);
       imageCoverUploaded = this.onUploadImageToFirebase(this.imagePreview);
+      Promise.all([imageAvtUploaded, imageCoverUploaded]).then((result) => {
+        this.userService.updateInfo(
+          this.form.value.nameShop,
+          result[0],
+          result[1],
+          this.form.value.desShop
+        ).then((resovel) => {
+          Swal.fire({
+            title: 'Sửa thông tin thành công!',
+            icon: 'success'
+          }).then(() => { this._document.defaultView.location.reload(); });
+        });
+      });
+
     }
-    // this.userService.updateInfo(
-    //   this.form.value.nameShop,
-    //   this.form.value.imageAvt,
-    //   this.form.value.imageCover,
-    //   this.form.value.desShop
-    // );
+    else if(this.imagePreview.substr(0,4) !== 'data' && this.imagePreviewAvt.substr(0,4) !== 'data') {
+      this.userService.updateInfo(
+        this.form.value.nameShop,
+        this.imagePreviewAvt,
+        this.imagePreview,
+        this.form.value.desShop
+      ).then((resovel) => {
+        Swal.fire({
+          title: 'Sửa thông tin thành công!',
+          icon: 'success'
+        }).then(() => { this._document.defaultView.location.reload(); });
+      });
+    }
+
   }
 
   onPickImage(event: Event) {

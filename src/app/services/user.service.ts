@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -36,20 +37,23 @@ export class UserService {
         iCover: File | string,
         desShop: string
     ) {
-        let infoData: Object;
-        
-        infoData = {
-            nameShop: nameShop,
-            iAvt: iAvt,
-            iCover: iCover,
-            desShop: desShop
-        }
-        console.log(infoData);
-
-        this.http.put(this.BACKEND_URL + 'info/edit', infoData)
-        .subscribe(response => {
-            this.getInfoUser();
+        return new Promise((resolve) => {
+            let infoData: Object;
+            infoData = {
+                nameShop: nameShop,
+                iAvt: iAvt,
+                iCover: iCover,
+                desShop: desShop
+            }
+            console.log(infoData);
+    
+            this.http.put(this.BACKEND_URL + 'info/edit', infoData)
+            .subscribe(response => {
+                resolve(true);
+                // this.getInfoUser();
+            });
         });
+        
     }
 
     getAvatar() {

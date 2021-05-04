@@ -15,7 +15,7 @@ mat-icon{
 .example-toolbar{
   position: fixed;
   z-index: 9999;
-  width: 88%;
+  width: 85%;
   box-shadow:  5px 5px 5px #f1f1f1;
   border-bottom: 0.5px solid #f1f1f1;
   background-color: white;
@@ -33,7 +33,7 @@ mat-icon{
   justify-content: center;
 }
 .example-sidenav {
-  width: 12%;
+  width: 15%;
   user-select: none;
 }
 .full-width {
