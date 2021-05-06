@@ -234,4 +234,8 @@ export class TicketsService {
       .delete(this.BACKEND_URL + ticketId);
   }
 
+  deleteListTicket(ticketId: Array<string>) {
+    return this.http
+      .delete(this.BACKEND_URL + 'list/' + ticketId.toString());
+  }
 }

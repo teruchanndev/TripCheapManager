@@ -26,7 +26,8 @@ export class UserService {
             imageCover: string,
             desShop: string,
             follower: number,
-            watching: number
+            watching: number,
+            created_at: Date
         }>(this.BACKEND_URL + 'info');
     }
 

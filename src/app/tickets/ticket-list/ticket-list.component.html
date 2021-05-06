@@ -1,17 +1,72 @@
-<div style="display: flex;">
+<!-- <div style="display: flex;">
   <mat-form-field appearance="outline">
     <mat-label><mat-icon style="padding-right: 1rem;">search</mat-icon>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
   </mat-form-field>
-</div>
+</div> -->
 
-<mat-tab-group>
+<mat-tab-group (selectedIndexChange)="_setDataSource($event)">
   <mat-tab *ngFor="let item of dataSource; index as i">
-    <ng-template mat-tab-label>
+    <ng-template mat-tab-label style="border: 1px solid #f1f1f1;">
       <span matBadge={{listTicket[i].length}} matBadgeOverlap="false" >{{tabName[i]}}</span>
     </ng-template>
     <div class="mat-elevation-z8">
-      <table mat-table [dataSource] = 'item' matSort>
+      <mat-card class="filter-table">
+        <div class="search_div">
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <mat-icon matSuffix style="padding-right: 1rem;">search</mat-icon>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
+          </mat-form-field>
+        </div>
+        <div class="filter_div">
+          <mat-form-field appearance="outline">
+            <mat-label>Thể loại</mat-label>
+            <mat-select 
+            [(ngModel)]="selectedCategoryValue"
+            (selectionChange) = "filterTable(selectedCategoryValue)">
+              <mat-option value="all" selected>Tất cả</mat-option>
+              <mat-option 
+                *ngFor="let category of categoryFilter"
+                [value]="category"
+                >{{category}}
+              </mat-option>
+            </mat-select>
+            <mat-hint align="start" style="font-size: 14px;">Bộ lọc theo thể loại</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="filter_div">
+          <mat-form-field appearance="outline">
+            <mat-label>Thành phố</mat-label>
+            <mat-select [(ngModel)]="selectedCityValue"
+            (selectionChange) = "filterTable(selectedCityValue)">
+              <mat-option value="all" selected>Tất cả</mat-option>
+              <mat-option 
+                *ngFor="let city of cityFilter"
+                [value]="city">{{city}}</mat-option>
+            </mat-select>
+            <mat-hint align="start" style="font-size: 14px;">Bộ lọc theo thành phố</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card>
+
+      <mat-card *ngIf="showDelete">
+        <button mat-raised-button color="accent" (click) = "deleteTicketSelect(i)">Xóa vé đã chọn</button>
+      </mat-card>
+
+      <table mat-table [dataSource] = 'item' matSort style="border: 1px solid #f1f1f1;">
+
+        <ng-container matColumnDef="check" *ngIf="userIsAuthenticated">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change) = "setAll($event.checked, i)"></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element; let y = index">
+            <mat-checkbox 
+              [checked] = "allComplete[i][y]"
+              (change)="setSome($event.checked, i, y)"></mat-checkbox>
+        </ng-container>
+
         <ng-container matColumnDef="title" *ngIf="userIsAuthenticated">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
           <td mat-cell *matCellDef="let element"  style="width: 40%;">
@@ -66,10 +121,11 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="6" style="text-align: center;">"Bạn chưa có sản phẩm nào. Hãy tạo sản phẩm của mình."</td>
+          <td class="mat-cell" colspan="6" style="text-align: center; font-size: 18px;">"Không tìm thấy vé!"</td>
         </tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <mat-paginator style=" border: 1px solid #f1f1f1;
+      background-color: #efefef;" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
     </div>
   </mat-tab>
 </mat-tab-group>

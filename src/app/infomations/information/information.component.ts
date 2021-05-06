@@ -52,8 +52,10 @@ export class InformationComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.username = this.authService.getUsername();
     this.userId = this.authService.getUserId();
-    this.createdAt = this.authService.getCreatedAt();
-    console.log(this.createdAt);
+    // this.createdAt =  new Date(this.authService.getCreatedAt());
+    // console.log('createDate: ', this.createdAt);
+    // console.log('dateString: ', this.authService.getCreatedAt());
+    // console.log(this.createdAt);
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
@@ -81,7 +83,8 @@ export class InformationComponent implements OnInit, OnDestroy {
             imageCover: infoData.imageCover,
             desShop: infoData.desShop,
             follower: infoData.follower,
-            watching: infoData.watching
+            watching: infoData.watching,
+            created_at: infoData.created_at
           }
           console.log(this.user);
 
@@ -91,7 +94,8 @@ export class InformationComponent implements OnInit, OnDestroy {
             imageAvt: this.user.imageAvt,
             desShop: this.user.desShop || ''
           });
-
+          var daycreate = new Date(infoData.created_at);
+          this.createdAt = daycreate.getUTCDate() + '/' + daycreate.getUTCMonth() + '/' + daycreate.getUTCFullYear();
           this.imagePreviewAvt = this.user.imageAvt;
           this.imagePreview = this.user.imageCover;
       });

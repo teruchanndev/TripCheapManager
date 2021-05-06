@@ -64,7 +64,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         imageCover: v.imageCover,
         desShop: v.desShop,
         follower: v.follower,
-        watching: v.watching
+        watching: v.watching,
+        created_at: v.created_at
       };
       this.imageAvt = v.imageAvt;
     });

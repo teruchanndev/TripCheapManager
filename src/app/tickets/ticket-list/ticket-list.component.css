@@ -2,15 +2,44 @@ table {
   width: 100%;
   position: relative;
   height: 200px;
-  overflow: auto;
+  overflow:scroll;
   box-shadow: 0 0 20px #f1f1f1;
 }
+
+.mat-elevation-z8 {
+  position: relative;
+}
+
 
 .mat-form-field {
   font-size: 14px;
   width: 100%;
+  margin-top: -0.5rem;
+  /* padding-bottom: 1rem; */
 }
 
 td.mat-cell:first-of-type {
   padding-right: 24px ;
+}
+
+th {
+  font-size: 18px;
+  font-weight: bolder;
+  color: purple;
+  background-color: #efefef;
+  border: 1px solid #f1f1f1;
+}
+
+.filter-table {
+  /* height: 50px; */
+  /* width: 100%; */
+  border: 1px solid #f1f1f1;
+  display: flex;
+}
+
+.search_div {
+  width: 35%;
+}
+.filter_div {
+  padding-left: 2rem;
 }

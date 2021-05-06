@@ -117,7 +117,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           imageCover: infoData.imageCover,
           desShop: infoData.desShop,
           follower: infoData.follower,
-          watching: infoData.watching
+          watching: infoData.watching,
+          created_at: infoData.created_at
         }
       console.log('user', this.user);
       });

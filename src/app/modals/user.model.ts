@@ -6,4 +6,5 @@ export interface User {
     desShop: string;
     follower: number;
     watching: number;
+    created_at: Date;
 }

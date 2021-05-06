@@ -1,11 +1,11 @@
 
 <mat-card-content>
-  <h3>Thêm Một Sản Phẩm Mới</h3>
-  <p style="font-size: 14px; color: #999;">Vui lòng chọn ngành hàng phù hợp cho sản phẩm của bạn.</p>
+  <h3>Thay đổi thông tin sản phẩm</h3>
+  <!-- <p style="font-size: 14px; color: #999;">.</p> -->
 </mat-card-content>
 
 <button mat-raised-button (click)="isEditable = !isEditable">
-  {{!isEditable ? 'Enable edit mode' : 'Disable edit mode'}}
+  {{!isEditable ? 'Kích hoạt nút chỉnh sửa' : 'Vô hiệu hóa chỉnh nút chỉnh sửa'}}
 </button>
 
 <mat-horizontal-stepper linear #stepper>
@@ -24,9 +24,9 @@
             type="text"
             formControlName = "title"
             placeholder="Tên vé">
-          <!-- <mat-hint align = "end">{{inputTitle.value?.length || 0}}/120</mat-hint> -->
-          <!-- <mat-error *ngIf="formInfo.get('title').hasError('minlength')">Tên sản phẩm của bạn quá ngắn, vui lòng nhập ít nhất 10 ký tự.</mat-error> -->
-          <!-- <mat-error *ngIf="formInfo.get('title').hasError('required')">Vui lòng nhập tên sản phẩm</mat-error> -->
+          <mat-hint align = "end">{{inputTitle.value?.length || 0}}/120</mat-hint>
+          <mat-error *ngIf="formInfo.get('title').hasError('minlength')">Tên sản phẩm của bạn quá ngắn, vui lòng nhập ít nhất 10 ký tự.</mat-error>
+          <mat-error *ngIf="formInfo.get('title').hasError('required')">Vui lòng nhập tên sản phẩm</mat-error>
         </mat-form-field>
 
         <mat-form-field class="form_field" appearance="outline">
@@ -40,9 +40,9 @@
             formControlName = "content"
             placeholder="Mô tả vé">
           </textarea>
-          <!-- <mat-hint align = "end">{{inputContent.value?.length || 0}}/3000</mat-hint> -->
-          <!-- <mat-error *ngIf="formInfo.get('content').hasError('minlength')">Mô tả của bạn quá ngắn, vui lòng nhập ít nhất 100 ký tự.</mat-error> -->
-          <!-- <mat-error *ngIf="formInfo.get('content').hasError('required')">Vui lòng nhập mô tả sản phẩm</mat-error> -->
+          <mat-hint align = "end">{{inputContent.value?.length || 0}}/3000</mat-hint>
+          <mat-error *ngIf="formInfo.get('content').hasError('minlength')">Mô tả của bạn quá ngắn, vui lòng nhập ít nhất 100 ký tự.</mat-error>
+          <mat-error *ngIf="formInfo.get('content').hasError('required')">Vui lòng nhập mô tả sản phẩm</mat-error>
         </mat-form-field>
 
         <mat-form-field class="form_field" appearance="outline">
@@ -53,7 +53,7 @@
                  matInput
                  formControlName = "city"
                  [matAutocomplete]="auto">
-          <!-- <mat-error *ngIf="formInfo.get('city').hasError('required')">Vui lòng chọn một thành phố</mat-error> -->
+          <mat-error *ngIf="formInfo.get('city').hasError('required')">Vui lòng chọn một thành phố</mat-error>
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of cities" [value]="option.name">
               {{option.name}}
@@ -65,11 +65,11 @@
           <input
             #inputTitle
             matInput
-            minlength = '10'
+            minlength = '3'
             type="text"
             formControlName = "address"
             placeholder="Địa chỉ cụ thể">
-          <!-- <mat-hint align = "end">{{inputTitle.value?.length || 0}}/300</mat-hint> -->
+          <mat-hint align = "end">{{inputTitle.value?.length || 0}}/300</mat-hint>
         </mat-form-field>
       </mat-card>
       <div style="margin-top: 1rem; float: right;">
@@ -95,9 +95,9 @@
               formControlName = "price_enter"
               [(ngModel)] = 'price'
               (change)="calPrice_reduce()">
-              <!-- <mat-error *ngIf="formCategory.get('price_enter').hasError('required')">Vui lòng nhập giá sản phẩm.</mat-error> -->
-              <!-- <mat-error *ngIf="formCategory.get('price_enter').hasError('min')">Giá trị sản phẩm phải ít nhất 1.000.</mat-error> -->
-              <!-- <mat-error *ngIf="formCategory.get('price_enter').hasError('max')">Giá trị sản phẩm đã vượt quá 120.000.000.</mat-error> -->
+              <mat-error *ngIf="formCategory.get('price_enter').hasError('required')">Vui lòng nhập giá sản phẩm.</mat-error>
+              <mat-error *ngIf="formCategory.get('price_enter').hasError('min')">Giá trị sản phẩm phải ít nhất 1.000.</mat-error>
+              <mat-error *ngIf="formCategory.get('price_enter').hasError('max')">Giá trị sản phẩm đã vượt quá 120.000.000.</mat-error>
           </mat-form-field>
 
           <mat-form-field class="priceItem2" appearance="outline">
@@ -135,7 +135,7 @@
             type="number"
             formControlName = "quantity"
             placeholder="Nhập số lượng hàng">
-            <!-- <mat-error *ngIf="formCategory.get('quantity').hasError('required')">Không để trống ô này</mat-error> -->
+            <mat-error *ngIf="formCategory.get('quantity').hasError('required')">Không để trống ô này</mat-error>
         </mat-form-field>
 
         <section>
@@ -217,9 +217,9 @@
             type="text"
             formControlName = "name"
             placeholder="Tên dịch vụ">
-          <!-- <mat-hint align = "end">{{inputNameService.value?.length || 0}}/120</mat-hint> -->
-          <!-- <mat-error *ngIf="formInfo.get('title').hasError('minlength')">Tên dịch của bạn quá ngắn, vui lòng nhập ít nhất 5 ký tự.</mat-error> -->
-          <!-- <mat-error *ngIf="formInfo.get('title').hasError('required')">Vui lòng nhập tên dịch vụ</mat-error> -->
+          <mat-hint align = "end">{{inputNameService.value?.length || 0}}/120</mat-hint>
+          <mat-error *ngIf="formInfo.get('title').hasError('minlength')">Tên dịch của bạn quá ngắn, vui lòng nhập ít nhất 5 ký tự.</mat-error>
+          <mat-error *ngIf="formInfo.get('title').hasError('required')">Vui lòng nhập tên dịch vụ</mat-error>
         </mat-form-field>
 
         <div>
