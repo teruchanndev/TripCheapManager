@@ -43,3 +43,11 @@ th {
 .filter_div {
   padding-left: 2rem;
 }
+
+.btn_icon {
+  cursor: pointer;
+}
+.btn_icon:hover {
+  width: 35px;
+  height: 35px;
+}
