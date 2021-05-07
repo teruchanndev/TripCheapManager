@@ -1,9 +1,32 @@
-<!-- <div style="display: flex;">
-  <mat-form-field appearance="outline">
-    <mat-label><mat-icon style="padding-right: 1rem;">search</mat-icon>Search</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
-  </mat-form-field>
-</div> -->
+<div style="width: 100%; display: flex; padding-bottom: 1.5rem;">
+  <mat-card style=" width: fit-content; display: flex;">
+      <div style="padding-right: 1rem;display: flex;
+      align-items: center;
+      justify-content: center;">Tạo vé mới:</div>
+
+      <img class="btn_icon1"
+            src="../../../assets/plus.svg" 
+            width="40px" height="40px"
+            title="Tạo 1 vé từ form nhập."
+            [routerLink]="['create']">
+
+      <img class="btn_icon1"
+            src="../../../assets/upload.svg" 
+            width="40px" height="40px"
+            title="Tạo 1 vé từ ảnh tải lên."
+            [routerLink] = "['create-upload-image']">
+      <!-- <button mat-stroked-button color="primary" [routerLink]="['create']">Tự tạo vé mới</button>
+      <button mat-stroked-button color="accent" [routerLink] = "['create-upload-image']">Nhập từ file pdf/png</button> -->
+  </mat-card>
+  <mat-card style="width: fit-content;position: absolute; right: 5%; display: flex;">
+      <img class=""
+            src="../../../assets/ticket.svg" 
+            width="40px" height="40px">
+      <div style="padding-left: 1rem; display: flex;
+      align-items: center;
+      justify-content: center;">Bạn đang có: {{countQuantityTicket}} / {{countTicket}} vé</div>
+  </mat-card>
+</div>
 
 <mat-tab-group (selectedIndexChange)="_setDataSource($event)">
   <mat-tab *ngFor="let item of dataSource; index as i">
@@ -12,11 +35,22 @@
     </ng-template>
     <div class="mat-elevation-z8">
       <mat-card class="filter-table">
+
+        <div *ngIf="showDelete">
+          <!-- <button mat-raised-button color="accent" (click) = "deleteTicketSelect(i)">Xóa vé đã chọn</button> -->
+          <img class="btn_icon1"
+              src="../../../assets/bin.svg" 
+              width="50px" height="50px"
+              style="padding-right: 1rem;"
+              (click) = "deleteTicketSelect(i)">
+        </div>
+
         <div class="search_div">
           <mat-form-field appearance="outline">
-            <mat-label>Search</mat-label>
+            <mat-label>Tìm kiếm</mat-label>
             <mat-icon matSuffix style="padding-right: 1rem;">search</mat-icon>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Nhập tên vé/ thành phố..." #input>
+            <mat-hint align="start" style="font-size: 14px;">Tìm kiếm vé theo tên/ thành phố</mat-hint>
           </mat-form-field>
         </div>
         <div class="filter_div">
@@ -51,19 +85,20 @@
         </div>
       </mat-card>
 
-      <mat-card *ngIf="showDelete">
-        <button mat-raised-button color="accent" (click) = "deleteTicketSelect(i)">Xóa vé đã chọn</button>
-      </mat-card>
+      
 
       <table mat-table [dataSource] = 'item' matSort style="border: 1px solid #f1f1f1;">
 
         <ng-container matColumnDef="check" *ngIf="userIsAuthenticated">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change) = "setAll($event.checked, i)"></mat-checkbox>
+            <mat-checkbox 
+              color= "primary"
+              (change) = "setAll($event.checked, i)"></mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let element; let y = index">
             <mat-checkbox 
               [checked] = "allComplete[i][y]"
+              color= "primary"
               (change)="setSome($event.checked, i, y)"></mat-checkbox>
         </ng-container>
 

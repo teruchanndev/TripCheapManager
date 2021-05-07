@@ -109,6 +109,7 @@ export class TicketCreateComponent implements OnInit {
     }
   }
 
+
   checkRangerDate() {
     this.dayChoose = this.formatDate(this.formService.value.dateStart) + "and" +  this.formatDate(this.formService.value.dateEnd);
     console.log(this.dayChoose);
@@ -158,6 +159,8 @@ export class TicketCreateComponent implements OnInit {
       this.resetFormService();
     }
   }
+
+
 
   ShowServiceItem(i){
     this.resetFormService();

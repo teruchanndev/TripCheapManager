@@ -40,10 +40,17 @@ button {
     width: 30%;
 } */
 
-table {
+    table {
     width: 100%;
   }
   
+  th {
+    font-size: 18px;
+    font-weight: bolder;
+    color: purple;
+    background-color: #efefef;
+    border: 1px solid #f1f1f1;
+  }
   .mat-form-field {
     font-size: 14px;
     width: 100%;
@@ -64,5 +71,7 @@ table {
    }
    #qrcode {
        padding: 1rem;
+       width: 20px !important;
+       /* height: 20px; */
    }
    

@@ -32,7 +32,8 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
   cityFilter = [];
   allComplete = [];
   showDelete = false;
-
+  countQuantityTicket = 0;
+  countTicket = 0;
   selectedCategoryValue: string;
   selectedCityValue: string;
 
@@ -69,6 +70,11 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit  {
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;
         this.tickets = ticket;
+
+        for(let i = 0; i<ticket.length; i++) {
+          this.countQuantityTicket += ticket[i].quantity;
+        }
+        this.countTicket = ticket.length;
 
         this.listTicket.push(this.tickets.filter(
           element => element.status));

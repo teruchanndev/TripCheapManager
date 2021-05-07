@@ -1,6 +1,34 @@
-<mat-card>
-    <button mat-stroked-button color="primary" [routerLink]="['create']">Tự tạo vé mới</button>
-    <!-- <button mat-stroked-button color="warn" [routerLink]="['create-upload-excel']">Nhập từ file excel</button> -->
-    <button mat-stroked-button color="accent" [routerLink] = "['create-upload-image']">Nhập từ file pdf/png</button>
-</mat-card>
+<!-- <div style="width: 100%; display: flex; ">
+    <mat-card style=" width: fit-content; display: flex;">
+        <div style="padding-right: 1rem;display: flex;
+        align-items: center;
+        justify-content: center;">Tạo vé mới:</div>
+
+        <img class="btn_icon1"
+              src="../../../assets/plus.svg" 
+              width="40px" height="40px"
+              title="Tạo 1 vé từ form nhập."
+              [routerLink]="['create']">
+
+        <img class="btn_icon1"
+              src="../../../assets/upload.svg" 
+              width="40px" height="40px"
+              title="Tạo 1 vé từ ảnh tải lên."
+              [routerLink] = "['create-upload-image']"> -->
+        <!-- <button mat-stroked-button color="primary" [routerLink]="['create']">Tự tạo vé mới</button>
+        <button mat-stroked-button color="accent" [routerLink] = "['create-upload-image']">Nhập từ file pdf/png</button> -->
+    <!-- </mat-card>
+    <mat-card style="width: fit-content;position: absolute; right: 5%; display: flex;">
+        <img class=""
+              src="../../../assets/ticket.svg" 
+              width="40px" height="40px">
+        <div style="padding-left: 1rem; display: flex;
+        align-items: center;
+        justify-content: center;">Bạn đang có: {{countQuantityTicket}} / {{countTicket}} vé</div>
+    </mat-card>
+</div> -->
+
 <app-ticket-list></app-ticket-list>
+
+
+

@@ -4,3 +4,13 @@ button {
 .mat-card {
     margin-bottom: 2rem;
 }
+.btn_icon1 {
+    cursor: pointer;
+    padding-left: 0.5rem;
+  }
+  
+  .btn_icon1:hover {
+    width: 35px;
+    height: 35px;
+    padding-left: 0.5rem;
+  }

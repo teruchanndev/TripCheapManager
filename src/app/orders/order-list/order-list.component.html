@@ -1,4 +1,6 @@
-<mat-tab-group mat-align-tabs="start" style="flex: 70%;">
+<mat-tab-group 
+    (selectedIndexChange)="_setDataSource($event)"
+    mat-align-tabs="start" style="flex: 70%;">
     <mat-tab *ngFor="let itemTab of ArrayOrderTotal; index as indexTab">
         <ng-template mat-tab-label>
             <span
@@ -8,21 +10,23 @@
         </ng-template>
 
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="itemTab.arrOrders" matSort>
+            <table mat-table [dataSource]="itemTab.arrOrders" matSort  style="border: 1px solid #f1f1f1;">
 
                 <ng-container matColumnDef="qrcode" style=" width: 10%;">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row; let i = index">
                         <div class="qrcode">
                             <img #canvas>
                             <qrcode #qrcode 
                                 [qrdata]="row.qrcode" 
-                                [width]="40" 
+                                [width]="120" 
                                 [errorCorrectionLevel]="'M'" 
-                                [elementType]="'img'" allowEmptyString="true"></qrcode>
+                                [elementType]="'img'" allowEmptyString="true"
+                            ></qrcode>
                         </div>
                     </td>
                 </ng-container>
+
           
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày đặt </th>
@@ -56,22 +60,28 @@
                 </ng-container>
 
                 <ng-container matColumnDef="delete" >
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+                    <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let row" >
-                        <button
+                        <img src="../../../assets/crossed.svg" width="40px" height="40px"
+                            *ngIf="indexTab === 0"
+                            (click) = "CancelOrderManager(row.orders.id, row.orders.idCustomer)">
+                        <!-- <button
                             *ngIf="indexTab === 0" 
                             mat-button mat-stroked-button color="warn"  style="width: 100%;" 
-                            (click) = "CancelOrderManager(row.orders.id, row.orders.idCustomer)">Hủy</button>
+                            (click) = "CancelOrderManager(row.orders.id, row.orders.idCustomer)">Hủy</button> -->
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="confirm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row; let i = index">
-                        <button 
+                        <img src="../../../assets/check.svg" width="40px" height="40px"
+                            *ngIf="indexTab === 0"
+                            (click) = "ConfirmOrderManager(row.orders.id, row.orders.idCustomer, indexTab, i)">
+                        <!-- <button 
                             *ngIf="indexTab === 0"
                             mat-button mat-raised-button color="primary" style="width: 100%;"  
-                            (click) = "ConfirmOrderManager(row.orders.id, row.orders.idCustomer, indexTab, i)">Xác nhận</button>
+                            (click) = "ConfirmOrderManager(row.orders.id, row.orders.idCustomer, indexTab, i)">Xác nhận</button> -->
                     </td>
                 </ng-container>
             

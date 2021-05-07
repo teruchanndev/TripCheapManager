@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface ArrayOrder {
   orders: Order;
@@ -44,8 +45,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('qrcode') qrcode: QRCodeComponent;
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
+  @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
 
   private orderListenerSubs: Subscription;
@@ -65,6 +66,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   content: string;
   from: string;
   isConfirm = [];
+  dataSource = [];
 
   constructor(
     private storage: AngularFireStorage,
@@ -78,6 +80,13 @@ export class OrderListComponent implements OnInit, OnDestroy {
     public emailService: EmailService
   ) { }
 
+  // ngAfterViewInit() {
+  //   for (let i = 0; i< this.dataSource.length; i++) {
+  //     // this.ArrayOrderTotal[i].arrOrders.paginator = this.paginator.toArray()[i];
+  //     this.dataSource[i].sort = this.sort.toArray()[i];
+  //   }
+  //   // console.log('ngAfter: ', this.dataSource);
+  // }
 
   ngOnInit(): void {
     this.authService.autoAuthUser();
@@ -111,7 +120,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
           element => element.orders.isCancel)); // đơn đã hủy
 
         for (let i = 0; i < 3; i++) {
-          console.log('tab: ', this.listTabValue[i]);
+          // this.dataSource[i] = new MatTableDataSource(this.listTabValue[i]);
+          // console.log('tab: ', this.listTabValue[i]);
           this.ArrayOrderTotal[i] = {
             label: this.labels[i],
             arrOrders: this.listTabValue[i],
@@ -130,6 +140,24 @@ export class OrderListComponent implements OnInit, OnDestroy {
         console.log(this.ArrayOrderTotal);
       });
   }
+
+  _setDataSource(indexNumber) {
+    setTimeout(() => {
+      switch (indexNumber) {
+        case 0:
+          this.dataSource[0].paginator = this.paginator.toArray()[0];
+          this.dataSource[0].sort = this.sort.toArray()[0];
+          break;
+        case 1:
+          this.dataSource[1].paginator = this.paginator.toArray()[1];
+          this.dataSource[1].sort = this.sort.toArray()[1];
+        case 2:
+          this.dataSource[2].paginator = this.paginator.toArray()[2];
+          this.dataSource[2].sort = this.sort.toArray()[2];
+      }
+    },500);
+  }
+
 
   handleDismiss(dismissMethod: string) {
 
