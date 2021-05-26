@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "tripcheap-2f380"
+  },
+  "targets": {
+    "tripcheap-2f380": {
+      "hosting": {
+        "tripmanager": [
+          "tripcheap-manager"
+        ]
+      }
+    }
   }
 }

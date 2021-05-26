@@ -1,7 +1,0 @@
-{
-    "env": {
-        "MONGO_ATLAS_PW": "huongnt18021999",
-        "JWT_KEY": "secret_this_should_be_longer",
-        "SENDGRID_API_KEY": "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"
-    }
-}
