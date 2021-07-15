@@ -23,7 +23,7 @@ import {
           if (error.error.message) {
             errorMessage = error.error.message;
           }
-          this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
+          // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
           return throwError(error);
         })
       );

@@ -86,7 +86,7 @@ export class InformationComponent implements OnInit, OnDestroy {
             watching: infoData.watching,
             created_at: infoData.created_at
           }
-          console.log(this.user);
+          // console.log(this.user);
 
           this.form.setValue({
             nameShop: this.user.nameShop || '',
@@ -110,7 +110,6 @@ export class InformationComponent implements OnInit, OnDestroy {
 
     return new Promise<any>((resolve, reject) => {
       const task = this.storage.upload(`image_upload/${n}`, img);
-
         task.snapshotChanges().pipe(
             finalize(() => fileRef.getDownloadURL().subscribe(
                 res => resolve(res),
@@ -160,9 +159,10 @@ export class InformationComponent implements OnInit, OnDestroy {
       
     }
     else if(this.imagePreview.substr(0,4) === 'data' && this.imagePreviewAvt.substr(0,4) === 'data') {
-      imageAvtUploaded = this.onUploadImageToFirebase(this.imagePreviewAvt);
-      imageCoverUploaded = this.onUploadImageToFirebase(this.imagePreview);
+      imageAvtUploaded = this.onUploadImageToFirebase(this.imageAvtStorage);
+      imageCoverUploaded = this.onUploadImageToFirebase(this.imageStorage);
       Promise.all([imageAvtUploaded, imageCoverUploaded]).then((result) => {
+        console.log('result',result);
         this.userService.updateInfo(
           this.form.value.nameShop,
           result[0],

@@ -4,6 +4,7 @@ import { AuthData } from '../modals/auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 
 @Injectable({ providedIn: 'root' })
@@ -102,10 +103,22 @@ export class AuthService {
                   console.log(expirationDate);
                   this.saveAuthData(token, expirationDate, this.userId, this.username, this.created_at);
                   this.router.navigate(['/home']);
+                  Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Đăng nhập thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  
                 }
             }, error => {
               console.log('error ' + authData);
               this.authStatusListener.next(false);
+              Swal.fire({
+                title: error.error.message,
+                icon: 'error'
+              });
             });
     }
 

@@ -105,8 +105,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
           element => !element.orders.status && !element.orders.isCancel && !element.orders.isConfirm)); // mới
         this.listTabValue.push(this.ArrOrders.filter(
           element => element.orders.isConfirm && !element.orders.isCancel)); // đơn chưa dùng
-        // this.listTabValue.push(this.ArrOrders.filter(
-        //   element => element.orders.status && element.orders.isConfirm)); // đơn đã dùng
         this.listTabValue.push(this.ArrOrders.filter(
           element => element.orders.isCancel)); // đơn đã hủy
 

@@ -5,27 +5,39 @@
   </mat-form-field>
 </div> -->
 
-<mat-tab-group (selectedIndexChange)="_setDataSource($event)">
-  <mat-tab *ngFor="let item of dataSource; index as i">
-    <ng-template mat-tab-label style="border: 1px solid #f1f1f1;">
-      <span matBadge={{listTicket[i].length}} matBadgeOverlap="false" >{{tabName[i]}}</span>
+<mat-tab-group 
+  (selectedIndexChange)="_setDataSource($event)">
+
+  <mat-tab 
+    *ngFor="let item of dataSource; index as i">
+    <ng-template 
+      mat-tab-label style="border: 1px solid #f1f1f1;">
+      <span 
+        matBadge={{listTicket[i].length}} 
+        matBadgeOverlap="false" >{{tabName[i]}}</span>
     </ng-template>
+
     <div class="mat-elevation-z8">
       <mat-card class="filter-table">
         <div class="search_div">
           <mat-form-field appearance="outline">
-            <mat-label>Search</mat-label>
+            <mat-label>Tìm kiếm</mat-label>
             <mat-icon matSuffix style="padding-right: 1rem;">search</mat-icon>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. name or city ..." #input>
+            <input 
+              matInput 
+              (keyup)="applyFilter($event)" 
+              placeholder="Ex. tên hoặc thành phố ..." #input>
           </mat-form-field>
         </div>
         <div class="filter_div">
           <mat-form-field appearance="outline">
             <mat-label>Thể loại</mat-label>
             <mat-select 
-            [(ngModel)]="selectedCategoryValue"
-            (selectionChange) = "filterTable(selectedCategoryValue)">
-              <mat-option value="all" selected>Tất cả</mat-option>
+              [(ngModel)]="selectedCategoryValue"
+              (selectionChange)="filterTable(selectedCategoryValue)">
+              <mat-option 
+                value="all" 
+                selected>Tất cả</mat-option>
               <mat-option 
                 *ngFor="let category of categoryFilter"
                 [value]="category"
@@ -39,8 +51,9 @@
         <div class="filter_div">
           <mat-form-field appearance="outline">
             <mat-label>Thành phố</mat-label>
-            <mat-select [(ngModel)]="selectedCityValue"
-            (selectionChange) = "filterTable(selectedCityValue)">
+            <mat-select 
+              [(ngModel)]="selectedCityValue"
+              (selectionChange)="filterTable(selectedCityValue)">
               <mat-option value="all" selected>Tất cả</mat-option>
               <mat-option 
                 *ngFor="let city of cityFilter"
@@ -52,14 +65,25 @@
       </mat-card>
 
       <mat-card *ngIf="showDelete">
-        <button mat-raised-button color="accent" (click) = "deleteTicketSelect(i)">Xóa vé đã chọn</button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="deleteTicketSelect(i)">Xóa vé đã chọn</button>
       </mat-card>
 
-      <table mat-table [dataSource] = 'item' matSort style="border: 1px solid #f1f1f1;">
+      <table 
+        mat-table 
+        [dataSource] = 'item' 
+        matSort 
+        style="border: 1px solid #f1f1f1; max-height: 600px;">
 
-        <ng-container matColumnDef="check" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change) = "setAll($event.checked, i)"></mat-checkbox>
+        <ng-container 
+          matColumnDef="check" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef>
+            <mat-checkbox (change)="setAll($event.checked, i)"></mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let element; let y = index">
             <mat-checkbox 
@@ -68,70 +92,125 @@
         </ng-container>
 
         <ng-container matColumnDef="title" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên vé </th>
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef 
+            mat-sort-header> Tên vé </th>
           <td mat-cell *matCellDef="let element"  style="width: 40%;">
             <p>{{element.title}} </p> </td>
         </ng-container>
 
-        <ng-container matColumnDef="category" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Thể loại </th>
-          <td mat-cell *matCellDef="let element">
-            <p> {{element.category}}</p> </td>
+        <ng-container 
+          matColumnDef="category" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef 
+            mat-sort-header> Thể loại </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element">
+            <p> {{element.category}}</p> 
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="city" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Thành phố </th>
-          <td mat-cell *matCellDef="let element"><p> {{element.city}} </p> </td>
+        <ng-container 
+          matColumnDef="city" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef 
+            mat-sort-header> Thành phố </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element">
+            <p> {{element.city}} </p> 
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="quantity" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng </th>
-          <td mat-cell *matCellDef="let element"><p> {{element.quantity}} </p> </td>
+        <ng-container 
+          matColumnDef="quantity" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef 
+            mat-sort-header> Số lượng </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element">
+            <p> {{element.quantity}} </p> 
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="price_reduce" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá vé </th>
-          <td mat-cell *matCellDef="let element" > <p> {{element.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</p> </td>
+        <ng-container 
+          matColumnDef="price_reduce" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef 
+            mat-sort-header> Giá vé </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element" > 
+            <p> {{element.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</p> 
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="edit" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let element">
+        <ng-container 
+          matColumnDef="edit" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef> 
+          </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element">
             <img class="btn_icon"
               src="../../../assets/editing.svg" 
               width="40px" height="40px"
               [routerLink] = "['edit/', element.id]"
               *ngIf="userIsAuthenticated && userId === element.creator">
-            <!-- <a
-              mat-stroked-button
-              color="primary"
-              [routerLink] = "['edit/', element.id]"
-              *ngIf="userIsAuthenticated && userId === element.creator">Sửa</a> -->
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="delete" *ngIf="userIsAuthenticated">
-          <th mat-header-cell *matHeaderCellDef> </th>
-          <td mat-cell *matCellDef="let element">
-            <img class="btn_icon"
+        <ng-container 
+          matColumnDef="delete" 
+          *ngIf="userIsAuthenticated">
+          <th 
+            mat-header-cell 
+            *matHeaderCellDef> 
+          </th>
+          <td 
+            mat-cell 
+            *matCellDef="let element">
+            <img 
+              class="btn_icon"
               src="../../../assets/bin.svg" 
               width="40px" height="40px"
               (click)="onDelete(element.id)"
               *ngIf="userIsAuthenticated && userId === element.creator">
-            <!-- <button
-              mat-stroked-button
-              color="warn"
-              (click)="onDelete(element.id)"
-              *ngIf="userIsAuthenticated && userId === element.creator">Xóa</button> -->
           </td>
         </ng-container>
 
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr 
+          mat-header-row 
+          *matHeaderRowDef="displayedColumns">
+        </tr>
+        <tr 
+          mat-row *matRowDef="let row; 
+          columns: displayedColumns;">
+        </tr>
 
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="6" style="text-align: center; font-size: 18px;">"Không tìm thấy vé!"</td>
+        <tr 
+          class="mat-row" 
+          *matNoDataRow>
+          <td 
+            class="mat-cell" 
+            colspan="6" 
+            style="text-align: center; font-size: 18px;">"Không tìm thấy vé!"
+          </td>
         </tr>
       </table>
       <mat-paginator style=" border: 1px solid #f1f1f1;

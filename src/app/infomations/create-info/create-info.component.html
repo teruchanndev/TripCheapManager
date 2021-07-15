@@ -4,30 +4,37 @@
         <p style="font-size: 13px; color: #999;">Tạo hồ sơ chi tiết để người dùng có thể hiểu hơn về bạn.</p>
     </div>
     <form 
-    [formGroup] = 'form'>
+        [formGroup] = 'form'>
         <div class="image_cover_upload">
-            <input type="file" #filePickerCover (change) = "onPickImage($event)">
+            <input 
+                type="file" 
+                #filePickerCover 
+                (change)="onPickImage($event)">
             <img 
                 [src]="imagePreview" 
                 *ngIf="imagePreview !== '' && imagePreview && form.get('imageCover').valid">
             <button 
-            mat-stroked-button 
-            color="primary" 
-            class="edit_image_cover" (click) = "filePickerCover.click()">Sửa ảnh bìa</button>
+                mat-stroked-button 
+                color="primary" 
+                class="edit_image_cover" 
+                (click)="filePickerCover.click()">Sửa ảnh bìa</button>
         </div>
         <div class="info">
-            <div class="info2">
-                
+            <div class="info2"> 
                 <div class="info_user">
                     <div class="image_cover_upload_avt">
-                        <input type="file" #filePickerAvt (change) = "onPickImageAvt($event)">
+                        <input 
+                            type="file" 
+                            #filePickerAvt 
+                            (change)="onPickImageAvt($event)">
                         <img 
                             [src]="imagePreviewAvt" 
                             *ngIf="imagePreviewAvt !== '' && imagePreviewAvt && form.get('imageAvatar').valid">
                         <button 
-                        mat-stroked-button 
-                        color="primary" 
-                        class="edit_image_cover" (click) = "filePickerAvt.click()">Sửa</button>
+                            mat-stroked-button 
+                            color="primary" 
+                            class="edit_image_cover" 
+                            (click)="filePickerAvt.click()">Sửa</button>
                     </div>
                     <div class="info_user_des">
                         <div>
@@ -40,12 +47,12 @@
                 <mat-form-field class="form_field" appearance="outline">
                     <mat-label>Tên Shop</mat-label>
                     <input
-                    #inputName
-                    matInput
-                    minlength = '5'
-                    type="text"
-                    formControlName = "nameShop"
-                    placeholder="Tên Shop">
+                        #inputName
+                        matInput
+                        minlength='5'
+                        type="text"
+                        formControlName = "nameShop"
+                        placeholder="Tên Shop">
                     <mat-hint align = "end">{{inputName.value?.length || 0}}/30</mat-hint>
                     <mat-error *ngIf="form.get('nameShop').hasError('minlength')">Tên shop phải ít nhất từ 5-30 ký tự.</mat-error>
                 </mat-form-field>
@@ -66,8 +73,16 @@
         </div>
 
         <div class="btn-action">
-            <button mat-stroked-button color="warn" class="btn-item" style="margin-right: 1rem;">Bỏ qua</button>
-            <button type="submit" mat-raised-button color="primary" class="btn-item">Lưu & hiển thị</button>
-          </div>
+            <button 
+                mat-stroked-button 
+                color="warn" 
+                class="btn-item" 
+                style="margin-right: 1rem;">Bỏ qua</button>
+            <button 
+                type="submit" 
+                mat-raised-button 
+                color="primary" 
+                class="btn-item">Lưu & hiển thị</button>
+        </div>
     </form>
 </mat-card>

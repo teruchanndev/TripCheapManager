@@ -201,15 +201,15 @@ export class TicketsCreateFromImageComponent implements OnInit {
     });
       
   }
-    setText(id) {
-      if(id.type === 'text') {
-        id.value = this.ocrResult;
-      } else if(id.type === 'number') {
-        var x = this.ocrResult.split('.').join('');
-        id.value = parseInt(x);
-      }
-
+  setText(id) {
+    if(id.type === 'text') {
+      id.value = this.ocrResult;
+    } else if(id.type === 'number') {
+      var x = this.ocrResult.split('.').join('');
+      id.value = parseInt(x);
     }
+
+  }
 
     // FORMAR DATE TO DD/MM/YYYY
     formatDate(date) {

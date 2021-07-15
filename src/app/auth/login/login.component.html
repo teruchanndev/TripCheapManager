@@ -3,44 +3,44 @@
   <mat-card>
     <h1 class="logo_detail" style="color: rgb(153, 44, 255);">
       <span style="color: rgb(102, 160, 247);">Trip</span>Cheap
-      <span style="color: rgb(0, 0, 0); font-size: 16px;">/Login</span>
+      <span style="color: rgb(0, 0, 0); font-size: 16px;">/Đăng nhập</span>
     </h1>
 
     <form (submit)='onLogin(loginForm)' #loginForm = 'ngForm'>
         <mat-form-field class="form_field">
             <mat-label>Email</mat-label>
             <input
-            matInput
-            type="email"
-            name = "email"
-            ngModel
-            #emailInput = 'ngModel'
-            placeholder="Ex. pat@example.com"
-            required email>
-            <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+              matInput
+              type="email"
+              name = "email"
+              ngModel
+              #emailInput = 'ngModel'
+              placeholder="Ex. pat@example.com"
+              required email>
+            <mat-error *ngIf="emailInput.invalid">Vui lòng nhập địa chỉ email hợp lệ.</mat-error>
         </mat-form-field>
 
         <mat-form-field class="form_field">
-            <mat-label>Password</mat-label>
+            <mat-label>Mật khẩu</mat-label>
             <input
-            matInput
-            type="password"
-            name = "password"
-            ngModel
-            #passwordInput = 'ngModel'
-            placeholder="Password"
-            required>
-            <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+              matInput
+              type="password"
+              name = "password"
+              ngModel
+              #passwordInput = 'ngModel'
+              placeholder="Password"
+              required>
+            <mat-error *ngIf="passwordInput.invalid">Vui lòng nhập mật khẩu.</mat-error>
         </mat-form-field>
 
         <button type="submit" mat-raised-button color="primary" style="width: 100%;  margin-top: 2rem;">Login</button>
       </form>
       <div style="text-align: center; padding-top: 1rem;">
-        <span>If you don't have account, </span>
+        <span>Nếu bạn chưa có tài khoản, </span>
         <a
           mat-button
           href="/signup"
-          routerLinkActive="router-link-active" >Sign Up</a>
+          routerLinkActive="router-link-active" >Đăng ký</a>
       </div>
     </mat-card>
 

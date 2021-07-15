@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.ticketListenerSubs = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.countTicket = ticket.reduce(
-          ( accumulator, currentValue ) => accumulator + currentValue.price_reduce, 0);
+          ( accumulator, currentValue ) => accumulator + currentValue.quantity, 0);
       });
   }
 

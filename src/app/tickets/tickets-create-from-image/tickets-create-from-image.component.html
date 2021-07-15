@@ -45,7 +45,9 @@
         <mat-step [stepControl]="formInfo">
             <form [formGroup]="formInfo">
                 <ng-template matStepLabel>Thông tin cơ bản</ng-template>
-                <mat-form-field class="form_field" appearance="outline" (dblclick) = "setText(inputTitle)">
+                <mat-form-field class="form_field" 
+                    appearance="outline"
+                    (dblclick)="setText(inputTitle)">
                     <mat-label>Tên vé</mat-label>
                     <input
                         #inputTitle
@@ -60,13 +62,16 @@
                     <mat-error *ngIf="formInfo.get('title').hasError('required')">Vui lòng nhập tên sản phẩm</mat-error>
                 </mat-form-field>
         
-                <mat-form-field class="form_field" appearance="outline" (dblclick) = "setText(inputContent)">
+                <mat-form-field 
+                    class="form_field" 
+                    appearance="outline" 
+                    (dblclick)="setText(inputContent)">
                     <mat-label>Mô tả sản phẩm</mat-label>
                     <textarea
                         style="height: 150px;"
                         #inputContent
                         matInput
-                        minlength="100"
+                        minlength="20"
                         type="text"
                         formControlName = "content"
                         placeholder="Mô tả vé">
@@ -76,7 +81,9 @@
                     <mat-error *ngIf="formInfo.get('content').hasError('required')">Vui lòng nhập mô tả sản phẩm</mat-error>
                 </mat-form-field>
         
-                <mat-form-field class="form_field" appearance="outline" (dblclick) = "setText(inputCity)">
+                <mat-form-field class="form_field" 
+                    appearance="outline" 
+                    (dblclick)="setText(inputCity)">
                     <mat-label>Thành phố</mat-label>
                     <input type="text"
                         #inputCity
