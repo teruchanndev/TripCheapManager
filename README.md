@@ -1,6 +1,14 @@
-# MeanCourse
+# TripCheap Management - Website of management
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+The web application part of the system is built on top of the MEAN Stack - which is a JavaScript framework is used to build dynamic websites and web applications.
+
+## Description
+
+- See an overview of ticket sales statistics
+- Add, edit, delete tickets
+- Add tickets from uploaded photo files
+- Order management (confirmation, cancellation)
 
 ## Development server
 
